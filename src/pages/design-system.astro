@@ -13,6 +13,10 @@ import PageHeader from '../components/common/PageHeader.astro';
 import Gallery from '../components/common/Gallery.astro';
 import Wordmark from '../components/common/Wordmark.astro';
 import { site } from '../config/site';
+import { hireCategories } from '../config/hire';
+import { occasions } from '../config/occasions';
+import { primaryNav, footerNav, isNavGroup } from '../config/navigation';
+import { paths, withBase } from '../config/routes';
 
 const swatches = [
 	{ name: 'Canvas', token: '--color-canvas', value: '#FAF9F7' },
@@ -227,8 +231,78 @@ const galleryPlaceholders = [
 					Spacing, radius, and shadow tokens live in <code>src/styles/tokens.css</code>.
 					Brand copy lives in <code>src/config/site.ts</code>.
 				</p>
+			</div>
+		</Container>
+	</Section>
+
+	<Section muted>
+		<Container>
+			<div class="ds-block">
+				<h2 class="ds-heading" id="architecture">Site architecture (Phase 2)</h2>
+				<p class="ds-lede">
+					Taxonomies and nav from config — public pages land in Phase 5. Paths below are
+					site-relative (base applied via <code>withBase()</code>).
+				</p>
+
+				<div class="arch-grid">
+					<div>
+						<h3 class="arch-title">Hire categories</h3>
+						<ul class="arch-list">
+							{
+								hireCategories.map((c) => (
+									<li>
+										<span class="arch-label">{c.title}</span>
+										<code class="arch-path">{paths.hireCategory(c.slug)}</code>
+									</li>
+								))
+							}
+						</ul>
+						<p class="ds-note">
+							Product example:{' '}
+							<code class="arch-path">
+								{paths.equipment('garden-games', 'giant-jenga')}
+							</code>
+						</p>
+					</div>
+					<div>
+						<h3 class="arch-title">Occasions</h3>
+						<ul class="arch-list">
+							{
+								occasions.map((o) => (
+									<li>
+										<span class="arch-label">{o.title}</span>
+										<code class="arch-path">{paths.occasion(o.slug)}</code>
+									</li>
+								))
+							}
+						</ul>
+					</div>
+					<div>
+						<h3 class="arch-title">Primary nav</h3>
+						<ul class="arch-list">
+							{
+								primaryNav.map((item) => (
+									<li>
+										<span class="arch-label">{item.label}</span>
+										<code class="arch-path">{item.href}</code>
+										{isNavGroup(item) && (
+											<span class="arch-meta">
+												{item.children.length} children
+											</span>
+										)}
+									</li>
+								))
+							}
+						</ul>
+						<p class="ds-note">
+							Footer columns: {footerNav.map((c) => c.title).join(', ')}. Base-aware
+							home href: <code class="arch-path">{withBase(paths.home)}</code>
+						</p>
+					</div>
+				</div>
+
 				<p class="ds-note">
-					<a href={import.meta.env.BASE_URL}>← Back to home</a>
+					<a href={withBase(paths.home)}>← Back to home</a>
 				</p>
 			</div>
 		</Container>
@@ -457,5 +531,58 @@ const galleryPlaceholders = [
 		font-size: var(--text-sm);
 		color: var(--color-ink-muted);
 		padding-inline: var(--space-1);
+	}
+
+	.arch-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-7);
+	}
+
+	@media (min-width: 48rem) {
+		.arch-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.arch-title {
+		font-size: var(--text-lg);
+		font-weight: var(--weight-semibold);
+		margin: 0 0 var(--space-3);
+	}
+
+	.arch-list {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+	}
+
+	.arch-list li {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+	}
+
+	.arch-label {
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+	}
+
+	.arch-path {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
+		background: var(--color-surface);
+		padding: 0.15em 0.4em;
+		border-radius: var(--radius-sm);
+		border: 1px solid var(--color-border);
+		width: fit-content;
+		word-break: break-all;
+	}
+
+	.arch-meta {
+		font-size: var(--text-xs);
+		color: var(--color-ink-subtle);
 	}
 </style>

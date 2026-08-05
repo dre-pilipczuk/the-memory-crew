@@ -1,6 +1,7 @@
 /**
  * Site-wide brand and business configuration.
- * Single source of truth for name, tagline, service area, and nav later.
+ * Navigation and taxonomies live in navigation.ts, hire.ts, occasions.ts.
+ * @see docs/site-architecture.md
  */
 export const site = {
 	name: 'The Memory Crew',

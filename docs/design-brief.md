@@ -397,7 +397,7 @@ src/
 |---|---|---|
 | **0** Foundation | Repo, Astro, Pages, domain, HTTPS | ✅ in progress |
 | **1** Design system | Brand, tokens, primitives | ✅ design-system page + calm home shell |
-| **2** Architecture | IA, nav model, routes plan | docs + config |
+| **2** Architecture | IA, nav model, routes plan | ✅ docs + config |
 | **3** Content collections | equipment, occasions, faq schemas | empty collections OK if build passes |
 | **4** Domain components | Navbar, cards, CTA, FAQ… | unused components fine |
 | **5** Pages | Home → product → contact | page-by-page, each PR green |
@@ -439,6 +439,14 @@ Phase 1 is done when:
 
 ---
 
-## 17. Next action
+## 17. Phase 2 success criteria
 
-**Phase 1 complete.** Next: Phase 2 – Site Architecture (IA, nav model, route plan) and/or Phase 3 – Content Collections.
+- [x] IA tree documented (`docs/site-architecture.md`)
+- [x] URL scheme locked (`/hire/{category}/{slug}`, `/occasions/{slug}`, …)
+- [x] Hire + occasion taxonomies in config
+- [x] Primary + footer nav model in config
+- [x] `withBase()` route helpers for GitHub Pages base path
+
+## 18. Next action
+
+**Phase 2 complete.** Next: Phase 3 – Content Collections (`equipment`, `occasions`, `faq` schemas).
