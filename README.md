@@ -69,6 +69,11 @@ Astro optimises to AVIF/WebP. See [images](./docs/images.md).
 Polaroid lockup (locked). Spec: [brand logo](./docs/brand-logo.md).  
 Site-wide via `src/config/brand.ts` → `Logo` component.
 
+## Contact form (Phase 8)
+
+Enquiry form on `/contact` via Formspree. Copy `.env.example` → `.env` and set `PUBLIC_FORMSPREE_ID`.  
+Details: [contact form](./docs/contact-form.md).
+
 ## Docs
 
 - [Design brief](./docs/design-brief.md)
@@ -76,4 +81,5 @@ Site-wide via `src/config/brand.ts` → `Logo` component.
 - [Site architecture](./docs/site-architecture.md)
 - [Content collections](./docs/content-collections.md)
 - [Images](./docs/images.md)
+- [Contact form](./docs/contact-form.md)
 - [Astro docs](https://docs.astro.build)

@@ -84,7 +84,10 @@ const ogImage = item.data.image
 
 				<div class="product__sidebar">
 					<PriceCard priceFrom={item.data.priceFrom}>
-						<Button variant="primary" href={withBase(paths.contact)}>
+						<Button
+							variant="primary"
+							href={`${withBase(paths.contact)}?equipment=${item.data.category}`}
+						>
 							Enquire about this item
 						</Button>
 						<Button variant="secondary" href={withBase(paths.hire)}>

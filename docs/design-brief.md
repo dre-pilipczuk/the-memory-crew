@@ -401,7 +401,7 @@ src/
 | **5** Pages | Home → product → contact | ✅ assembled from components |
 | **6** Images | AI bridge → real assets + optimisation | ✅ seed AI + SmartImage |
 | **7** SEO | sitemap, OG, schema, local area | ✅ |
-| **8** Contact | Formspree (or similar) | no backend |
+| **8** Contact | Formspree (or similar) | ✅ form + env wiring |
 | **9** Polish | a11y, Lighthouse, motion | |
 | **10** v2 | Ktor + Postgres + bookings + payments | separate app boundary |
 
@@ -470,6 +470,13 @@ Phase 1 is done when:
 - [x] Canonical, Open Graph, Twitter cards
 - [x] LocalBusiness + BreadcrumbList + Product JSON-LD
 
-## 21. Next action
+## 21. Phase 8 success criteria
 
-**Phases 6–7 complete.** Next: Phase 8 – Contact form (Formspree or similar).
+- [x] Contact form: name, email, phone, event date, postcode, equipment, message
+- [x] Formspree integration via `PUBLIC_FORMSPREE_ID`
+- [x] Accessible labels, honeypot, in-page success/error
+- [x] Site builds without the secret (form disabled gracefully)
+
+## 22. Next action
+
+**Phase 8 complete.** Next: Phase 9 polish (a11y, Lighthouse, motion) or real photography.

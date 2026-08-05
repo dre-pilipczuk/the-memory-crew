@@ -4,18 +4,19 @@ import PageHeader from '../components/common/PageHeader.astro';
 import Breadcrumb from '../components/common/Breadcrumb.astro';
 import Container from '../components/common/Container.astro';
 import Section from '../components/common/Section.astro';
+import ContactForm from '../components/contact/ContactForm.astro';
 import { site } from '../config/site';
 import { paths } from '../config/routes';
 ---
 
 <Layout
 	title="Contact"
-	description={`Enquire about event hire across ${site.serviceAreaLabel}.`}
+	description={`Enquire about event hire across ${site.serviceAreaLabel}. Tell us your date, postcode, and the kit you need.`}
 	path={paths.contact}
 >
 	<PageHeader
 		title="Contact"
-		description={`Tell us about your event across ${site.serviceAreaLabel}. A full enquiry form lands in Phase 8 — for now, use the details below or check back soon.`}
+		description={`Tell us about your event across ${site.serviceAreaLabel}. Share a date and postcode and we’ll come back with availability and a clear quote.`}
 		eyebrow="Get in touch"
 	>
 		<Breadcrumb
@@ -25,28 +26,29 @@ import { paths } from '../config/routes';
 	</PageHeader>
 
 	<Section>
-		<Container width="content">
-			<div class="contact">
-				<div class="contact__card">
-					<h2 class="contact__heading">What to include</h2>
-					<ul class="contact__list">
-						<li>Your name</li>
-						<li>Email and phone</li>
-						<li>Event date</li>
-						<li>Postcode / venue area</li>
-						<li>Equipment you’re interested in</li>
-						<li>Anything else we should know</li>
-					</ul>
-				</div>
-				<div class="contact__card">
-					<h2 class="contact__heading">Next step</h2>
-					<p class="contact__body">
-						We’re wiring up an online form next. Until then, reach out once contact
-						details are published here — or watch this page for the form.
-					</p>
-					<p class="contact__note">
-						Serving <strong>{site.serviceAreaLabel}</strong>.
-					</p>
+		<Container>
+			<div class="contact-layout">
+				<aside class="contact-aside">
+					<div class="contact-aside__card">
+						<h2 class="contact-aside__title">What happens next</h2>
+						<ol class="contact-aside__steps">
+							<li>Send your enquiry with date and postcode</li>
+							<li>We’ll check kit and delivery for your area</li>
+							<li>You’ll get a clear quote — no pressure</li>
+						</ol>
+					</div>
+					<div class="contact-aside__card">
+						<h2 class="contact-aside__title">Service area</h2>
+						<p class="contact-aside__body">
+							We currently hire across <strong>{site.serviceAreaLabel}</strong>. Just
+							outside that? Still get in touch — distance and access decide what’s
+							practical.
+						</p>
+					</div>
+				</aside>
+
+				<div class="contact-main">
+					<ContactForm />
 				</div>
 			</div>
 		</Container>
@@ -54,18 +56,26 @@ import { paths } from '../config/routes';
 </Layout>
 
 <style>
-	.contact {
+	.contact-layout {
 		display: grid;
-		gap: var(--space-5);
+		gap: var(--space-7);
 	}
 
-	@media (min-width: 40rem) {
-		.contact {
-			grid-template-columns: 1fr 1fr;
+	@media (min-width: 56rem) {
+		.contact-layout {
+			grid-template-columns: minmax(14rem, 18rem) 1fr;
+			gap: var(--space-8);
+			align-items: start;
 		}
 	}
 
-	.contact__card {
+	.contact-aside {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+
+	.contact-aside__card {
 		padding: var(--space-5);
 		background: var(--color-surface);
 		border: 1px solid var(--color-border);
@@ -73,32 +83,33 @@ import { paths } from '../config/routes';
 		box-shadow: var(--shadow-sm);
 	}
 
-	.contact__heading {
+	.contact-aside__title {
 		margin: 0 0 var(--space-3);
-		font-size: var(--text-xl);
+		font-size: var(--text-lg);
 	}
 
-	.contact__list {
+	.contact-aside__steps {
 		margin: 0;
 		padding-left: 1.2rem;
 		color: var(--color-ink-muted);
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-2);
-	}
-
-	.contact__body,
-	.contact__note {
-		margin: 0;
-		color: var(--color-ink-muted);
-	}
-
-	.contact__note {
-		margin-top: var(--space-4);
 		font-size: var(--text-sm);
 	}
 
-	.contact__note strong {
+	.contact-aside__body {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.contact-aside__body strong {
 		color: var(--color-ink);
+		font-weight: var(--weight-medium);
+	}
+
+	.contact-main {
+		min-width: 0;
 	}
 </style>

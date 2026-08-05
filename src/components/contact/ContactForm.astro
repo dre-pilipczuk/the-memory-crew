@@ -1,0 +1,449 @@
+---
+/**
+ * Enquiry form — posts to Formspree (no backend).
+ * Set PUBLIC_FORMSPREE_ID in .env (form id only, not full URL).
+ */
+import Button from '../common/Button.astro';
+import { hireCategories } from '../../config/hire';
+import { site } from '../../config/site';
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID as string | undefined;
+const action = formspreeId
+	? `https://formspree.io/f/${formspreeId}`
+	: undefined;
+const configured = Boolean(formspreeId);
+
+/** Optional pre-select from ?equipment=garden-games */
+const preselect = Astro.url.searchParams.get('equipment') ?? '';
+---
+
+{
+	!configured && (
+		<div class="form-banner" role="status">
+			<p>
+				<strong>Form not connected yet.</strong> Add your Formspree form id as{' '}
+				<code>PUBLIC_FORMSPREE_ID</code> in <code>.env</code> (see{' '}
+				<code>.env.example</code>). You can still review the layout below.
+			</p>
+		</div>
+	)
+}
+
+<form
+	class="contact-form"
+	method="POST"
+	action={action}
+	data-contact-form
+	data-configured={configured ? 'true' : 'false'}
+	novalidate
+>
+	{/* Formspree helpers */}
+	<input type="hidden" name="_subject" value={`Hire enquiry — ${site.name}`} />
+	<input type="text" name="_gotcha" class="contact-form__honeypot" tabindex="-1" autocomplete="off" />
+
+	<div class="contact-form__grid">
+		<div class="field">
+			<label class="field__label" for="name">
+				Name <span class="field__required">*</span>
+			</label>
+			<input
+				class="field__input"
+				type="text"
+				id="name"
+				name="name"
+				autocomplete="name"
+				required
+				disabled={!configured}
+			/>
+		</div>
+
+		<div class="field">
+			<label class="field__label" for="email">
+				Email <span class="field__required">*</span>
+			</label>
+			<input
+				class="field__input"
+				type="email"
+				id="email"
+				name="email"
+				autocomplete="email"
+				required
+				disabled={!configured}
+			/>
+		</div>
+
+		<div class="field">
+			<label class="field__label" for="phone">
+				Phone <span class="field__required">*</span>
+			</label>
+			<input
+				class="field__input"
+				type="tel"
+				id="phone"
+				name="phone"
+				autocomplete="tel"
+				required
+				disabled={!configured}
+			/>
+		</div>
+
+		<div class="field">
+			<label class="field__label" for="eventDate">
+				Event date <span class="field__required">*</span>
+			</label>
+			<input
+				class="field__input"
+				type="date"
+				id="eventDate"
+				name="eventDate"
+				required
+				disabled={!configured}
+			/>
+		</div>
+
+		<div class="field field--full">
+			<label class="field__label" for="postcode">
+				Postcode / area <span class="field__required">*</span>
+			</label>
+			<input
+				class="field__input"
+				type="text"
+				id="postcode"
+				name="postcode"
+				autocomplete="postal-code"
+				placeholder={`e.g. CF10 or BS1 — ${site.serviceAreaLabel}`}
+				required
+				disabled={!configured}
+			/>
+		</div>
+
+		<fieldset class="field field--full equipment" disabled={!configured}>
+			<legend class="field__label">
+				Equipment of interest <span class="field__optional">(optional)</span>
+			</legend>
+			<p class="field__hint">Select any that apply — we’ll refine on the call.</p>
+			<div class="equipment__grid">
+				{
+					hireCategories.map((category) => (
+						<label class="equipment__option">
+							<input
+								type="checkbox"
+								name="equipment"
+								value={category.title}
+								checked={preselect === category.slug}
+							/>
+							<span>{category.title}</span>
+						</label>
+					))
+				}
+			</div>
+		</fieldset>
+
+		<div class="field field--full">
+			<label class="field__label" for="message">
+				Message <span class="field__required">*</span>
+			</label>
+			<textarea
+				class="field__input field__input--area"
+				id="message"
+				name="message"
+				rows="5"
+				required
+				placeholder="Tell us about the occasion, guest numbers, venue, and anything else we should know."
+				disabled={!configured}
+			/>
+		</div>
+	</div>
+
+	<p class="contact-form__privacy">
+		We’ll only use your details to respond about this enquiry. Serving{' '}
+		<strong>{site.serviceAreaLabel}</strong>.
+	</p>
+
+	<div class="contact-form__actions">
+		<Button type="submit" variant="primary" size="lg" disabled={!configured}>
+			Send enquiry
+		</Button>
+		<p class="contact-form__status" data-form-status hidden></p>
+	</div>
+</form>
+
+<script>
+	function initContactForm() {
+		const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+		if (!form || form.dataset.configured !== 'true') return;
+
+		const status = form.querySelector<HTMLElement>('[data-form-status]');
+		const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+		const setStatus = (message: string, type: 'success' | 'error' | 'pending') => {
+			if (!status) return;
+			status.hidden = false;
+			status.textContent = message;
+			status.dataset.type = type;
+		};
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			if (!form.checkValidity()) {
+				form.reportValidity();
+				return;
+			}
+
+			const action = form.getAttribute('action');
+			if (!action) return;
+
+			submitBtn?.setAttribute('disabled', 'true');
+			setStatus('Sending…', 'pending');
+
+			try {
+				const body = new FormData(form);
+				// Formspree expects multi-value fields; join equipment for readability
+				const equipment = body.getAll('equipment').filter(Boolean);
+				body.delete('equipment');
+				if (equipment.length) {
+					body.set('equipment', equipment.join(', '));
+				}
+
+				const response = await fetch(action, {
+					method: 'POST',
+					body,
+					headers: { Accept: 'application/json' },
+				});
+
+				if (response.ok) {
+					form.reset();
+					setStatus(
+						'Thanks — we’ve received your enquiry and will get back to you soon.',
+						'success',
+					);
+				} else {
+					const data = (await response.json().catch(() => null)) as {
+						errors?: { message?: string }[];
+					} | null;
+					const detail = data?.errors?.map((e) => e.message).filter(Boolean).join(' ');
+					setStatus(
+						detail || 'Something went wrong. Please try again or email us directly.',
+						'error',
+					);
+				}
+			} catch {
+				setStatus(
+					'Network error. Check your connection and try again.',
+					'error',
+				);
+			} finally {
+				submitBtn?.removeAttribute('disabled');
+			}
+		});
+	}
+
+	initContactForm();
+	document.addEventListener('astro:page-load', initContactForm);
+</script>
+
+<style>
+	.form-banner {
+		margin-bottom: var(--space-5);
+		padding: var(--space-4) var(--space-5);
+		background: var(--color-accent-subtle);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		color: var(--color-ink);
+		font-size: var(--text-sm);
+	}
+
+	.form-banner p {
+		margin: 0;
+	}
+
+	.form-banner code {
+		font-family: var(--font-mono);
+		font-size: 0.9em;
+		background: var(--color-surface);
+		padding: 0.1em 0.35em;
+		border-radius: var(--radius-sm);
+	}
+
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-5);
+	}
+
+	.contact-form__honeypot {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	.contact-form__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-5);
+	}
+
+	@media (min-width: 40rem) {
+		.contact-form__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.field--full {
+			grid-column: 1 / -1;
+		}
+	}
+
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+		border: none;
+		min-width: 0;
+	}
+
+	.field__label {
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		color: var(--color-ink);
+	}
+
+	.field__required {
+		color: var(--color-accent);
+	}
+
+	.field__optional {
+		font-weight: var(--weight-normal);
+		color: var(--color-ink-subtle);
+	}
+
+	.field__hint {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.field__input {
+		width: 100%;
+		min-height: 2.75rem;
+		padding: var(--space-3) var(--space-4);
+		font: inherit;
+		color: var(--color-ink);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		transition:
+			border-color var(--duration-fast) var(--ease-default),
+			box-shadow var(--duration-fast) var(--ease-default);
+	}
+
+	.field__input::placeholder {
+		color: var(--color-ink-subtle);
+	}
+
+	.field__input:hover:not(:disabled) {
+		border-color: var(--color-border-strong);
+	}
+
+	.field__input:focus {
+		outline: none;
+		border-color: var(--color-accent);
+		box-shadow: var(--focus-ring);
+	}
+
+	.field__input:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+		background: var(--color-surface-muted);
+	}
+
+	.field__input--area {
+		min-height: 8rem;
+		resize: vertical;
+		line-height: var(--leading-normal);
+	}
+
+	.equipment__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-2);
+		margin-top: var(--space-2);
+	}
+
+	@media (min-width: 40rem) {
+		.equipment__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.equipment__option {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		padding: var(--space-3) var(--space-4);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		font-size: var(--text-sm);
+		cursor: pointer;
+		transition:
+			border-color var(--duration-fast) var(--ease-default),
+			background-color var(--duration-fast) var(--ease-default);
+	}
+
+	.equipment__option:hover {
+		border-color: var(--color-border-strong);
+		background: var(--color-surface-muted);
+	}
+
+	.equipment__option:has(input:checked) {
+		border-color: var(--color-accent);
+		background: var(--color-accent-subtle);
+	}
+
+	.equipment__option input {
+		width: 1.1rem;
+		height: 1.1rem;
+		accent-color: var(--color-accent);
+		flex-shrink: 0;
+	}
+
+	.contact-form__privacy {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.contact-form__privacy strong {
+		color: var(--color-ink);
+		font-weight: var(--weight-medium);
+	}
+
+	.contact-form__actions {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-3);
+	}
+
+	.contact-form__status {
+		margin: 0;
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+	}
+
+	.contact-form__status[data-type='success'] {
+		color: var(--color-success);
+	}
+
+	.contact-form__status[data-type='error'] {
+		color: var(--color-danger);
+	}
+
+	.contact-form__status[data-type='pending'] {
+		color: var(--color-ink-muted);
+	}
+</style>
