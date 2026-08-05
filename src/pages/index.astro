@@ -1,11 +1,132 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Container from '../components/common/Container.astro';
+import Section from '../components/common/Section.astro';
+import Hero from '../components/common/Hero.astro';
+import Button from '../components/common/Button.astro';
+import Wordmark from '../components/common/Wordmark.astro';
+import { site } from '../config/site';
 ---
 
 <Layout>
-	<Welcome />
+	<header class="site-header" slot="header">
+		<Container>
+			<div class="site-header__inner">
+				<Wordmark size="sm" />
+				<p class="site-header__area">{site.serviceAreaLabel}</p>
+			</div>
+		</Container>
+	</header>
+
+	<Hero
+		title={site.tagline}
+		subtitle={site.description}
+		eyebrow={site.name}
+		size="full"
+	>
+		<Button variant="primary" size="lg" href="#coming-soon">Get in touch</Button>
+		<Button variant="secondary" size="lg" href="#coming-soon">Browse hire</Button>
+	</Hero>
+
+	<Section muted id="coming-soon">
+		<Container width="content">
+			<div class="coming-soon">
+				<p class="coming-soon__eyebrow">Coming soon</p>
+				<h2 class="coming-soon__title">We’re building something special</h2>
+				<p class="coming-soon__body">
+					Photo booths, garden games, and more — equipment that gets every generation
+					playing, posing, and celebrating together across {site.serviceAreaLabel}.
+				</p>
+				<p class="coming-soon__body">
+					This site is under construction. Check back soon, or watch this space as we
+					add our full hire catalogue.
+				</p>
+			</div>
+		</Container>
+	</Section>
+
+	<footer class="site-footer" slot="footer">
+		<Container>
+			<div class="site-footer__inner">
+				<Wordmark size="sm" href={false} />
+				<p class="site-footer__tagline">{site.taglineShort}</p>
+				<p class="site-footer__meta">
+					Event hire · {site.serviceAreaLabel}
+				</p>
+			</div>
+		</Container>
+	</footer>
 </Layout>
+
+<style>
+	.site-header {
+		padding-block: var(--space-4);
+		border-bottom: 1px solid var(--color-border);
+		background-color: var(--color-canvas);
+	}
+
+	.site-header__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+	}
+
+	.site-header__area {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+		margin: 0;
+		text-align: end;
+	}
+
+	.coming-soon {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+
+	.coming-soon__eyebrow {
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0;
+	}
+
+	.coming-soon__title {
+		font-size: var(--text-2xl);
+		margin: 0;
+	}
+
+	.coming-soon__body {
+		color: var(--color-ink-muted);
+		margin: 0;
+		max-width: 40rem;
+	}
+
+	.site-footer {
+		padding-block: var(--space-7);
+		border-top: 1px solid var(--color-border);
+		background-color: var(--color-surface-muted);
+	}
+
+	.site-footer__inner {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.site-footer__tagline {
+		font-family: var(--font-display);
+		font-size: var(--text-lg);
+		color: var(--color-ink);
+		margin: 0;
+	}
+
+	.site-footer__meta {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+		margin: 0;
+	}
+</style>

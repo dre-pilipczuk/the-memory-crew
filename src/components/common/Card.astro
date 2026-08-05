@@ -1,0 +1,81 @@
+---
+/**
+ * Card — surface panel with optional image and link wrapper.
+ */
+interface Props {
+	href?: string;
+	class?: string;
+	/** Soft hover elevation when interactive */
+	interactive?: boolean;
+}
+
+const { href, class: className, interactive = Boolean(href) } = Astro.props;
+
+const classes = ['card', interactive && 'card--interactive', className]
+	.filter(Boolean)
+	.join(' ');
+---
+
+{
+	href ? (
+		<a class={classes} href={href}>
+			<slot name="image" />
+			<div class="card__body">
+				<slot />
+			</div>
+		</a>
+	) : (
+		<div class={classes}>
+			<slot name="image" />
+			<div class="card__body">
+				<slot />
+			</div>
+		</div>
+	)
+}
+
+<style>
+	.card {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-sm);
+		text-decoration: none;
+		color: inherit;
+		transition:
+			box-shadow var(--duration-normal) var(--ease-default),
+			transform var(--duration-normal) var(--ease-default),
+			border-color var(--duration-normal) var(--ease-default);
+	}
+
+	.card:focus-visible {
+		outline: none;
+		box-shadow: var(--focus-ring);
+	}
+
+	.card--interactive:hover {
+		box-shadow: var(--shadow-md);
+		border-color: var(--color-border-strong);
+		transform: translateY(-2px);
+		color: inherit;
+	}
+
+	.card__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-5);
+		flex: 1;
+	}
+
+	.card :global(.card__image),
+	.card :global(img) {
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+		background-color: var(--color-surface-muted);
+	}
+</style>

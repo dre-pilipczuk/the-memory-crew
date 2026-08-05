@@ -1,0 +1,62 @@
+---
+/**
+ * Section — vertical rhythm band with optional muted background.
+ */
+interface Props {
+	muted?: boolean;
+	/** Tighter padding for dense pages */
+	compact?: boolean;
+	as?: 'section' | 'div' | 'aside';
+	id?: string;
+	class?: string;
+	'aria-labelledby'?: string;
+}
+
+const {
+	muted = false,
+	compact = false,
+	as: Tag = 'section',
+	id,
+	class: className,
+	'aria-labelledby': ariaLabelledby,
+} = Astro.props;
+
+const classes = [
+	'section',
+	muted && 'section--muted',
+	compact && 'section--compact',
+	className,
+]
+	.filter(Boolean)
+	.join(' ');
+---
+
+<Tag class={classes} id={id} aria-labelledby={ariaLabelledby}>
+	<slot />
+</Tag>
+
+<style>
+	.section {
+		padding-block: var(--space-7);
+	}
+
+	@media (min-width: 48rem) {
+		.section {
+			padding-block: var(--space-9);
+		}
+	}
+
+	.section--compact {
+		padding-block: var(--space-5);
+	}
+
+	@media (min-width: 48rem) {
+		.section--compact {
+			padding-block: var(--space-7);
+		}
+	}
+
+	.section--muted {
+		background-color: var(--color-surface-muted);
+	}
+</style>

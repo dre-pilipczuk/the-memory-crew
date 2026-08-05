@@ -2,4 +2,8 @@
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
-export default defineConfig({});
+// Project site on GitHub Pages until a custom domain is connected.
+export default defineConfig({
+	site: 'https://dre-pilipczuk.github.io',
+	base: '/the-memory-crew',
+});

@@ -1,0 +1,106 @@
+---
+/**
+ * PageHeader — calmer inner-page title band (not a full hero).
+ */
+import Container from './Container.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	eyebrow?: string;
+	class?: string;
+}
+
+const { title, description, eyebrow, class: className } = Astro.props;
+
+const classes = ['page-header', className].filter(Boolean).join(' ');
+---
+
+<header class={classes}>
+	<Container>
+		{
+			eyebrow && (
+				<p class="page-header__eyebrow">{eyebrow}</p>
+			)
+		}
+		{
+			Astro.slots.has('breadcrumb') && (
+				<div class="page-header__breadcrumb">
+					<slot name="breadcrumb" />
+				</div>
+			)
+		}
+		<h1 class="page-header__title">{title}</h1>
+		{description && <p class="page-header__description">{description}</p>}
+		{
+			Astro.slots.has('default') && (
+				<div class="page-header__actions">
+					<slot />
+				</div>
+			)
+		}
+	</Container>
+</header>
+
+<style>
+	.page-header {
+		padding-block: var(--space-7) var(--space-6);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	@media (min-width: 48rem) {
+		.page-header {
+			padding-block: var(--space-8) var(--space-7);
+		}
+	}
+
+	.page-header :global(.container) {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-3);
+		max-width: var(--width-content);
+		margin-inline: 0;
+		/* Keep left gutter alignment with site container */
+		margin-inline-start: max(
+			var(--gutter),
+			calc((100% - var(--width-container)) / 2 + var(--gutter))
+		);
+	}
+
+	.page-header__eyebrow {
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin: 0;
+	}
+
+	.page-header__breadcrumb {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.page-header__title {
+		font-size: var(--text-3xl);
+		font-weight: var(--weight-semibold);
+		margin: 0;
+		text-wrap: balance;
+	}
+
+	.page-header__description {
+		font-size: var(--text-lg);
+		color: var(--color-ink-muted);
+		margin: 0;
+		max-width: 40rem;
+		text-wrap: pretty;
+	}
+
+	.page-header__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		margin-top: var(--space-2);
+	}
+</style>

@@ -1,0 +1,164 @@
+---
+/**
+ * Hero — page-leading band with optional image scrim.
+ * Slots: default (actions), title is props-driven for a11y heading control.
+ */
+import Container from './Container.astro';
+
+interface Props {
+	title: string;
+	subtitle?: string;
+	eyebrow?: string;
+	/** full = tall home hero; compact = inner pages */
+	size?: 'full' | 'compact';
+	/** When true, expects an image in the `media` slot and applies scrim */
+	hasMedia?: boolean;
+	class?: string;
+}
+
+const {
+	title,
+	subtitle,
+	eyebrow,
+	size = 'full',
+	hasMedia = false,
+	class: className,
+} = Astro.props;
+
+const classes = [
+	'hero',
+	`hero--${size}`,
+	hasMedia && 'hero--media',
+	className,
+]
+	.filter(Boolean)
+	.join(' ');
+---
+
+<header class={classes}>
+	{
+		hasMedia && (
+			<div class="hero__media" aria-hidden="true">
+				<slot name="media" />
+				<div class="hero__scrim" />
+			</div>
+		)
+	}
+	<Container class="hero__content">
+		{
+			eyebrow && (
+				<p class="hero__eyebrow">{eyebrow}</p>
+			)
+		}
+		<h1 class="hero__title">{title}</h1>
+		{subtitle && <p class="hero__subtitle">{subtitle}</p>}
+		<div class="hero__actions">
+			<slot />
+		</div>
+	</Container>
+</header>
+
+<style>
+	.hero {
+		position: relative;
+		display: flex;
+		align-items: flex-end;
+		isolation: isolate;
+	}
+
+	.hero--full {
+		min-height: min(80vh, 44rem);
+		padding-block: var(--space-8) var(--space-9);
+	}
+
+	.hero--compact {
+		min-height: auto;
+		padding-block: var(--space-7) var(--space-8);
+	}
+
+	.hero--media {
+		color: var(--color-surface);
+	}
+
+	.hero--media .hero__title,
+	.hero--media .hero__subtitle,
+	.hero--media .hero__eyebrow {
+		color: var(--color-surface);
+	}
+
+	.hero__media {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		overflow: hidden;
+		background-color: var(--color-ink);
+	}
+
+	.hero__media :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.hero__scrim {
+		position: absolute;
+		inset: 0;
+		background: var(--overlay-hero);
+	}
+
+	.hero__content {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-4);
+		max-width: 40rem;
+	}
+
+	/* Override Container max so content aligns left within full-width hero */
+	.hero :global(.container) {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-4);
+	}
+
+	.hero__eyebrow {
+		font-family: var(--font-body);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-ink-muted);
+		margin: 0;
+	}
+
+	.hero__title {
+		font-size: var(--text-5xl);
+		font-weight: var(--weight-semibold);
+		line-height: var(--leading-tight);
+		letter-spacing: -0.02em;
+		margin: 0;
+		text-wrap: balance;
+	}
+
+	.hero--compact .hero__title {
+		font-size: var(--text-4xl);
+	}
+
+	.hero__subtitle {
+		font-size: var(--text-lg);
+		line-height: var(--leading-normal);
+		color: var(--color-ink-muted);
+		margin: 0;
+		max-width: 36rem;
+		text-wrap: pretty;
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		margin-top: var(--space-2);
+	}
+</style>
