@@ -5,7 +5,8 @@ category: crazy-golf
 priceFrom: 150
 featured: true
 order: 1
-imageSource: placeholder
+image: ../../assets/equipment/portable-crazy-golf.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

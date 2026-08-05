@@ -12,6 +12,8 @@ import { getCollection, render, getEntry } from 'astro:content';
 import { getHireCategory } from '../../config/hire';
 import { paths, withBase } from '../../config/routes';
 import type { EquipmentEntry } from '../../lib/content';
+import { occasionPath } from '../../lib/content';
+import { breadcrumbJsonLd } from '../../lib/seo';
 
 export async function getStaticPaths() {
 	const occasions = await getCollection('occasions', ({ data }) =>
@@ -32,22 +34,27 @@ const recommended: EquipmentEntry[] = (
 		occasion.data.recommendedEquipment.map((id) => getEntry('equipment', id)),
 	)
 ).filter((entry): entry is EquipmentEntry => Boolean(entry) && entry.data.draft !== true);
+
+const pagePath = occasionPath(occasion);
+const crumbs = [
+	{ label: 'Home', href: paths.home },
+	{ label: 'Occasions', href: paths.occasions },
+	{ label: occasion.data.title },
+];
 ---
 
-<Layout title={occasion.data.title} description={occasion.data.description}>
+<Layout
+	title={occasion.data.title}
+	description={occasion.data.description}
+	path={pagePath}
+	jsonLd={breadcrumbJsonLd(crumbs)}
+>
 	<PageHeader
 		title={occasion.data.title}
 		description={occasion.data.description}
 		eyebrow="Occasions"
 	>
-		<Breadcrumb
-			slot="breadcrumb"
-			items={[
-				{ label: 'Home', href: paths.home },
-				{ label: 'Occasions', href: paths.occasions },
-				{ label: occasion.data.title },
-			]}
-		/>
+		<Breadcrumb slot="breadcrumb" items={crumbs} />
 	</PageHeader>
 
 	<Section>

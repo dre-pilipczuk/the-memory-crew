@@ -11,7 +11,7 @@ export const site = {
 		'Event hire across South Wales and Bristol — photo booths, garden games, and more that get every generation involved.',
 	serviceArea: ['South Wales', 'Bristol'] as const,
 	serviceAreaLabel: 'South Wales and Bristol',
-	/** Set when custom domain is live; used for canonical/OG later */
+	/** Deployed site origin (no trailing slash). Update when custom domain is live. */
 	url: 'https://dre-pilipczuk.github.io/the-memory-crew',
 	email: '', // Phase 8
 	phone: '', // Phase 8

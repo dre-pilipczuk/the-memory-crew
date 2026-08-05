@@ -5,7 +5,8 @@ category: garden-games
 priceFrom: 35
 featured: true
 order: 1
-imageSource: placeholder
+image: ../../assets/equipment/giant-jenga.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

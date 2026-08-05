@@ -5,7 +5,8 @@ category: photo-booths
 priceFrom: 250
 featured: true
 order: 1
-imageSource: placeholder
+image: ../../assets/equipment/classic-photo-booth.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

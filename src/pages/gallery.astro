@@ -4,24 +4,20 @@ import PageHeader from '../components/common/PageHeader.astro';
 import Breadcrumb from '../components/common/Breadcrumb.astro';
 import Container from '../components/common/Container.astro';
 import Section from '../components/common/Section.astro';
-import GalleryGrid from '../components/gallery/GalleryGrid.astro';
 import CTA from '../components/common/CTA.astro';
 import Button from '../components/common/Button.astro';
+import SmartImage from '../components/common/SmartImage.astro';
 import { paths, withBase } from '../config/routes';
+import { getAllEquipment } from '../lib/content';
 
-const placeholders = [
-	{ alt: 'Event gallery placeholder 1', caption: 'Photos coming soon' },
-	{ alt: 'Event gallery placeholder 2', caption: 'Lifestyle shots' },
-	{ alt: 'Event gallery placeholder 3', caption: 'Weddings' },
-	{ alt: 'Event gallery placeholder 4', caption: 'Garden games' },
-	{ alt: 'Event gallery placeholder 5', caption: 'Photo booths' },
-	{ alt: 'Event gallery placeholder 6', caption: 'Corporate days' },
-];
+const withImages = (await getAllEquipment()).filter((item) => item.data.image);
+const placeholdersNeeded = Math.max(0, 6 - withImages.length);
 ---
 
 <Layout
 	title="Gallery"
 	description="A look at The Memory Crew hire in action — photos landing as we build the fleet."
+	path={paths.gallery}
 >
 	<PageHeader
 		title="Gallery"
@@ -36,9 +32,67 @@ const placeholders = [
 
 	<Section>
 		<Container>
-			<GalleryGrid items={placeholders} columns={3} />
+			<div class="gallery-page">
+				{
+					withImages.map((item) => (
+						<figure class="gallery-page__item">
+							<div class="gallery-page__frame">
+								<SmartImage
+									src={item.data.image}
+									alt={item.data.title}
+									sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 100vw"
+								/>
+							</div>
+							<figcaption class="gallery-page__caption">{item.data.title}</figcaption>
+						</figure>
+					))
+				}
+				{
+					Array.from({ length: placeholdersNeeded }).map((_, i) => (
+						<figure class="gallery-page__item">
+							<div class="gallery-page__frame">
+								<SmartImage alt="" />
+							</div>
+							<figcaption class="gallery-page__caption">More photos coming soon</figcaption>
+						</figure>
+					))
+				}
+			</div>
 		</Container>
 	</Section>
+
+	<style>
+		.gallery-page {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: var(--space-4);
+		}
+
+		@media (min-width: 40rem) {
+			.gallery-page {
+				grid-template-columns: repeat(3, 1fr);
+			}
+		}
+
+		.gallery-page__item {
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-2);
+		}
+
+		.gallery-page__frame {
+			border-radius: var(--radius-lg);
+			overflow: hidden;
+			border: 1px solid var(--color-border);
+		}
+
+		.gallery-page__caption {
+			font-size: var(--text-sm);
+			color: var(--color-ink-muted);
+			padding-inline: var(--space-1);
+		}
+	</style>
 
 	<CTA title="Want this energy at your event?">
 		<Button variant="primary" href={withBase(paths.contact)}>Get in touch</Button>

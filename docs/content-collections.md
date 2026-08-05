@@ -21,7 +21,7 @@ One Markdown file per hireable item. Filename (without `.md`) = entry `id` = URL
 | `priceFrom` | no | GBP guide price |
 | `featured` | no | Default `false` — home / hub highlights |
 | `order` | no | Sort within category (lower first) |
-| `image` | no | Path or URL (Phase 6) |
+| `image` | no | Astro `image()` path, e.g. `../../assets/equipment/foo.jpg` |
 | `imageSource` | no | `ai` \| `photo` \| `placeholder` (default) |
 | `suitableFor` | no | Occasion slugs for cross-links |
 | `whatsIncluded` | no | Bullet list for product page |

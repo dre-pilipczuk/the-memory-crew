@@ -59,9 +59,15 @@ Taxonomies and nav live in `src/config/`. See [site architecture](./docs/site-ar
 Add hire items as Markdown under `src/content/equipment/`.  
 Schemas and frontmatter rules: [content collections](./docs/content-collections.md).
 
+## Images (Phase 6)
+
+Put photos in `src/assets/equipment/` and reference them from frontmatter.  
+Astro optimises to AVIF/WebP. See [images](./docs/images.md).
+
 ## Docs
 
 - [Design brief](./docs/design-brief.md)
 - [Site architecture](./docs/site-architecture.md)
 - [Content collections](./docs/content-collections.md)
+- [Images](./docs/images.md)
 - [Astro docs](https://docs.astro.build)

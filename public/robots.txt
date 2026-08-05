@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Internal component gallery
+Disallow: /the-memory-crew/design-system
+
+Sitemap: https://dre-pilipczuk.github.io/the-memory-crew/sitemap-index.xml

@@ -17,42 +17,44 @@ const imageSourceSchema = z.enum(['ai', 'photo', 'placeholder']).default('placeh
 
 const equipment = defineCollection({
 	loader: glob({ pattern: '**/*.md', base: './src/content/equipment' }),
-	schema: z.object({
-		title: z.string(),
-		/** Short card / meta description */
-		description: z.string(),
-		category: z.enum(hireCategorySlugTuple),
-		/** Guide price in GBP; omit if POA */
-		priceFrom: z.number().nonnegative().optional(),
-		featured: z.boolean().default(false),
-		/** Sort order within category (lower first) */
-		order: z.number().int().optional(),
-		/** Path under public/ or remote URL — Phase 6 */
-		image: z.string().optional(),
-		imageSource: imageSourceSchema,
-		/** Occasion slugs this kit suits (cross-links) */
-		suitableFor: z.array(z.string()).default([]),
-		whatsIncluded: z.array(z.string()).default([]),
-		/** Hide from production listings when true */
-		draft: z.boolean().default(false),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			title: z.string(),
+			/** Short card / meta description */
+			description: z.string(),
+			category: z.enum(hireCategorySlugTuple),
+			/** Guide price in GBP; omit if POA */
+			priceFrom: z.number().nonnegative().optional(),
+			featured: z.boolean().default(false),
+			/** Sort order within category (lower first) */
+			order: z.number().int().optional(),
+			/** Local asset via Astro image() — prefer src/assets */
+			image: image().optional(),
+			imageSource: imageSourceSchema,
+			/** Occasion slugs this kit suits (cross-links) */
+			suitableFor: z.array(z.string()).default([]),
+			whatsIncluded: z.array(z.string()).default([]),
+			/** Hide from production listings when true */
+			draft: z.boolean().default(false),
+		}),
 });
 
 const occasions = defineCollection({
 	loader: glob({ pattern: '**/*.md', base: './src/content/occasions' }),
-	schema: z.object({
-		title: z.string(),
-		description: z.string(),
-		featured: z.boolean().default(false),
-		order: z.number().int().optional(),
-		image: z.string().optional(),
-		imageSource: imageSourceSchema,
-		/** Hire category slugs to feature on this occasion page */
-		recommendedCategories: z.array(z.enum(hireCategorySlugTuple)).default([]),
-		/** Equipment entry ids (filename slugs) to feature */
-		recommendedEquipment: z.array(z.string()).default([]),
-		draft: z.boolean().default(false),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			title: z.string(),
+			description: z.string(),
+			featured: z.boolean().default(false),
+			order: z.number().int().optional(),
+			image: image().optional(),
+			imageSource: imageSourceSchema,
+			/** Hire category slugs to feature on this occasion page */
+			recommendedCategories: z.array(z.enum(hireCategorySlugTuple)).default([]),
+			/** Equipment entry ids (filename slugs) to feature */
+			recommendedEquipment: z.array(z.string()).default([]),
+			draft: z.boolean().default(false),
+		}),
 });
 
 const faq = defineCollection({

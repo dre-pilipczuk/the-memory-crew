@@ -401,8 +401,8 @@ src/
 | **3** Content collections | equipment, occasions, faq schemas | ✅ seed content + helpers |
 | **4** Domain components | Navbar, cards, CTA, FAQ… | ✅ + public routes wired |
 | **5** Pages | Home → product → contact | ✅ assembled from components |
-| **6** Images | AI bridge → real assets + optimisation | progressive replacement |
-| **7** SEO | sitemap, OG, schema, local area | |
+| **6** Images | AI bridge → real assets + optimisation | ✅ seed AI + SmartImage |
+| **7** SEO | sitemap, OG, schema, local area | ✅ |
 | **8** Contact | Formspree (or similar) | no backend |
 | **9** Polish | a11y, Lighthouse, motion | |
 | **10** v2 | Ktor + Postgres + bookings + payments | separate app boundary |
@@ -464,6 +464,14 @@ Phase 1 is done when:
 - [x] Public pages assemble components (hire, product, occasions, gallery, about, faq, contact)
 - [x] `npm run build` green with content-driven routes
 
-## 20. Next action
+## 20. Phase 6–7 success criteria
 
-**Phases 4–5 complete for v1 shell.** Next options: Phase 6 (images), Phase 7 (SEO), Phase 8 (contact form).
+- [x] Content `image()` schema + `SmartImage` (AVIF/WebP)
+- [x] Seed AI lifestyle images on featured kit + home hero
+- [x] Sitemap + robots.txt
+- [x] Canonical, Open Graph, Twitter cards
+- [x] LocalBusiness + BreadcrumbList + Product JSON-LD
+
+## 21. Next action
+
+**Phases 6–7 complete.** Next: Phase 8 – Contact form (Formspree or similar).

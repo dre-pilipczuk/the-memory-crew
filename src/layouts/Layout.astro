@@ -3,21 +3,38 @@ import '../styles/global.css';
 import { site } from '../config/site';
 import Navbar from '../components/layout/Navbar.astro';
 import Footer from '../components/layout/Footer.astro';
+import Seo from '../components/seo/Seo.astro';
+import { localBusinessJsonLd } from '../lib/seo';
 
 interface Props {
 	title?: string;
 	description?: string;
-	/** Hide site chrome (e.g. design-system can opt out if needed) */
+	/** Site path without base (for canonical/OG), e.g. /hire */
+	path?: string;
+	/** Hide site chrome */
 	chrome?: boolean;
+	noindex?: boolean;
+	ogImage?: string;
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+	/** Include LocalBusiness JSON-LD (home by default when path is /) */
+	includeLocalBusiness?: boolean;
 }
 
 const {
 	title,
 	description = site.description,
+	path = '/',
 	chrome = true,
+	noindex = false,
+	ogImage,
+	jsonLd,
+	includeLocalBusiness = path === '/' || path === '',
 } = Astro.props;
 
-const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.taglineShort}`;
+const blocks = [
+	...(includeLocalBusiness ? [localBusinessJsonLd()] : []),
+	...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []),
+];
 ---
 
 <!doctype html>
@@ -28,9 +45,15 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.t
 		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
 		<meta name="theme-color" content="#FAF9F7" />
-		<title>{pageTitle}</title>
+		<Seo
+			title={title}
+			description={description}
+			path={path}
+			ogImage={ogImage}
+			noindex={noindex}
+			jsonLd={blocks.length ? blocks : undefined}
+		/>
 	</head>
 	<body>
 		<a class="skip-link" href="#main">Skip to content</a>

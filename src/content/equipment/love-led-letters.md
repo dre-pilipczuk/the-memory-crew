@@ -5,7 +5,8 @@ category: giant-led-letters
 priceFrom: 120
 featured: true
 order: 1
-imageSource: placeholder
+image: ../../assets/equipment/love-led-letters.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

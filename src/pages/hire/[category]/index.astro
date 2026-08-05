@@ -15,6 +15,7 @@ import {
 } from '../../../config/hire';
 import { paths, withBase } from '../../../config/routes';
 import { getEquipmentByCategory } from '../../../lib/content';
+import { breadcrumbJsonLd } from '../../../lib/seo';
 
 export function getStaticPaths() {
 	return hireCategories.map((category) => ({
@@ -30,18 +31,22 @@ if (!category) {
 }
 
 const items = await getEquipmentByCategory(category.slug as HireCategorySlug);
+const pagePath = paths.hireCategory(category.slug);
+const crumbs = [
+	{ label: 'Home', href: paths.home },
+	{ label: 'Hire', href: paths.hire },
+	{ label: category.title },
+];
 ---
 
-<Layout title={category.title} description={category.description}>
+<Layout
+	title={category.title}
+	description={category.description}
+	path={pagePath}
+	jsonLd={breadcrumbJsonLd(crumbs)}
+>
 	<PageHeader title={category.title} description={category.description} eyebrow="Hire">
-		<Breadcrumb
-			slot="breadcrumb"
-			items={[
-				{ label: 'Home', href: paths.home },
-				{ label: 'Hire', href: paths.hire },
-				{ label: category.title },
-			]}
-		/>
+		<Breadcrumb slot="breadcrumb" items={crumbs} />
 	</PageHeader>
 
 	{

@@ -1,0 +1,70 @@
+---
+/**
+ * Page-level SEO: canonical, Open Graph, Twitter, optional JSON-LD.
+ */
+import { site } from '../../config/site';
+import { withBase } from '../../config/routes';
+
+interface Props {
+	title?: string;
+	description?: string;
+	/** Site path without base, e.g. /hire */
+	path?: string;
+	ogImage?: string;
+	ogType?: 'website' | 'article';
+	noindex?: boolean;
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+	title,
+	description = site.description,
+	path = '/',
+	ogImage,
+	ogType = 'website',
+	noindex = false,
+	jsonLd,
+} = Astro.props;
+
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.taglineShort}`;
+const canonicalPath = withBase(path === '/' ? '/' : path);
+// Absolute URL for canonical / OG
+const siteOrigin = site.url.replace(/\/$/, '');
+const canonicalUrl =
+	path === '/' || path === ''
+		? `${siteOrigin}/`
+		: `${siteOrigin}${path.startsWith('/') ? path : `/${path}`}`;
+
+const defaultOg = `${siteOrigin}/og-default.png`;
+const imageUrl = ogImage
+	? ogImage.startsWith('http')
+		? ogImage
+		: `${siteOrigin}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`
+	: defaultOg;
+
+const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:image" content={imageUrl} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+{
+	jsonLdBlocks.map((block) => (
+		<script type="application/ld+json" set:html={JSON.stringify(block)} />
+	))
+}

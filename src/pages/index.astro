@@ -7,20 +7,33 @@ import Button from '../components/common/Button.astro';
 import SectionTitle from '../components/common/SectionTitle.astro';
 import CTA from '../components/common/CTA.astro';
 import EquipmentGrid from '../components/equipment/EquipmentGrid.astro';
+import { Image } from 'astro:assets';
 import { site } from '../config/site';
 import { paths, withBase } from '../config/routes';
 import { getFeaturedEquipment } from '../lib/content';
+import heroImage from '../assets/lifestyle/hero-gathering.jpg';
 
 const featured = await getFeaturedEquipment();
 ---
 
-<Layout>
+<Layout path="/" ogImage="/og-default.jpg">
 	<Hero
 		title={site.tagline}
 		subtitle={site.description}
 		eyebrow={site.name}
 		size="full"
+		hasMedia
 	>
+		<Image
+			slot="media"
+			src={heroImage}
+			alt="Friends and family laughing together around giant garden games outdoors"
+			widths={[800, 1200, 1600]}
+			sizes="100vw"
+			loading="eager"
+			fetchpriority="high"
+			formats={['avif', 'webp']}
+		/>
 		<Button variant="primary" size="lg" href={withBase(paths.contact)}>
 			Get in touch
 		</Button>
@@ -51,9 +64,9 @@ const featured = await getFeaturedEquipment();
 	<Section muted>
 		<Container width="content">
 			<SectionTitle
-				title="We’re building something special"
-				eyebrow="Coming soon"
-				description={`Full category pages, galleries, and booking details are on the way. Until then, explore featured kit or tell us about your event across ${site.serviceAreaLabel}.`}
+				title="Equipment that brings everyone together"
+				eyebrow={site.serviceAreaLabel}
+				description="From garden games to photo booths, we hire the pieces that turn gatherings into memories — across South Wales and Bristol."
 			/>
 		</Container>
 	</Section>
