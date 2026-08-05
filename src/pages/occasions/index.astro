@@ -5,6 +5,7 @@ import Breadcrumb from '../../components/common/Breadcrumb.astro';
 import Container from '../../components/common/Container.astro';
 import Section from '../../components/common/Section.astro';
 import Card from '../../components/common/Card.astro';
+import SmartImage from '../../components/common/SmartImage.astro';
 import CTA from '../../components/common/CTA.astro';
 import Button from '../../components/common/Button.astro';
 import { paths, withBase } from '../../config/routes';
@@ -34,7 +35,14 @@ const occasions = await getAllOccasions();
 			<div class="occasion-grid">
 				{
 					occasions.map((occasion) => (
-						<Card href={withBase(occasionPath(occasion))}>
+						<Card href={withBase(occasionPath(occasion))} class="reveal">
+							<div slot="image">
+								<SmartImage
+									src={occasion.data.image}
+									alt={occasion.data.title}
+									sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 100vw"
+								/>
+							</div>
 							<h2 class="occasion-card__title">{occasion.data.title}</h2>
 							<p class="occasion-card__body">{occasion.data.description}</p>
 						</Card>
@@ -54,7 +62,7 @@ const occasions = await getAllOccasions();
 	.occasion-grid {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: var(--space-4);
+		gap: var(--space-5);
 	}
 
 	@media (min-width: 40rem) {

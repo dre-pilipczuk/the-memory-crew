@@ -3,7 +3,8 @@ title: Schools
 description: Fairs, proms, and end-of-term events built for busy sites and big groups.
 featured: false
 order: 4
-imageSource: placeholder
+image: ../../assets/occasions/schools.jpg
+imageSource: ai
 recommendedCategories:
   - garden-games
   - crazy-golf

@@ -5,7 +5,8 @@ category: gazebos
 priceFrom: 180
 featured: false
 order: 1
-imageSource: placeholder
+image: ../../assets/equipment/garden-gazebo.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

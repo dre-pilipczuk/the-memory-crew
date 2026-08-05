@@ -38,6 +38,11 @@ imageSource: ai   # or photo when real
 | `EquipmentCard` | Uses `SmartImage` for catalogue tiles |
 | Hero `hasMedia` | Full-bleed lifestyle (home) |
 
+## Catalogue status (Phase 9)
+
+All equipment and occasion entries ship with **AI lifestyle photography** (`imageSource: ai`).  
+Gallery, hire categories, product pages, occasion hubs, about, and home hero are image-led.
+
 ## Replacing AI with real photos
 
 Overwrite the asset file (same path) or update the frontmatter path. No page code changes. Set `imageSource: photo` when live photography is used.

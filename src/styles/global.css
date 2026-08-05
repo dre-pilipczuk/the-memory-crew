@@ -127,3 +127,37 @@ ol {
 	color: var(--color-surface);
 	box-shadow: var(--focus-ring);
 }
+
+/* Subtle entrance for image-led cards/sections */
+.reveal {
+	animation: reveal-up 0.55s var(--ease-default) both;
+}
+
+@keyframes reveal-up {
+	from {
+		opacity: 0;
+		transform: translateY(0.6rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.reveal {
+		animation: none;
+	}
+}
+
+/* Selection colour aligned to brand */
+::selection {
+	background: var(--color-accent-subtle);
+	color: var(--color-ink);
+}
+
+/* Safer media defaults for layout stability */
+img,
+video {
+	height: auto;
+}

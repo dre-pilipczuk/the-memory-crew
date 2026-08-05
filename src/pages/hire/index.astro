@@ -7,6 +7,7 @@ import Section from '../../components/common/Section.astro';
 import SectionTitle from '../../components/common/SectionTitle.astro';
 import Card from '../../components/common/Card.astro';
 import EquipmentGrid from '../../components/equipment/EquipmentGrid.astro';
+import SmartImage from '../../components/common/SmartImage.astro';
 import CTA from '../../components/common/CTA.astro';
 import Button from '../../components/common/Button.astro';
 import { hireCategories } from '../../config/hire';
@@ -14,6 +15,13 @@ import { paths, withBase } from '../../config/routes';
 import { getAllEquipment } from '../../lib/content';
 
 const equipment = await getAllEquipment();
+
+const categoryImage = Object.fromEntries(
+	hireCategories.map((category) => {
+		const match = equipment.find((item) => item.data.category === category.slug);
+		return [category.slug, match?.data.image];
+	}),
+);
 ---
 
 <Layout
@@ -41,7 +49,14 @@ const equipment = await getAllEquipment();
 			<div class="category-grid">
 				{
 					hireCategories.map((category) => (
-						<Card href={withBase(paths.hireCategory(category.slug))}>
+						<Card href={withBase(paths.hireCategory(category.slug))} class="reveal">
+							<div slot="image">
+								<SmartImage
+									src={categoryImage[category.slug]}
+									alt={category.title}
+									sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 100vw"
+								/>
+							</div>
 							<h2 class="category-card__title">{category.title}</h2>
 							<p class="category-card__body">{category.description}</p>
 						</Card>

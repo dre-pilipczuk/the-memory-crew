@@ -59,4 +59,9 @@ const classes = [
 	.section--muted {
 		background-color: var(--color-surface-muted);
 	}
+
+	/* Extra bottom padding on last content section before footer */
+	.section:last-of-type {
+		padding-bottom: max(var(--space-7), env(safe-area-inset-bottom, 0px));
+	}
 </style>

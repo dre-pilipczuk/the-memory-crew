@@ -11,6 +11,15 @@ import { primaryNav, primaryCta, isNavGroup } from '../../config/navigation';
 import { withBase } from '../../config/routes';
 
 const navId = 'primary-navigation';
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+function isActive(href: string): boolean {
+	const target = withBase(href).replace(/\/$/, '') || '/';
+	if (target === withBase('/').replace(/\/$/, '') || target === '') {
+		return currentPath === withBase('/').replace(/\/$/, '') || currentPath.endsWith('/the-memory-crew');
+	}
+	return currentPath === target || currentPath.startsWith(`${target}/`);
+}
 ---
 
 <header class="navbar">
@@ -26,6 +35,7 @@ const navId = 'primary-navigation';
 				type="button"
 				aria-expanded="false"
 				aria-controls={navId}
+				aria-label="Open menu"
 				data-nav-toggle
 			>
 				<span class="navbar__toggle-label">Menu</span>
@@ -40,7 +50,11 @@ const navId = 'primary-navigation';
 							.map((item) =>
 								isNavGroup(item) ? (
 									<li class="navbar__item navbar__item--has-children">
-										<a class="navbar__link" href={withBase(item.href)}>
+										<a
+											class:list={['navbar__link', isActive(item.href) && 'is-active']}
+											href={withBase(item.href)}
+											aria-current={isActive(item.href) ? 'page' : undefined}
+										>
 											{item.label}
 											<span class="navbar__caret" aria-hidden="true" />
 										</a>
@@ -53,8 +67,12 @@ const navId = 'primary-navigation';
 											{item.children.map((child) => (
 												<li>
 													<a
-														class="navbar__dropdown-link"
+														class:list={[
+															'navbar__dropdown-link',
+															isActive(child.href) && 'is-active',
+														]}
 														href={withBase(child.href)}
+														aria-current={isActive(child.href) ? 'page' : undefined}
 													>
 														{child.label}
 													</a>
@@ -64,7 +82,11 @@ const navId = 'primary-navigation';
 									</li>
 								) : (
 									<li class="navbar__item">
-										<a class="navbar__link" href={withBase(item.href)}>
+										<a
+											class:list={['navbar__link', isActive(item.href) && 'is-active']}
+											href={withBase(item.href)}
+											aria-current={isActive(item.href) ? 'page' : undefined}
+										>
 											{item.label}
 										</a>
 									</li>
@@ -241,6 +263,10 @@ const navId = 'primary-navigation';
 		color: var(--color-accent);
 	}
 
+	.navbar__link.is-active {
+		color: var(--color-accent);
+	}
+
 	.navbar__caret {
 		width: 0.4rem;
 		height: 0.4rem;
@@ -268,7 +294,8 @@ const navId = 'primary-navigation';
 		font-size: var(--text-sm);
 	}
 
-	.navbar__dropdown-link:hover {
+	.navbar__dropdown-link:hover,
+	.navbar__dropdown-link.is-active {
 		color: var(--color-accent);
 	}
 

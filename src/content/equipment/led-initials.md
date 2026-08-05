@@ -5,7 +5,8 @@ category: giant-led-letters
 priceFrom: 80
 featured: false
 order: 2
-imageSource: placeholder
+image: ../../assets/equipment/led-initials.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

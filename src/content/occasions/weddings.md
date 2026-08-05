@@ -3,7 +3,8 @@ title: Weddings
 description: Garden games, photo moments, and dance floors that help every generation celebrate together.
 featured: true
 order: 1
-imageSource: placeholder
+image: ../../assets/occasions/weddings.jpg
+imageSource: ai
 recommendedCategories:
   - photo-booths
   - garden-games

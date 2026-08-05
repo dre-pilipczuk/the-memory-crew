@@ -5,7 +5,8 @@ category: photo-booths
 priceFrom: 295
 featured: false
 order: 2
-imageSource: placeholder
+image: ../../assets/equipment/mirror-booth.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

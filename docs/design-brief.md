@@ -399,10 +399,10 @@ src/
 | **3** Content collections | equipment, occasions, faq schemas | ✅ seed content + helpers |
 | **4** Domain components | Navbar, cards, CTA, FAQ… | ✅ + public routes wired |
 | **5** Pages | Home → product → contact | ✅ assembled from components |
-| **6** Images | AI bridge → real assets + optimisation | ✅ seed AI + SmartImage |
+| **6** Images | AI bridge → real assets + optimisation | ✅ full AI catalogue |
 | **7** SEO | sitemap, OG, schema, local area | ✅ |
 | **8** Contact | Formspree (or similar) | ✅ form + env wiring |
-| **9** Polish | a11y, Lighthouse, motion | |
+| **9** Polish | a11y, motion, mobile, full AI photos | ✅ |
 | **10** v2 | Ktor + Postgres + bookings + payments | separate app boundary |
 
 **Phase 10:** Astro stays the public storefront. Booking/payments are an API + app surface, not a rewrite of the marketing site.
@@ -477,6 +477,15 @@ Phase 1 is done when:
 - [x] Accessible labels, honeypot, in-page success/error
 - [x] Site builds without the secret (form disabled gracefully)
 
-## 22. Next action
+## 22. Phase 9 success criteria
 
-**Phase 8 complete.** Next: Phase 9 polish (a11y, Lighthouse, motion) or real photography.
+- [x] AI lifestyle photography on all equipment + occasions
+- [x] Image-led hire, gallery, about, occasion pages
+- [x] Nav active states + menu aria labels
+- [x] Subtle reveal motion with reduced-motion respect
+- [x] Hero secondary CTA contrast on photo backgrounds
+- [x] `npm run build` green
+
+## 23. Next action
+
+**Phase 9 complete.** Optional: real photography replacement, analytics/cookie banner, Phase 10 bookings API.

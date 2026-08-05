@@ -3,7 +3,8 @@ title: Birthdays
 description: From kids’ parties to milestone decades — hire that keeps every age in the game.
 featured: true
 order: 2
-imageSource: placeholder
+image: ../../assets/occasions/birthdays.jpg
+imageSource: ai
 recommendedCategories:
   - garden-games
   - crazy-golf

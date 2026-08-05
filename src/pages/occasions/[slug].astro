@@ -8,12 +8,14 @@ import SectionTitle from '../../components/common/SectionTitle.astro';
 import Button from '../../components/common/Button.astro';
 import EquipmentGrid from '../../components/equipment/EquipmentGrid.astro';
 import CTA from '../../components/common/CTA.astro';
+import SmartImage from '../../components/common/SmartImage.astro';
 import { getCollection, render, getEntry } from 'astro:content';
 import { getHireCategory } from '../../config/hire';
 import { paths, withBase } from '../../config/routes';
 import type { EquipmentEntry } from '../../lib/content';
 import { occasionPath } from '../../lib/content';
 import { breadcrumbJsonLd } from '../../lib/seo';
+import { getImage } from 'astro:assets';
 
 export async function getStaticPaths() {
 	const occasions = await getCollection('occasions', ({ data }) =>
@@ -41,12 +43,17 @@ const crumbs = [
 	{ label: 'Occasions', href: paths.occasions },
 	{ label: occasion.data.title },
 ];
+
+const ogImage = occasion.data.image
+	? (await getImage({ src: occasion.data.image, width: 1200 })).src
+	: undefined;
 ---
 
 <Layout
 	title={occasion.data.title}
 	description={occasion.data.description}
 	path={pagePath}
+	ogImage={ogImage}
 	jsonLd={breadcrumbJsonLd(crumbs)}
 >
 	<PageHeader
@@ -56,6 +63,24 @@ const crumbs = [
 	>
 		<Breadcrumb slot="breadcrumb" items={crumbs} />
 	</PageHeader>
+
+	{
+		occasion.data.image && (
+			<Section compact>
+				<Container>
+					<div class="occasion-hero-media reveal">
+						<SmartImage
+							src={occasion.data.image}
+							alt={occasion.data.title}
+							priority
+							sizes="100vw"
+							widths={[800, 1200, 1600]}
+						/>
+					</div>
+				</Container>
+			</Section>
+		)
+	}
 
 	<Section>
 		<Container width="content">
@@ -103,6 +128,12 @@ const crumbs = [
 </Layout>
 
 <style>
+	.occasion-hero-media {
+		border-radius: var(--radius-xl);
+		overflow: hidden;
+		border: 1px solid var(--color-border);
+	}
+
 	.occasion-body :global(p) {
 		margin: 0 0 var(--space-4);
 		color: var(--color-ink-muted);

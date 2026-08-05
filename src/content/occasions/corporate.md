@@ -3,7 +3,8 @@ title: Corporate
 description: Team days, launches, and client events people actually remember.
 featured: false
 order: 3
-imageSource: placeholder
+image: ../../assets/occasions/corporate.jpg
+imageSource: ai
 recommendedCategories:
   - crazy-golf
   - garden-games

@@ -3,7 +3,8 @@ title: Christmas
 description: Seasonal hire that turns winter parties into something people talk about in January.
 featured: false
 order: 5
-imageSource: placeholder
+image: ../../assets/occasions/christmas.jpg
+imageSource: ai
 recommendedCategories:
   - photo-booths
   - giant-led-letters

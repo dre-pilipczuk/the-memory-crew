@@ -5,7 +5,8 @@ category: dance-floors
 priceFrom: 200
 featured: false
 order: 1
-imageSource: placeholder
+image: ../../assets/equipment/white-dance-floor.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

@@ -5,7 +5,8 @@ category: garden-games
 priceFrom: 35
 featured: false
 order: 2
-imageSource: placeholder
+image: ../../assets/equipment/giant-connect-4.jpg
+imageSource: ai
 suitableFor:
   - weddings
   - birthdays

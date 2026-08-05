@@ -161,4 +161,16 @@ const classes = [
 		gap: var(--space-3);
 		margin-top: var(--space-2);
 	}
+
+	/* Secondary CTAs on photo heroes need stronger contrast */
+	.hero--media :global(.btn--secondary) {
+		background: rgba(255, 255, 255, 0.94);
+		border-color: transparent;
+		color: var(--color-ink);
+	}
+
+	.hero--media :global(.btn--secondary:hover) {
+		background: #fff;
+		color: var(--color-ink);
+	}
 </style>
