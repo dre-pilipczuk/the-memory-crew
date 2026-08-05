@@ -399,8 +399,8 @@ src/
 | **1** Design system | Brand, tokens, primitives | ✅ design-system page + calm home shell |
 | **2** Architecture | IA, nav model, routes plan | ✅ docs + config |
 | **3** Content collections | equipment, occasions, faq schemas | ✅ seed content + helpers |
-| **4** Domain components | Navbar, cards, CTA, FAQ… | unused components fine |
-| **5** Pages | Home → product → contact | page-by-page, each PR green |
+| **4** Domain components | Navbar, cards, CTA, FAQ… | ✅ + public routes wired |
+| **5** Pages | Home → product → contact | ✅ assembled from components |
 | **6** Images | AI bridge → real assets + optimisation | progressive replacement |
 | **7** SEO | sitemap, OG, schema, local area | |
 | **8** Contact | Formspree (or similar) | no backend |
@@ -456,6 +456,14 @@ Phase 1 is done when:
 - [x] Design-system inventory lists live collection data
 - [x] `npm run build` validates frontmatter
 
-## 19. Next action
+## 19. Phase 4–5 success criteria
 
-**Phase 3 complete.** Next: Phase 4 – Domain components (Navbar, Footer, EquipmentCard, …).
+- [x] Navbar + Footer in Layout
+- [x] EquipmentCard, EquipmentGrid, PriceCard
+- [x] SectionTitle, Breadcrumb, CTA, FAQAccordion, Testimonial, GalleryGrid
+- [x] Public pages assemble components (hire, product, occasions, gallery, about, faq, contact)
+- [x] `npm run build` green with content-driven routes
+
+## 20. Next action
+
+**Phases 4–5 complete for v1 shell.** Next options: Phase 6 (images), Phase 7 (SEO), Phase 8 (contact form).

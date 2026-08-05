@@ -1,0 +1,92 @@
+---
+/**
+ * Call-to-action band — title, copy, action slots.
+ */
+import Container from './Container.astro';
+import Section from './Section.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	eyebrow?: string;
+	muted?: boolean;
+	class?: string;
+}
+
+const { title, description, eyebrow, muted = true, class: className } = Astro.props;
+const classes = ['cta', className].filter(Boolean).join(' ');
+---
+
+<Section muted={muted} class={classes}>
+	<Container>
+		<div class="cta__inner">
+			<div class="cta__copy">
+				{eyebrow && <p class="cta__eyebrow">{eyebrow}</p>}
+				<h2 class="cta__title">{title}</h2>
+				{description && <p class="cta__description">{description}</p>}
+			</div>
+			<div class="cta__actions">
+				<slot />
+			</div>
+		</div>
+	</Container>
+</Section>
+
+<style>
+	.cta__inner {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-5);
+		align-items: flex-start;
+		padding: var(--space-6);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-xl);
+		background: var(--color-surface);
+		box-shadow: var(--shadow-sm);
+	}
+
+	@media (min-width: 48rem) {
+		.cta__inner {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--space-7);
+			padding: var(--space-7);
+		}
+	}
+
+	.cta__copy {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		max-width: 36rem;
+	}
+
+	.cta__eyebrow {
+		margin: 0;
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+	}
+
+	.cta__title {
+		margin: 0;
+		font-size: var(--text-2xl);
+		text-wrap: balance;
+	}
+
+	.cta__description {
+		margin: 0;
+		color: var(--color-ink-muted);
+		font-size: var(--text-lg);
+	}
+
+	.cta__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		flex-shrink: 0;
+	}
+</style>

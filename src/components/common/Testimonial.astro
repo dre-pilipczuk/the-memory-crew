@@ -1,0 +1,78 @@
+---
+/**
+ * Quote card for social proof (content can be hard-coded or CMS later).
+ */
+interface Props {
+	quote: string;
+	name: string;
+	role?: string;
+	class?: string;
+}
+
+const { quote, name, role, class: className } = Astro.props;
+const classes = ['testimonial', className].filter(Boolean).join(' ');
+---
+
+<figure class={classes}>
+	<blockquote class="testimonial__quote">
+		<p>{quote}</p>
+	</blockquote>
+	<figcaption class="testimonial__caption">
+		<span class="testimonial__name">{name}</span>
+		{role && <span class="testimonial__role">{role}</span>}
+	</figcaption>
+</figure>
+
+<style>
+	.testimonial {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		padding: var(--space-6);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-sm);
+		height: 100%;
+	}
+
+	.testimonial__quote {
+		margin: 0;
+	}
+
+	.testimonial__quote p {
+		margin: 0;
+		font-size: var(--text-lg);
+		line-height: var(--leading-normal);
+		color: var(--color-ink);
+		text-wrap: pretty;
+	}
+
+	.testimonial__quote p::before {
+		content: '“';
+		color: var(--color-accent);
+	}
+
+	.testimonial__quote p::after {
+		content: '”';
+		color: var(--color-accent);
+	}
+
+	.testimonial__caption {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-1);
+	}
+
+	.testimonial__name {
+		font-size: var(--text-sm);
+		font-weight: var(--weight-semibold);
+		color: var(--color-ink);
+	}
+
+	.testimonial__role {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+</style>

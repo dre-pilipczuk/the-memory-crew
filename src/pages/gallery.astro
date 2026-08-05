@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/common/PageHeader.astro';
+import Breadcrumb from '../components/common/Breadcrumb.astro';
+import Container from '../components/common/Container.astro';
+import Section from '../components/common/Section.astro';
+import GalleryGrid from '../components/gallery/GalleryGrid.astro';
+import CTA from '../components/common/CTA.astro';
+import Button from '../components/common/Button.astro';
+import { paths, withBase } from '../config/routes';
+
+const placeholders = [
+	{ alt: 'Event gallery placeholder 1', caption: 'Photos coming soon' },
+	{ alt: 'Event gallery placeholder 2', caption: 'Lifestyle shots' },
+	{ alt: 'Event gallery placeholder 3', caption: 'Weddings' },
+	{ alt: 'Event gallery placeholder 4', caption: 'Garden games' },
+	{ alt: 'Event gallery placeholder 5', caption: 'Photo booths' },
+	{ alt: 'Event gallery placeholder 6', caption: 'Corporate days' },
+];
+---
+
+<Layout
+	title="Gallery"
+	description="A look at The Memory Crew hire in action — photos landing as we build the fleet."
+>
+	<PageHeader
+		title="Gallery"
+		description="Real event photography will live here. Until then, these frames mark the shape of the grid."
+		eyebrow="Inspiration"
+	>
+		<Breadcrumb
+			slot="breadcrumb"
+			items={[{ label: 'Home', href: paths.home }, { label: 'Gallery' }]}
+		/>
+	</PageHeader>
+
+	<Section>
+		<Container>
+			<GalleryGrid items={placeholders} columns={3} />
+		</Container>
+	</Section>
+
+	<CTA title="Want this energy at your event?">
+		<Button variant="primary" href={withBase(paths.contact)}>Get in touch</Button>
+		<Button variant="secondary" href={withBase(paths.hire)}>Browse hire</Button>
+	</CTA>
+</Layout>

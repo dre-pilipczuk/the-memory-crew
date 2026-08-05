@@ -1,0 +1,42 @@
+---
+/**
+ * Lightweight placeholder body for routes not fully built yet.
+ */
+import Container from './Container.astro';
+import Section from './Section.astro';
+import SectionTitle from './SectionTitle.astro';
+import Button from './Button.astro';
+import { paths, withBase } from '../../config/routes';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'This page is on the way',
+	description = 'We’re building out the full site section by section. In the meantime, get in touch and we’ll help with your event.',
+} = Astro.props;
+---
+
+<Section>
+	<Container width="content">
+		<SectionTitle title={title} description={description} />
+		<div class="coming-soon__actions">
+			<Button variant="primary" href={withBase(paths.contact)}>
+				Contact us
+			</Button>
+			<Button variant="secondary" href={withBase(paths.home)}>
+				Back to home
+			</Button>
+		</div>
+	</Container>
+</Section>
+
+<style>
+	.coming-soon__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+	}
+</style>

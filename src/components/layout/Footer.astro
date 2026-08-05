@@ -1,0 +1,148 @@
+---
+/**
+ * Site footer — brand, link columns, service area.
+ */
+import Container from '../common/Container.astro';
+import Wordmark from '../common/Wordmark.astro';
+import { site } from '../../config/site';
+import { footerNav } from '../../config/navigation';
+import { withBase } from '../../config/routes';
+---
+
+<footer class="footer">
+	<Container>
+		<div class="footer__grid">
+			<div class="footer__brand">
+				<Wordmark size="sm" />
+				<p class="footer__tagline">{site.taglineShort}</p>
+				<p class="footer__meta">
+					Event hire · {site.serviceAreaLabel}
+				</p>
+			</div>
+
+			{
+				footerNav.map((column) => (
+					<div class="footer__column">
+						<p class="footer__heading">{column.title}</p>
+						<ul class="footer__list">
+							{column.links.map((link) => (
+								<li>
+									<a class="footer__link" href={withBase(link.href)}>
+										{link.label}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				))
+			}
+		</div>
+
+		<div class="footer__bottom">
+			<p class="footer__copy">
+				© {new Date().getFullYear()} {site.name}
+			</p>
+			<p class="footer__copy">{site.tagline}</p>
+		</div>
+	</Container>
+</footer>
+
+<style>
+	.footer {
+		margin-top: auto;
+		padding-block: var(--space-8) var(--space-6);
+		background-color: var(--color-surface-muted);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.footer__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-7);
+	}
+
+	@media (min-width: 40rem) {
+		.footer__grid {
+			grid-template-columns: 1.2fr 1fr 1fr;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.footer__grid {
+			grid-template-columns: 1.4fr repeat(3, 1fr);
+			gap: var(--space-6);
+		}
+	}
+
+	.footer__brand {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		max-width: 20rem;
+	}
+
+	.footer__tagline {
+		margin: 0;
+		font-size: var(--text-lg);
+		font-weight: var(--weight-medium);
+		color: var(--color-ink);
+	}
+
+	.footer__meta {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.footer__heading {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-semibold);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-ink);
+	}
+
+	.footer__list {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+	}
+
+	.footer__link {
+		color: var(--color-ink-muted);
+		text-decoration: none;
+		font-size: var(--text-sm);
+	}
+
+	.footer__link:hover {
+		color: var(--color-accent);
+	}
+
+	.footer__bottom {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		margin-top: var(--space-8);
+		padding-top: var(--space-5);
+		border-top: 1px solid var(--color-border);
+	}
+
+	@media (min-width: 40rem) {
+		.footer__bottom {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: baseline;
+			gap: var(--space-4);
+		}
+	}
+
+	.footer__copy {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-subtle);
+	}
+</style>

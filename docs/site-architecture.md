@@ -237,7 +237,10 @@ Equipment `category` **must** match a slug in `src/config/hire.ts`. Unknown cate
 
 Content collections are implemented — see `docs/content-collections.md`.
 
-## 13. Next
+## 13. Status
 
-**Phase 4 — Domain components:** Navbar, Footer, EquipmentCard, CTA, FAQ accordion, etc.  
-**Phase 5 — Pages:** wire collections into public routes.
+Phases 4–5 are implemented: domain components live under `src/components/`, and public routes assemble them from content collections.
+
+## 14. Next
+
+**Phase 6 — Images** · **Phase 7 — SEO** · **Phase 8 — Contact form**

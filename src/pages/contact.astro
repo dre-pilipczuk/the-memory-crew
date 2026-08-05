@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/common/PageHeader.astro';
+import Breadcrumb from '../components/common/Breadcrumb.astro';
+import Container from '../components/common/Container.astro';
+import Section from '../components/common/Section.astro';
+import { site } from '../config/site';
+import { paths } from '../config/routes';
+---
+
+<Layout
+	title="Contact"
+	description={`Enquire about event hire across ${site.serviceAreaLabel}.`}
+>
+	<PageHeader
+		title="Contact"
+		description={`Tell us about your event across ${site.serviceAreaLabel}. A full enquiry form lands in Phase 8 — for now, use the details below or check back soon.`}
+		eyebrow="Get in touch"
+	>
+		<Breadcrumb
+			slot="breadcrumb"
+			items={[{ label: 'Home', href: paths.home }, { label: 'Contact' }]}
+		/>
+	</PageHeader>
+
+	<Section>
+		<Container width="content">
+			<div class="contact">
+				<div class="contact__card">
+					<h2 class="contact__heading">What to include</h2>
+					<ul class="contact__list">
+						<li>Your name</li>
+						<li>Email and phone</li>
+						<li>Event date</li>
+						<li>Postcode / venue area</li>
+						<li>Equipment you’re interested in</li>
+						<li>Anything else we should know</li>
+					</ul>
+				</div>
+				<div class="contact__card">
+					<h2 class="contact__heading">Next step</h2>
+					<p class="contact__body">
+						We’re wiring up an online form next. Until then, reach out once contact
+						details are published here — or watch this page for the form.
+					</p>
+					<p class="contact__note">
+						Serving <strong>{site.serviceAreaLabel}</strong>.
+					</p>
+				</div>
+			</div>
+		</Container>
+	</Section>
+</Layout>
+
+<style>
+	.contact {
+		display: grid;
+		gap: var(--space-5);
+	}
+
+	@media (min-width: 40rem) {
+		.contact {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.contact__card {
+		padding: var(--space-5);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.contact__heading {
+		margin: 0 0 var(--space-3);
+		font-size: var(--text-xl);
+	}
+
+	.contact__list {
+		margin: 0;
+		padding-left: 1.2rem;
+		color: var(--color-ink-muted);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.contact__body,
+	.contact__note {
+		margin: 0;
+		color: var(--color-ink-muted);
+	}
+
+	.contact__note {
+		margin-top: var(--space-4);
+		font-size: var(--text-sm);
+	}
+
+	.contact__note strong {
+		color: var(--color-ink);
+	}
+</style>

@@ -1,0 +1,94 @@
+---
+/**
+ * Price highlight card for product pages.
+ */
+interface Props {
+	priceFrom?: number;
+	currency?: string;
+	note?: string;
+	class?: string;
+}
+
+const {
+	priceFrom,
+	currency = '£',
+	note = 'Guide price for a standard hire. Final quote depends on date, duration, and delivery.',
+	class: className,
+} = Astro.props;
+
+const classes = ['price-card', className].filter(Boolean).join(' ');
+const hasPrice = priceFrom != null;
+---
+
+<aside class={classes}>
+	<p class="price-card__label">{hasPrice ? 'From' : 'Pricing'}</p>
+	<p class="price-card__amount">
+		{
+			hasPrice ? (
+				<>
+					<span class="price-card__currency">{currency}</span>
+					{priceFrom}
+				</>
+			) : (
+				'On request'
+			)
+		}
+	</p>
+	{note && <p class="price-card__note">{note}</p>}
+	<div class="price-card__actions">
+		<slot />
+	</div>
+</aside>
+
+<style>
+	.price-card {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--space-5);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.price-card__label {
+		margin: 0;
+		font-size: var(--text-sm);
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--color-ink-muted);
+	}
+
+	.price-card__amount {
+		margin: 0;
+		font-size: var(--text-3xl);
+		font-weight: var(--weight-semibold);
+		letter-spacing: -0.02em;
+		line-height: 1.1;
+		color: var(--color-ink);
+	}
+
+	.price-card__currency {
+		font-size: 0.65em;
+		margin-right: 0.1em;
+	}
+
+	.price-card__note {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.price-card__actions {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin-top: var(--space-2);
+	}
+
+	.price-card__actions :global(.btn) {
+		width: 100%;
+	}
+</style>

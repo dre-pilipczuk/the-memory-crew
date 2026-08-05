@@ -1,0 +1,53 @@
+---
+/**
+ * Responsive grid of equipment cards.
+ */
+import EquipmentCard from './EquipmentCard.astro';
+import type { EquipmentEntry } from '../../lib/content';
+
+interface Props {
+	items: EquipmentEntry[];
+	linked?: boolean;
+	class?: string;
+}
+
+const { items, linked = true, class: className } = Astro.props;
+const classes = ['equipment-grid', className].filter(Boolean).join(' ');
+---
+
+{
+	items.length > 0 ? (
+		<div class={classes}>
+			{items.map((item) => (
+				<EquipmentCard item={item} linked={linked} />
+			))}
+		</div>
+	) : (
+		<p class="equipment-grid__empty">No equipment to show yet.</p>
+	)
+}
+
+<style>
+	.equipment-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-5);
+	}
+
+	@media (min-width: 40rem) {
+		.equipment-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.equipment-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.equipment-grid__empty {
+		margin: 0;
+		color: var(--color-ink-muted);
+	}
+</style>

@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/common/PageHeader.astro';
+import Breadcrumb from '../components/common/Breadcrumb.astro';
+import Container from '../components/common/Container.astro';
+import Section from '../components/common/Section.astro';
+import FAQAccordion from '../components/common/FAQAccordion.astro';
+import CTA from '../components/common/CTA.astro';
+import Button from '../components/common/Button.astro';
+import { paths, withBase } from '../config/routes';
+import { getAllFaq } from '../lib/content';
+
+const faqs = await getAllFaq();
+---
+
+<Layout
+	title="FAQ"
+	description="Booking, delivery, setup, and pricing questions for The Memory Crew hire."
+>
+	<PageHeader
+		title="Frequently asked questions"
+		description="Straight answers about how hire works. Can’t see yours? Get in touch."
+		eyebrow="Help"
+	>
+		<Breadcrumb
+			slot="breadcrumb"
+			items={[{ label: 'Home', href: paths.home }, { label: 'FAQ' }]}
+		/>
+	</PageHeader>
+
+	<Section>
+		<Container>
+			<FAQAccordion items={faqs} />
+		</Container>
+	</Section>
+
+	<CTA title="Still have a question?">
+		<Button variant="primary" href={withBase(paths.contact)}>Contact us</Button>
+	</CTA>
+</Layout>

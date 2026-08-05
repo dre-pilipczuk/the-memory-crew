@@ -25,20 +25,18 @@ npm run dev
 
 ```text
 src/
-├── components/common/   # Button, Card, Container, Section, Hero, …
-├── config/              # Site, hire categories, occasions, nav, routes
+├── components/
+│   ├── common/          # Button, Card, Hero, CTA, FAQ, …
+│   ├── layout/          # Navbar, Footer
+│   ├── equipment/       # EquipmentCard, EquipmentGrid, PriceCard
+│   └── gallery/         # GalleryGrid
+├── config/              # Site, hire, occasions, nav, routes
 ├── content/             # equipment, occasions, faq (Markdown)
-├── content.config.ts    # Collection schemas
-├── lib/content.ts       # Query helpers
-├── layouts/
-├── pages/
-│   ├── index.astro      # Public home (minimal shell)
-│   └── design-system.astro  # Internal gallery + content inventory
-└── styles/              # tokens.css, global.css
-docs/
-├── design-brief.md
-├── site-architecture.md
-└── content-collections.md
+├── content.config.ts
+├── lib/content.ts
+├── layouts/Layout.astro # Site chrome + page shell
+├── pages/               # Home, hire, occasions, gallery, about, faq, contact
+└── styles/
 ```
 
 ## Design system

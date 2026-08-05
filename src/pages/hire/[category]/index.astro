@@ -1,0 +1,66 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/common/PageHeader.astro';
+import Breadcrumb from '../../../components/common/Breadcrumb.astro';
+import Container from '../../../components/common/Container.astro';
+import Section from '../../../components/common/Section.astro';
+import EquipmentGrid from '../../../components/equipment/EquipmentGrid.astro';
+import CTA from '../../../components/common/CTA.astro';
+import Button from '../../../components/common/Button.astro';
+import ComingSoon from '../../../components/common/ComingSoon.astro';
+import {
+	hireCategories,
+	getHireCategory,
+	type HireCategorySlug,
+} from '../../../config/hire';
+import { paths, withBase } from '../../../config/routes';
+import { getEquipmentByCategory } from '../../../lib/content';
+
+export function getStaticPaths() {
+	return hireCategories.map((category) => ({
+		params: { category: category.slug },
+	}));
+}
+
+const { category: categorySlug } = Astro.params;
+const category = getHireCategory(categorySlug ?? '');
+
+if (!category) {
+	return Astro.redirect(withBase(paths.hire));
+}
+
+const items = await getEquipmentByCategory(category.slug as HireCategorySlug);
+---
+
+<Layout title={category.title} description={category.description}>
+	<PageHeader title={category.title} description={category.description} eyebrow="Hire">
+		<Breadcrumb
+			slot="breadcrumb"
+			items={[
+				{ label: 'Home', href: paths.home },
+				{ label: 'Hire', href: paths.hire },
+				{ label: category.title },
+			]}
+		/>
+	</PageHeader>
+
+	{
+		items.length > 0 ? (
+			<Section>
+				<Container>
+					<EquipmentGrid items={items} />
+				</Container>
+			</Section>
+		) : (
+			<ComingSoon
+				title={`More ${category.title.toLowerCase()} coming soon`}
+				description="We’re adding kit to this category as the fleet grows. Contact us if you’re looking for something specific."
+			/>
+		)
+	}
+
+	<CTA title={`Need ${category.title.toLowerCase()} for your date?`}>
+		<Button variant="primary" href={withBase(paths.contact)}>Enquire</Button>
+		<Button variant="secondary" href={withBase(paths.hire)}>All hire</Button>
+	</CTA>
+</Layout>

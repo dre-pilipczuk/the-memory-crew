@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/common/PageHeader.astro';
+import Breadcrumb from '../../components/common/Breadcrumb.astro';
+import Container from '../../components/common/Container.astro';
+import Section from '../../components/common/Section.astro';
+import SectionTitle from '../../components/common/SectionTitle.astro';
+import Card from '../../components/common/Card.astro';
+import EquipmentGrid from '../../components/equipment/EquipmentGrid.astro';
+import CTA from '../../components/common/CTA.astro';
+import Button from '../../components/common/Button.astro';
+import { hireCategories } from '../../config/hire';
+import { paths, withBase } from '../../config/routes';
+import { getAllEquipment } from '../../lib/content';
+
+const equipment = await getAllEquipment();
+---
+
+<Layout
+	title="Hire"
+	description="Event hire across South Wales and Bristol — photo booths, garden games, LED letters, and more."
+>
+	<PageHeader
+		title="Hire"
+		description="Browse equipment by category. Prices shown are guides — we’ll confirm a full quote for your date and postcode."
+		eyebrow="Equipment"
+	>
+		<Breadcrumb
+			slot="breadcrumb"
+			items={[{ label: 'Home', href: paths.home }, { label: 'Hire' }]}
+		/>
+	</PageHeader>
+
+	<Section>
+		<Container>
+			<SectionTitle
+				title="Categories"
+				description="Pick a type of kit, or scroll for everything we list so far."
+			/>
+			<div class="category-grid">
+				{
+					hireCategories.map((category) => (
+						<Card href={withBase(paths.hireCategory(category.slug))}>
+							<h2 class="category-card__title">{category.title}</h2>
+							<p class="category-card__body">{category.description}</p>
+						</Card>
+					))
+				}
+			</div>
+		</Container>
+	</Section>
+
+	<Section muted>
+		<Container>
+			<SectionTitle title="All equipment" description="Growing as we add kit to the fleet." />
+			<EquipmentGrid items={equipment} />
+		</Container>
+	</Section>
+
+	<CTA
+		title="Not sure what you need?"
+		description="Tell us about the occasion — we’ll suggest a simple package."
+	>
+		<Button variant="primary" href={withBase(paths.contact)}>Get in touch</Button>
+	</CTA>
+</Layout>
+
+<style>
+	.category-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-4);
+	}
+
+	@media (min-width: 40rem) {
+		.category-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.category-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.category-card__title {
+		margin: 0;
+		font-size: var(--text-xl);
+	}
+
+	.category-card__body {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+</style>

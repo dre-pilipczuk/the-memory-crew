@@ -12,6 +12,14 @@ import Hero from '../components/common/Hero.astro';
 import PageHeader from '../components/common/PageHeader.astro';
 import Gallery from '../components/common/Gallery.astro';
 import Wordmark from '../components/common/Wordmark.astro';
+import SectionTitle from '../components/common/SectionTitle.astro';
+import Breadcrumb from '../components/common/Breadcrumb.astro';
+import Testimonial from '../components/common/Testimonial.astro';
+import FAQAccordion from '../components/common/FAQAccordion.astro';
+import CTA from '../components/common/CTA.astro';
+import EquipmentGrid from '../components/equipment/EquipmentGrid.astro';
+import PriceCard from '../components/equipment/PriceCard.astro';
+import GalleryGrid from '../components/gallery/GalleryGrid.astro';
 import { site } from '../config/site';
 import { hireCategories } from '../config/hire';
 import { occasions as occasionTaxonomy } from '../config/occasions';
@@ -21,11 +29,13 @@ import {
 	getAllEquipment,
 	getAllOccasions,
 	getAllFaq,
+	getFeaturedEquipment,
 	equipmentPath,
 	occasionPath,
 } from '../lib/content';
 
 const equipmentEntries = await getAllEquipment();
+const featuredEquipment = await getFeaturedEquipment();
 const occasionEntries = await getAllOccasions();
 const faqEntries = await getAllFaq();
 
@@ -61,20 +71,19 @@ const galleryPlaceholders = [
 ---
 
 <Layout title="Design system" description="Internal component and token gallery for The Memory Crew.">
-	<header class="ds-chrome">
-		<Container>
-			<div class="ds-chrome__inner">
-				<Wordmark size="sm" />
-				<p class="ds-chrome__note">Design system · internal</p>
-			</div>
-		</Container>
-	</header>
-
 	<PageHeader
 		title="Design system"
-		eyebrow="Phase 1"
-		description="Tokens and primitives for The Memory Crew. Not linked from public navigation."
-	/>
+		eyebrow="Internal"
+		description="Tokens, primitives, and domain components. Not linked from public navigation. Navbar and Footer are live site chrome."
+	>
+		<Breadcrumb
+			slot="breadcrumb"
+			items={[
+				{ label: 'Home', href: paths.home },
+				{ label: 'Design system' },
+			]}
+		/>
+	</PageHeader>
 
 	<Section>
 		<Container>
@@ -246,6 +255,88 @@ const galleryPlaceholders = [
 		</Container>
 	</Section>
 
+	<Section>
+		<Container>
+			<div class="ds-block">
+				<h2 class="ds-heading" id="domain">Domain components (Phase 4)</h2>
+				<p class="ds-lede">Navbar and Footer render site-wide via Layout.</p>
+
+				<SectionTitle
+					title="Section title"
+					eyebrow="Example"
+					description="Reusable heading block for marketing sections."
+				>
+					<Button variant="link" href={withBase(paths.hire)}>Optional action</Button>
+				</SectionTitle>
+
+				<div class="card-grid">
+					<Testimonial
+						quote="Exactly the energy we wanted — kids, grandparents, everyone was on the lawn."
+						name="Sample quote"
+						role="Wedding guest · placeholder"
+					/>
+					<PriceCard priceFrom={35}>
+						<Button variant="primary">Enquire</Button>
+					</PriceCard>
+				</div>
+			</div>
+		</Container>
+	</Section>
+
+	{
+		featuredEquipment.length > 0 && (
+			<Section muted>
+				<Container>
+					<div class="ds-block">
+						<h2 class="ds-heading" id="equipment-grid">Equipment grid</h2>
+						<p class="ds-lede">Featured items from the content collection.</p>
+						<EquipmentGrid items={featuredEquipment.slice(0, 3)} linked={false} />
+					</div>
+				</Container>
+			</Section>
+		)
+	}
+
+	{
+		faqEntries.length > 0 && (
+			<Section>
+				<Container>
+					<div class="ds-block">
+						<h2 class="ds-heading" id="faq">FAQ accordion</h2>
+						<p class="ds-lede">Native details/summary — keyboard accessible.</p>
+						<FAQAccordion items={faqEntries.slice(0, 3)} />
+					</div>
+				</Container>
+			</Section>
+		)
+	}
+
+	<Section muted>
+		<Container>
+			<div class="ds-block">
+				<h2 class="ds-heading" id="gallery-grid">Gallery grid</h2>
+				<p class="ds-lede">Placeholder frames until real photography lands.</p>
+				<GalleryGrid
+					items={galleryPlaceholders.map((g) => ({
+						alt: g.alt,
+						caption: g.caption,
+					}))}
+					columns={3}
+				/>
+			</div>
+		</Container>
+	</Section>
+
+	<CTA
+		title="CTA band"
+		description="Used on product, occasion, and marketing pages."
+		eyebrow="Component"
+		muted={false}
+	>
+		<Button variant="primary" href={withBase(paths.contact)}>Primary</Button>
+		<Button variant="secondary" href={withBase(paths.hire)}>Secondary</Button>
+	</CTA>
+
 	<Section muted>
 		<Container>
 			<div class="ds-block">
@@ -400,24 +491,6 @@ const galleryPlaceholders = [
 </Layout>
 
 <style>
-	.ds-chrome {
-		padding-block: var(--space-4);
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.ds-chrome__inner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--space-4);
-	}
-
-	.ds-chrome__note {
-		font-size: var(--text-sm);
-		color: var(--color-ink-muted);
-		margin: 0;
-	}
-
 	.ds-block {
 		display: flex;
 		flex-direction: column;

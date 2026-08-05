@@ -1,0 +1,88 @@
+---
+/**
+ * Breadcrumb trail for inner pages.
+ */
+import { withBase } from '../../config/routes';
+
+export type Crumb = {
+	label: string;
+	href?: string;
+};
+
+interface Props {
+	items: Crumb[];
+	class?: string;
+}
+
+const { items, class: className } = Astro.props;
+const classes = ['breadcrumb', className].filter(Boolean).join(' ');
+---
+
+<nav class={classes} aria-label="Breadcrumb">
+	<ol class="breadcrumb__list">
+		{
+			items.map((item, index) => {
+				const isLast = index === items.length - 1;
+				return (
+					<li class="breadcrumb__item">
+						{index > 0 && (
+							<span class="breadcrumb__sep" aria-hidden="true">
+								/
+							</span>
+						)}
+						{item.href && !isLast ? (
+							<a class="breadcrumb__link" href={withBase(item.href)}>
+								{item.label}
+							</a>
+						) : (
+							<span class="breadcrumb__current" aria-current={isLast ? 'page' : undefined}>
+								{item.label}
+							</span>
+						)}
+					</li>
+				);
+			})
+		}
+	</ol>
+</nav>
+
+<style>
+	.breadcrumb {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.breadcrumb__list {
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-2);
+		margin: 0;
+		padding: 0;
+	}
+
+	.breadcrumb__item {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	.breadcrumb__sep {
+		color: var(--color-ink-subtle);
+	}
+
+	.breadcrumb__link {
+		color: var(--color-ink-muted);
+		text-decoration: none;
+	}
+
+	.breadcrumb__link:hover {
+		color: var(--color-accent);
+	}
+
+	.breadcrumb__current {
+		color: var(--color-ink);
+		font-weight: var(--weight-medium);
+	}
+</style>

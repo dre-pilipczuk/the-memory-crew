@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/common/PageHeader.astro';
+import Breadcrumb from '../components/common/Breadcrumb.astro';
+import Container from '../components/common/Container.astro';
+import Section from '../components/common/Section.astro';
+import CTA from '../components/common/CTA.astro';
+import Button from '../components/common/Button.astro';
+import { site } from '../config/site';
+import { paths, withBase } from '../config/routes';
+---
+
+<Layout
+	title="About"
+	description={`${site.name} — event hire across ${site.serviceAreaLabel}.`}
+>
+	<PageHeader
+		title="About us"
+		description={site.tagline}
+		eyebrow={site.name}
+	>
+		<Breadcrumb
+			slot="breadcrumb"
+			items={[{ label: 'Home', href: paths.home }, { label: 'About' }]}
+		/>
+	</PageHeader>
+
+	<Section>
+		<Container width="content">
+			<div class="about">
+				<p>
+					{site.name} hires equipment that brings people of all ages together — so
+					gatherings turn into memories that last for years.
+				</p>
+				<p>
+					We’re building a carefully chosen fleet for events across{' '}
+					<strong>{site.serviceAreaLabel}</strong>: photo booths, garden games, crazy
+					golf, LED letters, dance floors, and more. We buy kit as bookings grow, so the
+					catalogue stays honest and well looked after.
+				</p>
+				<p>
+					Whether it’s a wedding, birthday, school fair, corporate day, or Christmas
+					party, our job is simple: the right equipment, clearly priced, delivered with
+					care.
+				</p>
+			</div>
+		</Container>
+	</Section>
+
+	<CTA title="Have a date in mind?">
+		<Button variant="primary" href={withBase(paths.contact)}>Contact us</Button>
+		<Button variant="secondary" href={withBase(paths.hire)}>See what we hire</Button>
+	</CTA>
+</Layout>
+
+<style>
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+
+	.about p {
+		margin: 0;
+		color: var(--color-ink-muted);
+		font-size: var(--text-lg);
+		max-width: 65ch;
+	}
+
+	.about strong {
+		color: var(--color-ink);
+		font-weight: var(--weight-semibold);
+	}
+</style>
