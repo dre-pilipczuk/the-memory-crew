@@ -27,14 +27,18 @@ npm run dev
 src/
 ├── components/common/   # Button, Card, Container, Section, Hero, …
 ├── config/              # Site, hire categories, occasions, nav, routes
+├── content/             # equipment, occasions, faq (Markdown)
+├── content.config.ts    # Collection schemas
+├── lib/content.ts       # Query helpers
 ├── layouts/
 ├── pages/
 │   ├── index.astro      # Public home (minimal shell)
-│   └── design-system.astro  # Internal token/component gallery
+│   └── design-system.astro  # Internal gallery + content inventory
 └── styles/              # tokens.css, global.css
 docs/
-├── design-brief.md      # Visual direction and product phases
-└── site-architecture.md # IA, URLs, navigation (Phase 2)
+├── design-brief.md
+├── site-architecture.md
+└── content-collections.md
 ```
 
 ## Design system
@@ -52,8 +56,14 @@ Public IA (pages land in Phase 5):
 
 Taxonomies and nav live in `src/config/`. See [site architecture](./docs/site-architecture.md).
 
+## Content (Phase 3)
+
+Add hire items as Markdown under `src/content/equipment/`.  
+Schemas and frontmatter rules: [content collections](./docs/content-collections.md).
+
 ## Docs
 
 - [Design brief](./docs/design-brief.md)
 - [Site architecture](./docs/site-architecture.md)
+- [Content collections](./docs/content-collections.md)
 - [Astro docs](https://docs.astro.build)

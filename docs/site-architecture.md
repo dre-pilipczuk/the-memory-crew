@@ -233,6 +233,11 @@ Equipment `category` **must** match a slug in `src/config/hire.ts`. Unknown cate
 
 ---
 
-## 12. Next
+## 12. Phase 3 status
 
-**Phase 3 — Content collections:** schemas for `equipment`, `occasions`, `faq`; optional sample entries; still no full marketing UI required until Phase 4–5.
+Content collections are implemented — see `docs/content-collections.md`.
+
+## 13. Next
+
+**Phase 4 — Domain components:** Navbar, Footer, EquipmentCard, CTA, FAQ accordion, etc.  
+**Phase 5 — Pages:** wire collections into public routes.

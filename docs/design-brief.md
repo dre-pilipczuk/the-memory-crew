@@ -398,7 +398,7 @@ src/
 | **0** Foundation | Repo, Astro, Pages, domain, HTTPS | ✅ in progress |
 | **1** Design system | Brand, tokens, primitives | ✅ design-system page + calm home shell |
 | **2** Architecture | IA, nav model, routes plan | ✅ docs + config |
-| **3** Content collections | equipment, occasions, faq schemas | empty collections OK if build passes |
+| **3** Content collections | equipment, occasions, faq schemas | ✅ seed content + helpers |
 | **4** Domain components | Navbar, cards, CTA, FAQ… | unused components fine |
 | **5** Pages | Home → product → contact | page-by-page, each PR green |
 | **6** Images | AI bridge → real assets + optimisation | progressive replacement |
@@ -447,6 +447,15 @@ Phase 1 is done when:
 - [x] Primary + footer nav model in config
 - [x] `withBase()` route helpers for GitHub Pages base path
 
-## 18. Next action
+## 18. Phase 3 success criteria
 
-**Phase 2 complete.** Next: Phase 3 – Content Collections (`equipment`, `occasions`, `faq` schemas).
+- [x] `src/content.config.ts` schemas for equipment, occasions, faq
+- [x] Category enum tied to hire taxonomy
+- [x] Seed Markdown content across categories
+- [x] Query helpers in `src/lib/content.ts`
+- [x] Design-system inventory lists live collection data
+- [x] `npm run build` validates frontmatter
+
+## 19. Next action
+
+**Phase 3 complete.** Next: Phase 4 – Domain components (Navbar, Footer, EquipmentCard, …).

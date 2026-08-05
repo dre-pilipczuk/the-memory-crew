@@ -14,9 +14,20 @@ import Gallery from '../components/common/Gallery.astro';
 import Wordmark from '../components/common/Wordmark.astro';
 import { site } from '../config/site';
 import { hireCategories } from '../config/hire';
-import { occasions } from '../config/occasions';
+import { occasions as occasionTaxonomy } from '../config/occasions';
 import { primaryNav, footerNav, isNavGroup } from '../config/navigation';
 import { paths, withBase } from '../config/routes';
+import {
+	getAllEquipment,
+	getAllOccasions,
+	getAllFaq,
+	equipmentPath,
+	occasionPath,
+} from '../lib/content';
+
+const equipmentEntries = await getAllEquipment();
+const occasionEntries = await getAllOccasions();
+const faqEntries = await getAllFaq();
 
 const swatches = [
 	{ name: 'Canvas', token: '--color-canvas', value: '#FAF9F7' },
@@ -268,7 +279,7 @@ const galleryPlaceholders = [
 						<h3 class="arch-title">Occasions</h3>
 						<ul class="arch-list">
 							{
-								occasions.map((o) => (
+								occasionTaxonomy.map((o) => (
 									<li>
 										<span class="arch-label">{o.title}</span>
 										<code class="arch-path">{paths.occasion(o.slug)}</code>
@@ -301,6 +312,85 @@ const galleryPlaceholders = [
 					</div>
 				</div>
 
+			</div>
+		</Container>
+	</Section>
+
+	<Section>
+		<Container>
+			<div class="ds-block">
+				<h2 class="ds-heading" id="content">Content collections (Phase 3)</h2>
+				<p class="ds-lede">
+					Live data from <code>getCollection()</code> — add a Markdown file to grow the
+					catalogue. Public pages still Phase 5.
+				</p>
+
+				<div class="arch-grid">
+					<div>
+						<h3 class="arch-title">Equipment ({equipmentEntries.length})</h3>
+						<ul class="arch-list">
+							{
+								equipmentEntries.map((e) => (
+									<li>
+										<span class="arch-label">
+											{e.data.title}
+											{e.data.featured ? ' · featured' : ''}
+										</span>
+										<code class="arch-path">{equipmentPath(e)}</code>
+										<span class="arch-meta">
+											{e.data.category}
+											{e.data.priceFrom != null
+												? ` · from £${e.data.priceFrom}`
+												: ''}
+											{' · '}
+											{e.data.imageSource}
+										</span>
+									</li>
+								))
+							}
+						</ul>
+					</div>
+					<div>
+						<h3 class="arch-title">Occasions ({occasionEntries.length})</h3>
+						<ul class="arch-list">
+							{
+								occasionEntries.map((o) => (
+									<li>
+										<span class="arch-label">
+											{o.data.title}
+											{o.data.featured ? ' · featured' : ''}
+										</span>
+										<code class="arch-path">{occasionPath(o)}</code>
+										<span class="arch-meta">
+											{o.data.recommendedCategories.length} categories ·{' '}
+											{o.data.recommendedEquipment.length} products
+										</span>
+									</li>
+								))
+							}
+						</ul>
+					</div>
+					<div>
+						<h3 class="arch-title">FAQ ({faqEntries.length})</h3>
+						<ul class="arch-list">
+							{
+								faqEntries.map((f) => (
+									<li>
+										<span class="arch-label">{f.data.question}</span>
+										<span class="arch-meta">
+											{f.data.group} · order {f.data.order}
+										</span>
+									</li>
+								))
+							}
+						</ul>
+					</div>
+				</div>
+
+				<p class="ds-note">
+					Helpers live in <code>src/lib/content.ts</code>. Schema in{' '}
+					<code>src/content.config.ts</code>.
+				</p>
 				<p class="ds-note">
 					<a href={withBase(paths.home)}>← Back to home</a>
 				</p>
