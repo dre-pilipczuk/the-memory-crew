@@ -11,12 +11,12 @@ import { primaryNav, primaryCta, isNavGroup } from '../../config/navigation';
 import { withBase } from '../../config/routes';
 
 const navId = 'primary-navigation';
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
 
 function isActive(href: string): boolean {
-	const target = withBase(href).replace(/\/$/, '') || '/';
-	if (target === withBase('/').replace(/\/$/, '') || target === '') {
-		return currentPath === withBase('/').replace(/\/$/, '') || currentPath.endsWith('/the-memory-crew');
+	const target = withBase(href).replace(/\/+$/, '') || '/';
+	if (target === '/' || target === '') {
+		return currentPath === '/';
 	}
 	return currentPath === target || currentPath.startsWith(`${target}/`);
 }

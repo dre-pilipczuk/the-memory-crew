@@ -2,18 +2,18 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// https://astro.build/config
-// Project site on GitHub Pages until a custom domain is connected.
+// Custom domain serves the site at the domain root (not /the-memory-crew).
+// https://docs.astro.build/en/guides/deploy/github/#github-pages-with-a-custom-domain
 export default defineConfig({
-	site: 'https://dre-pilipczuk.github.io/the-memory-crew',
-	base: '/the-memory-crew',
+	site: 'https://thememorycrew.com',
+	base: '/',
+	trailingSlash: 'always',
 	integrations: [
 		sitemap({
 			filter: (page) => !page.includes('/design-system'),
 		}),
 	],
 	image: {
-		// Prefer modern formats in <Image /> / content images
 		domains: [],
 	},
 });

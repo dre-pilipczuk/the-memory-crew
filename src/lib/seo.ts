@@ -9,7 +9,9 @@ const siteOrigin = site.url.replace(/\/$/, '');
 function absoluteUrl(path: string): string {
 	if (!path || path === '/') return `${siteOrigin}/`;
 	const normalised = path.startsWith('/') ? path : `/${path}`;
-	return `${siteOrigin}${normalised}`;
+	// Prefer trailing slash for directory routes (matches trailingSlash: 'always')
+	const withSlash = normalised.endsWith('/') ? normalised : `${normalised}/`;
+	return `${siteOrigin}${withSlash}`;
 }
 
 /** LocalBusiness / event hire business entity */

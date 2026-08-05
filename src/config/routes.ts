@@ -2,17 +2,21 @@
  * Site-relative path builders and base-aware URLs.
  * Path helpers return paths starting with `/` (no base prefix).
  * Use withBase() when emitting hrefs in components.
+ * trailingSlash: 'always' — directory URLs end with `/` for GitHub Pages.
  */
 
-/** Join base (e.g. `/the-memory-crew/`) with a site path (`/hire`). */
+/** Join base with a site path; always trailing slash for app routes. */
 export function withBase(path = '/'): string {
 	const base = import.meta.env.BASE_URL || '/';
-	const normalisedBase = base.endsWith('/') ? base.slice(0, -1) : base;
+	// BASE_URL is `/` or `/repo/`
+	const normalisedBase = base.endsWith('/') ? base : `${base}/`;
+
 	if (!path || path === '/') {
-		return `${normalisedBase}/`;
+		return normalisedBase;
 	}
-	const normalisedPath = path.startsWith('/') ? path : `/${path}`;
-	return `${normalisedBase}${normalisedPath}`;
+
+	const stripped = path.replace(/^\/+/, '').replace(/\/+$/, '');
+	return `${normalisedBase}${stripped}/`;
 }
 
 export const paths = {

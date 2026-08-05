@@ -27,20 +27,16 @@ const {
 } = Astro.props;
 
 const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.taglineShort}`;
-const canonicalPath = withBase(path === '/' ? '/' : path);
-// Absolute URL for canonical / OG
 const siteOrigin = site.url.replace(/\/$/, '');
-const canonicalUrl =
-	path === '/' || path === ''
-		? `${siteOrigin}/`
-		: `${siteOrigin}${path.startsWith('/') ? path : `/${path}`}`;
+const relativeCanonical = withBase(path === '/' || path === '' ? '/' : path);
+const canonicalUrl = `${siteOrigin}${relativeCanonical.startsWith('/') ? relativeCanonical : `/${relativeCanonical}`}`;
 
-const defaultOg = `${siteOrigin}/og-default.png`;
-const imageUrl = ogImage
-	? ogImage.startsWith('http')
+const defaultOg = `${siteOrigin}/og-default.jpg`;
+const imageUrl = !ogImage
+	? defaultOg
+	: ogImage.startsWith('http')
 		? ogImage
-		: `${siteOrigin}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`
-	: defaultOg;
+		: `${siteOrigin}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 
 const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---

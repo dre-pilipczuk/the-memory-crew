@@ -7,6 +7,7 @@ Event hire across South Wales and Bristol — equipment that brings people toget
 - [Astro](https://astro.build) static site
 - Design tokens and common components (Phase 1)
 - Deployed to GitHub Pages on every push to `main`
+- Custom domain: [thememorycrew.com](https://thememorycrew.com) (`base: '/'` — see [custom domain](./docs/custom-domain.md))
 
 ## Development
 
