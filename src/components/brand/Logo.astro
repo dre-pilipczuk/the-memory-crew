@@ -1,0 +1,312 @@
+---
+/**
+ * Brand logo — polaroid lockup (locked).
+ * @see docs/brand-logo.md
+ * @see src/config/brand.ts
+ */
+import { site } from '../../config/site';
+
+export type LogoVariant =
+	| 'wordmark'
+	| 'wordmark-dot'
+	| 'lockup-crew'
+	| 'lockup-brain'
+	| 'lockup-polaroid'
+	| 'lockup-polaroid-simple'
+	| 'lockup-arches'
+	| 'lockup-tmc'
+	| 'mark-crew'
+	| 'mark-brain'
+	| 'mark-polaroid'
+	| 'mark-polaroid-simple'
+	| 'mark-arches'
+	| 'mark-tmc';
+
+interface Props {
+	variant?: LogoVariant;
+	/** Link to home when used in chrome */
+	href?: string | false;
+	size?: 'sm' | 'md' | 'lg';
+	class?: string;
+}
+
+const {
+	variant = 'lockup-polaroid',
+	href = import.meta.env.BASE_URL,
+	size = 'md',
+	class: className,
+} = Astro.props;
+
+// polaroid / polaroid-simple both use the same refined mark (frame + caption squiggle)
+
+const classes = [
+	'logo',
+	`logo--${variant}`,
+	`logo--${size}`,
+	// Slight polaroid tilt only when the mark is large enough to enjoy it
+	size !== 'sm' && variant.includes('polaroid') && 'logo--tilted',
+	className,
+]
+	.filter(Boolean)
+	.join(' ');
+const Tag = href ? 'a' : 'span';
+const showWord =
+	variant === 'wordmark' ||
+	variant === 'wordmark-dot' ||
+	variant.startsWith('lockup');
+const showMark = variant !== 'wordmark' && variant !== 'wordmark-dot';
+/** Caption squiggle muddies at favicon/nav-sm scale — md/lg only */
+const showSquiggle = size !== 'sm';
+
+function resolveMark(
+	v: LogoVariant,
+): 'polaroid' | 'brain' | 'arches' | 'tmc' | 'crew' | null {
+	// polaroid-simple aliases to the same clean mark (frame + squiggle, no people)
+	if (v.includes('polaroid')) return 'polaroid';
+	if (v.includes('brain')) return 'brain';
+	if (v.includes('arches')) return 'arches';
+	if (v.includes('tmc')) return 'tmc';
+	if (v.includes('crew')) return 'crew';
+	return null;
+}
+
+const markKind = resolveMark(variant);
+---
+
+<Tag class={classes} href={href || undefined} aria-label={site.name}>
+	{
+		showMark && markKind && (
+			<span class="logo__mark" aria-hidden="true">
+				{markKind === 'polaroid' && (
+					<svg class="logo__svg" viewBox="0 0 64 64" fill="none">
+						{/* Coral frame — classic thick bottom stock */}
+						<rect x="12" y="6" width="40" height="52" rx="3" fill="currentColor" />
+						{/* Empty photo window */}
+						<rect
+							x="17"
+							y="11"
+							width="30"
+							height="28"
+							rx="1.5"
+							fill="var(--color-canvas, #FAF9F7)"
+						/>
+						{/* Irregular signature-style caption — md/lg only */}
+						{showSquiggle && (
+							<path
+								class="logo__squiggle"
+								d="M17.5 51.5c1.2-2.8 2.8-1.1 3.6.6.9 1.9 2.4-2.6 3.8-1.4 1.1.9 1.4 2.4 2.8 1.6 1.6-.9 1.2-3.4 3.1-2.8 1.5.5 1.8 2.7 3.4 2.1 1.4-.5 1.6-2.9 3.2-2.2 1.3.6 1.1 2.1 2.4 2.4 1.8.4 2.6-1.8 4.2-1.1"
+								stroke="var(--color-accent-ink, #FFFFFF)"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								fill="none"
+								opacity="0.95"
+							/>
+						)}
+					</svg>
+				)}
+				{markKind === 'crew' && (
+					<svg class="logo__svg" viewBox="0 0 64 64" fill="none">
+						<path
+							fill="currentColor"
+							fill-opacity="0.88"
+							d="M22.5 18c6.5-1.5 12 3.2 13.2 9.5 1.1 5.8-2.2 11.8-7.8 14.1-5.8 2.4-12.6.4-15.8-4.8C8.8 31.5 10.2 24.2 15.5 20.8c2.1-1.3 4.5-2.2 7-2.8z"
+						/>
+						<path
+							fill="currentColor"
+							fill-opacity="0.72"
+							d="M38 20c5.8 1.2 10.2 6.2 10.5 12.1.3 6.2-3.6 12-9.5 14.1-5.6 2-12.1.2-15.2-4.5-3.3-5-2.4-11.8 2.1-15.8 3.2-2.9 7.5-4.4 12.1-5.9z"
+						/>
+						<path
+							fill="currentColor"
+							fill-opacity="0.9"
+							d="M28 12c4.8 0 9 3.1 10.4 7.6 1.6 5.1-.4 10.7-4.9 13.6-4.3 2.8-10.1 2.5-14-.7-4.1-3.4-5.3-9.2-2.9-14C19.1 14.6 23.3 12 28 12z"
+						/>
+					</svg>
+				)}
+				{markKind === 'brain' && (
+					<svg class="logo__svg" viewBox="0 0 64 64" fill="none">
+						<ellipse cx="22" cy="28" rx="13" ry="15" fill="currentColor" fill-opacity="0.82" />
+						<ellipse cx="16" cy="22" rx="8" ry="9" fill="currentColor" fill-opacity="0.7" />
+						<ellipse cx="18" cy="36" rx="9" ry="8" fill="currentColor" fill-opacity="0.75" />
+						<ellipse cx="42" cy="28" rx="13" ry="15" fill="currentColor" fill-opacity="0.82" />
+						<ellipse cx="48" cy="22" rx="8" ry="9" fill="currentColor" fill-opacity="0.7" />
+						<ellipse cx="46" cy="36" rx="9" ry="8" fill="currentColor" fill-opacity="0.75" />
+						<ellipse cx="26" cy="16" rx="7" ry="6.5" fill="currentColor" fill-opacity="0.65" />
+						<ellipse cx="38" cy="16" rx="7" ry="6.5" fill="currentColor" fill-opacity="0.65" />
+						<circle cx="32" cy="30" r="7" fill="currentColor" fill-opacity="0.92" />
+						<ellipse cx="32" cy="44" rx="6" ry="5" fill="currentColor" fill-opacity="0.55" />
+					</svg>
+				)}
+				{markKind === 'arches' && (
+					<svg class="logo__svg" viewBox="0 0 64 64" fill="none">
+						<path
+							stroke="currentColor"
+							stroke-width="5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M8 50V28c0-9 6.5-16 14.5-16 6 0 10.5 3.5 12.5 9 2-5.5 6.5-9 12.5-9C55.5 12 62 19 62 28v22"
+						/>
+						<path
+							stroke="currentColor"
+							stroke-width="5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M22.5 50V30c0-6.5 4-11.5 9.5-11.5S41.5 23.5 41.5 30v20"
+						/>
+					</svg>
+				)}
+				{markKind === 'tmc' && (
+					<svg class="logo__svg logo__svg--badge" viewBox="0 0 48 48">
+						<rect width="48" height="48" rx="12" fill="currentColor" />
+						<text
+							x="24"
+							y="30"
+							text-anchor="middle"
+							font-family="var(--font-body), system-ui, sans-serif"
+							font-size="13"
+							font-weight="600"
+							letter-spacing="0.08em"
+							fill="var(--color-accent-ink)"
+						>
+							TMC
+						</text>
+					</svg>
+				)}
+			</span>
+		)
+	}
+	{
+		showWord && (
+			<span class="logo__word">
+				<span class="logo__the">The</span>
+				<span class="logo__name">
+					Memory Crew
+					{variant === 'wordmark-dot' && <span class="logo__dot" aria-hidden="true" />}
+				</span>
+			</span>
+		)
+	}
+</Tag>
+
+<style>
+	.logo {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.65em;
+		color: var(--color-accent);
+		text-decoration: none;
+		line-height: 1;
+	}
+
+	.logo:hover {
+		color: var(--color-accent-hover);
+	}
+
+	.logo:focus-visible {
+		outline: none;
+		border-radius: var(--radius-sm);
+		box-shadow: var(--focus-ring);
+	}
+
+	.logo__mark {
+		display: grid;
+		place-items: center;
+		flex-shrink: 0;
+		color: var(--color-accent);
+		/* Slight life — like a polaroid dropped on a table; not enough to look playful-gimmick */
+		transition: transform var(--duration-fast) var(--ease-default);
+	}
+
+	.logo--tilted .logo__mark {
+		transform: rotate(-10deg);
+	}
+
+	.logo--tilted:hover .logo__mark {
+		transform: rotate(2deg);
+	}
+
+	.logo__svg {
+		width: 1.75em;
+		height: 1.75em;
+		display: block;
+		overflow: visible;
+	}
+
+	.logo__svg--badge {
+		width: 1.65em;
+		height: 1.65em;
+	}
+
+	.logo--mark-crew .logo__svg,
+	.logo--mark-brain .logo__svg,
+	.logo--mark-polaroid .logo__svg,
+	.logo--mark-polaroid-simple .logo__svg,
+	.logo--mark-arches .logo__svg,
+	.logo--mark-tmc .logo__svg {
+		width: 2.25em;
+		height: 2.25em;
+	}
+
+	.logo__word {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.12em;
+		color: var(--color-ink);
+	}
+
+	.logo:hover .logo__word {
+		color: var(--color-ink);
+	}
+
+	.logo__the {
+		font-family: var(--font-body);
+		font-size: 0.52em;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-ink-muted);
+	}
+
+	.logo__name {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.28em;
+		font-family: var(--font-display);
+		font-weight: var(--weight-semibold);
+		letter-spacing: -0.03em;
+		line-height: 1.05;
+	}
+
+	.logo__dot {
+		width: 0.28em;
+		height: 0.28em;
+		border-radius: var(--radius-full);
+		background: var(--color-accent);
+		flex-shrink: 0;
+	}
+
+	.logo--sm {
+		font-size: var(--text-lg);
+	}
+
+	.logo--md {
+		font-size: var(--text-2xl);
+	}
+
+	.logo--lg {
+		font-size: var(--text-3xl);
+	}
+
+	.logo--wordmark,
+	.logo--wordmark-dot {
+		color: var(--color-ink);
+	}
+
+	.logo--wordmark:hover,
+	.logo--wordmark-dot:hover {
+		color: var(--color-ink);
+	}
+</style>

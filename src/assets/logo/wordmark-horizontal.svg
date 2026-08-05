@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 40" role="img" aria-label="The Memory Crew">
+  <text
+    x="0"
+    y="28"
+    font-family="Inter, system-ui, sans-serif"
+    font-size="22"
+    font-weight="600"
+    letter-spacing="-0.03em"
+    fill="#1A1A1A"
+  >The Memory Crew</text>
+  <circle cx="308" cy="22" r="4" fill="#D4645A"/>
+</svg>

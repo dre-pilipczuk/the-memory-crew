@@ -64,9 +64,15 @@ Schemas and frontmatter rules: [content collections](./docs/content-collections.
 Put photos in `src/assets/equipment/` and reference them from frontmatter.  
 Astro optimises to AVIF/WebP. See [images](./docs/images.md).
 
+## Logo
+
+Polaroid lockup (locked). Spec: [brand logo](./docs/brand-logo.md).  
+Site-wide via `src/config/brand.ts` → `Logo` component.
+
 ## Docs
 
 - [Design brief](./docs/design-brief.md)
+- [Brand logo](./docs/brand-logo.md)
 - [Site architecture](./docs/site-architecture.md)
 - [Content collections](./docs/content-collections.md)
 - [Images](./docs/images.md)

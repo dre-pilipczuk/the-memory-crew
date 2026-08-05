@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 72" role="img" aria-label="The Memory Crew">
+  <text
+    x="0"
+    y="18"
+    font-family="Inter, system-ui, sans-serif"
+    font-size="12"
+    font-weight="500"
+    letter-spacing="0.18em"
+    fill="#5C5C5C"
+  >THE</text>
+  <text
+    x="0"
+    y="52"
+    font-family="Inter, system-ui, sans-serif"
+    font-size="28"
+    font-weight="600"
+    letter-spacing="-0.03em"
+    fill="#1A1A1A"
+  >Memory Crew</text>
+</svg>

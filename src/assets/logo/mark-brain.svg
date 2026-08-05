@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="The Memory Crew mark">
+  <!--
+    Brain silhouette from soft crew-blobs.
+    Two hemispheres + centre — reads as memory; circles read as people gathering.
+    Works at favicon size if kept bold.
+  -->
+  <!-- Left hemisphere -->
+  <ellipse cx="22" cy="28" rx="13" ry="15" fill="#D4645A" fill-opacity="0.82"/>
+  <ellipse cx="16" cy="22" rx="8" ry="9" fill="#D4645A" fill-opacity="0.7"/>
+  <ellipse cx="18" cy="36" rx="9" ry="8" fill="#B84F47" fill-opacity="0.75"/>
+  <!-- Right hemisphere -->
+  <ellipse cx="42" cy="28" rx="13" ry="15" fill="#D4645A" fill-opacity="0.82"/>
+  <ellipse cx="48" cy="22" rx="8" ry="9" fill="#D4645A" fill-opacity="0.7"/>
+  <ellipse cx="46" cy="36" rx="9" ry="8" fill="#B84F47" fill-opacity="0.75"/>
+  <!-- Upper lobes / crown -->
+  <ellipse cx="26" cy="16" rx="7" ry="6.5" fill="#D4645A" fill-opacity="0.65"/>
+  <ellipse cx="38" cy="16" rx="7" ry="6.5" fill="#D4645A" fill-opacity="0.65"/>
+  <!-- Centre gathering (crew) -->
+  <circle cx="32" cy="30" r="7" fill="#B84F47" fill-opacity="0.9"/>
+  <!-- Soft brainstem hint -->
+  <ellipse cx="32" cy="44" rx="6" ry="5" fill="#D4645A" fill-opacity="0.55"/>
+</svg>

@@ -3,8 +3,9 @@
  * Site footer — brand, link columns, service area.
  */
 import Container from '../common/Container.astro';
-import Wordmark from '../common/Wordmark.astro';
+import Logo from '../brand/Logo.astro';
 import { site } from '../../config/site';
+import { logoVariant } from '../../config/brand';
 import { footerNav } from '../../config/navigation';
 import { withBase } from '../../config/routes';
 ---
@@ -13,7 +14,7 @@ import { withBase } from '../../config/routes';
 	<Container>
 		<div class="footer__grid">
 			<div class="footer__brand">
-				<Wordmark size="sm" />
+				<Logo variant={logoVariant} size="sm" href={false} />
 				<p class="footer__tagline">{site.taglineShort}</p>
 				<p class="footer__meta">
 					Event hire · {site.serviceAreaLabel}

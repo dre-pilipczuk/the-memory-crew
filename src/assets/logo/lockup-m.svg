@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 56" role="img" aria-label="The Memory Crew">
+  <rect x="0" y="6" width="44" height="44" rx="11" fill="#D4645A"/>
+  <path
+    fill="#FFFFFF"
+    d="M12 40V16.8c0-.9.7-1.6 1.6-1.6h.7c.5 0 1 .3 1.3.7L24 30.4 30.4 16c.3-.4.8-.7 1.3-.7h.7c.9 0 1.6.7 1.6 1.6V40c0 .7-.6 1.3-1.3 1.3h-2c-.7 0-1.3-.6-1.3-1.3V25.2L25.1 36c-.3.4-.7.6-1.1.6s-.8-.2-1.1-.6L18.6 25.2V40c0 .7-.6 1.3-1.3 1.3h-2c-.7 0-1.3-.6-1.3-1.3z"
+  />
+  <text
+    x="56"
+    y="22"
+    font-family="Inter, system-ui, sans-serif"
+    font-size="11"
+    font-weight="500"
+    letter-spacing="0.16em"
+    fill="#5C5C5C"
+  >THE</text>
+  <text
+    x="56"
+    y="44"
+    font-family="Inter, system-ui, sans-serif"
+    font-size="22"
+    font-weight="600"
+    letter-spacing="-0.03em"
+    fill="#1A1A1A"
+  >Memory Crew</text>
+</svg>

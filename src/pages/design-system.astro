@@ -20,11 +20,20 @@ import CTA from '../components/common/CTA.astro';
 import EquipmentGrid from '../components/equipment/EquipmentGrid.astro';
 import PriceCard from '../components/equipment/PriceCard.astro';
 import GalleryGrid from '../components/gallery/GalleryGrid.astro';
+import Logo from '../components/brand/Logo.astro';
+import type { LogoVariant } from '../components/brand/Logo.astro';
 import { site } from '../config/site';
+import { logoOptions, logoVariant } from '../config/brand';
 import { hireCategories } from '../config/hire';
 import { occasions as occasionTaxonomy } from '../config/occasions';
 import { primaryNav, footerNav, isNavGroup } from '../config/navigation';
 import { paths, withBase } from '../config/routes';
+import conceptCrew from '../assets/logo/concept-crew-blobs.jpg';
+import conceptArches from '../assets/logo/concept-arches-m.jpg';
+import conceptAperture from '../assets/logo/concept-aperture.jpg';
+import conceptBrainBlobs from '../assets/logo/concept-brain-blobs.jpg';
+import conceptPolaroid from '../assets/logo/concept-polaroid.jpg';
+import { Image } from 'astro:assets';
 import {
 	getAllEquipment,
 	getAllOccasions,
@@ -91,6 +100,102 @@ const galleryPlaceholders = [
 	</PageHeader>
 
 	<Section>
+		<Container>
+			<div class="ds-block">
+				<h2 class="ds-heading" id="logo">Logo (locked)</h2>
+				<p class="ds-lede">
+					Polaroid lockup is final — <code>{logoVariant}</code> in{' '}
+					<code>src/config/brand.ts</code>. Spec: <code>docs/brand-logo.md</code>.
+				</p>
+
+				<div class="logo-grid">
+					{
+						logoOptions.map((option) => (
+							<article
+								class:list={[
+									'logo-card',
+									option.id === logoVariant && 'logo-card--active',
+								]}
+							>
+								<div class="logo-card__preview">
+									<Logo variant={option.id as LogoVariant} size="md" href={false} />
+								</div>
+								<div class="logo-card__meta">
+									<p class="logo-card__title">
+										{option.title}
+										{option.id === logoVariant ? ' · active' : ''}
+									</p>
+									<p class="logo-card__desc">{option.description}</p>
+									<code class="logo-card__id">{option.id}</code>
+								</div>
+							</article>
+						))
+					}
+				</div>
+
+				<h3 class="arch-title" style="margin-top: var(--space-6)">Concept marks (exploration)</h3>
+				<p class="ds-lede">AI mood sketches — not production assets. We traced the best into SVG.</p>
+				<div class="logo-concepts">
+					<figure class="logo-concept">
+						<Image src={conceptPolaroid} alt="Simple coral polaroid brand mark concept" width={320} height={320} />
+						<figcaption>Polaroid — clear at small sizes</figcaption>
+					</figure>
+					<figure class="logo-concept">
+						<Image src={conceptCrew} alt="Soft overlapping coral shapes suggesting people gathering" width={320} height={320} />
+						<figcaption>Crew blobs</figcaption>
+					</figure>
+					<figure class="logo-concept">
+						<Image src={conceptBrainBlobs} alt="Brain silhouette built from soft coral blobs" width={320} height={320} />
+						<figcaption>Brain blobs (too busy small)</figcaption>
+					</figure>
+					<figure class="logo-concept">
+						<Image src={conceptArches} alt="Interlocking coral arches forming a soft M" width={320} height={320} />
+						<figcaption>Arches M</figcaption>
+					</figure>
+					<figure class="logo-concept">
+						<Image src={conceptAperture} alt="Camera aperture badge concept" width={320} height={320} />
+						<figcaption>Aperture — set aside</figcaption>
+					</figure>
+				</div>
+
+				{/* Size stress-test for polaroid marks */}
+				<h3 class="arch-title" style="margin-top: var(--space-6)">Size test (polaroid)</h3>
+				<p class="ds-lede">
+					Squiggle + slight tilt on md/lg only. Small sizes drop both so the frame stays
+					crisp.
+				</p>
+				<div class="logo-size-test">
+					{
+						(
+							[
+								['Large + squiggle', 'lg', 1],
+								['Nav (md)', 'md', 1],
+								['Small (no squiggle)', 'sm', 1],
+								['Tiny', 'sm', 0.55],
+								['Favicon', 'sm', 0.4],
+							] as const
+						).map(([label, size, scale]) => (
+							<div class="logo-size-test__item">
+								<div
+									class="logo-size-test__preview"
+									style={
+										scale < 1
+											? `transform: scale(${scale}); transform-origin: center;`
+											: undefined
+									}
+								>
+									<Logo variant="mark-polaroid" size={size} href={false} />
+								</div>
+								<span class="logo-size-test__label">{label}</span>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</Container>
+	</Section>
+
+	<Section muted>
 		<Container>
 			<div class="ds-block">
 				<h2 class="ds-heading" id="colour">Colour</h2>
@@ -500,6 +605,130 @@ const galleryPlaceholders = [
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-5);
+	}
+
+	.logo-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-4);
+	}
+
+	@media (min-width: 40rem) {
+		.logo-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.logo-card {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+		background: var(--color-surface);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.logo-card--active {
+		border-color: var(--color-accent);
+		box-shadow: 0 0 0 1px var(--color-accent);
+	}
+
+	.logo-card__preview {
+		display: grid;
+		place-items: center;
+		min-height: 7.5rem;
+		padding: var(--space-6);
+		background: var(--color-canvas);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.logo-card__meta {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-4);
+	}
+
+	.logo-card__title {
+		margin: 0;
+		font-size: var(--text-sm);
+		font-weight: var(--weight-semibold);
+	}
+
+	.logo-card__desc {
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.logo-card__id {
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		color: var(--color-ink-subtle);
+		width: fit-content;
+	}
+
+	.logo-concepts {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-4);
+	}
+
+	@media (min-width: 40rem) {
+		.logo-concepts {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.logo-concept {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+
+	.logo-concept :global(img) {
+		width: 100%;
+		aspect-ratio: 1;
+		object-fit: cover;
+		border-radius: var(--radius-lg);
+		border: 1px solid var(--color-border);
+	}
+
+	.logo-concept figcaption {
+		font-size: var(--text-sm);
+		color: var(--color-ink-muted);
+	}
+
+	.logo-size-test {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-5);
+		align-items: flex-end;
+	}
+
+	.logo-size-test__item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
+	.logo-size-test__preview {
+		display: grid;
+		place-items: center;
+		min-width: 4rem;
+		min-height: 4rem;
+		padding: var(--space-3);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+	}
+
+	.logo-size-test__label {
+		font-size: var(--text-xs);
+		color: var(--color-ink-muted);
 	}
 
 	.ds-block--flush {

@@ -40,16 +40,14 @@ Visitors are planning a gathering. We supply the equipment that gets people of a
 | **Supporting line** | Event hire across South Wales and Bristol — equipment that gets every generation involved. | Locked |
 | **Voice** | Warm, clear, capable. Friendly without being childish. Premium without being stiff. | Locked |
 | **Tone in UI** | Short sentences. Concrete benefits. Prices when known. No hype adjectives. | Locked |
-| **Logo** | Typeset wordmark in display type (Phase 1). No custom mark yet. | Locked |
-| **Favicon** | Initials “TMC” or simple letterform derived from the wordmark until a mark exists. | Locked |
+| **Logo** | Polaroid lockup — empty window + signature caption; tilt + squiggle on md/lg only. | Locked |
+| **Favicon** | Polaroid frame only (no squiggle). | Locked |
 
 **Why this tagline**  
 It states the job: not “we rent stuff”, but *we use equipment to bring all ages together and create lasting memories*. “Gather. Play. Remember.” is the short form for tight UI spaces.
 
-**Logo direction (Phase 1)**
-- Primary: CSS/HTML wordmark “The Memory Crew” set in Inter
-- Secondary compact: “TMC” for favicon / tight mobile chrome
-- Later: proper SVG logo can drop in without redesigning components (logo lives in one layout component)
+**Logo (locked)**  
+See [`docs/brand-logo.md`](./brand-logo.md). Component: `src/components/brand/Logo.astro`.
 
 ---
 

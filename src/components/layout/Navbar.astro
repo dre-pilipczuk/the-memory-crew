@@ -3,9 +3,10 @@
  * Site header — wordmark, primary nav (with dropdowns), contact CTA, mobile menu.
  */
 import Container from '../common/Container.astro';
-import Wordmark from '../common/Wordmark.astro';
+import Logo from '../brand/Logo.astro';
 import Button from '../common/Button.astro';
 import { site } from '../../config/site';
+import { logoVariant } from '../../config/brand';
 import { primaryNav, primaryCta, isNavGroup } from '../../config/navigation';
 import { withBase } from '../../config/routes';
 
@@ -16,7 +17,7 @@ const navId = 'primary-navigation';
 	<Container>
 		<div class="navbar__bar">
 			<div class="navbar__brand">
-				<Wordmark size="sm" />
+				<Logo variant={logoVariant} size="sm" />
 				<p class="navbar__area">{site.serviceAreaLabel}</p>
 			</div>
 

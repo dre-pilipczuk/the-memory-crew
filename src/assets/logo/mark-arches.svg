@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="The Memory Crew mark">
+  <!-- Line-art interlocking arches — soft M -->
+  <path
+    stroke="#D4645A"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M8 50V28c0-9 6.5-16 14.5-16 6 0 10.5 3.5 12.5 9 2-5.5 6.5-9 12.5-9C55.5 12 62 19 62 28v22"
+  />
+  <path
+    stroke="#D4645A"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M22.5 50V30c0-6.5 4-11.5 9.5-11.5S41.5 23.5 41.5 30v20"
+  />
+</svg>
