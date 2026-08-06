@@ -2,13 +2,10 @@
 /**
  * Privacy-friendly analytics — no cookies, no consent banner required.
  *
- * Plausible: set PUBLIC_PLAUSIBLE_DOMAIN to your site domain (e.g. thememorycrew.com)
- * Optional: PUBLIC_PLAUSIBLE_SRC for self-hosted (default: https://plausible.io/js/script.js)
+ * Plausible: PUBLIC_PLAUSIBLE_DOMAIN=thememorycrew.com
+ * Cloudflare Web Analytics: PUBLIC_CF_BEACON_TOKEN=<token from CF dashboard>
  *
- * Cloudflare Web Analytics: set PUBLIC_CF_BEACON_TOKEN to your beacon token
- * (Dashboard → Web Analytics → Manage site → JS snippet token)
- *
- * Neither script loads until an env var is set, so local/dev stays clean.
+ * Scripts only load when the matching env var is set.
  */
 const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN as string | undefined;
 const plausibleSrc =
@@ -16,11 +13,14 @@ const plausibleSrc =
 	'https://plausible.io/js/script.js';
 const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
 
-const enabled = Boolean(plausibleDomain || cfBeacon);
+// Exact Cloudflare snippet shape (single-quoted JSON attribute)
+const cfSnippet = cfBeacon
+	? `<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${cfBeacon}"}'></script><!-- End Cloudflare Web Analytics -->`
+	: '';
 ---
 
 {
-	enabled && plausibleDomain && (
+	plausibleDomain && (
 		<script
 			defer
 			data-domain={plausibleDomain}
@@ -30,13 +30,4 @@ const enabled = Boolean(plausibleDomain || cfBeacon);
 	)
 }
 
-{
-	enabled && cfBeacon && (
-		<script
-			defer
-			src="https://static.cloudflareinsights.com/beacon.min.js"
-			data-cf-beacon={JSON.stringify({ token: cfBeacon })}
-			is:inline
-		/>
-	)
-}
+{cfBeacon && <Fragment set:html={cfSnippet} />}
