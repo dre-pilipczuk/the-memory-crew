@@ -5,11 +5,13 @@
 | Layer | Status |
 |---|---|
 | Site code (`base: '/'`, `CNAME`) | ✅ Done |
-| GitHub Pages custom domain | ✅ Verified (you did this) |
+| GitHub Pages custom domain | ✅ `.com` verified |
 | Deploy workflow | ✅ Publishes site |
-| **DNS at IONOS** | ❌ Still points at IONOS parking (`217.160.0.242`) |
+| DNS apex `.com` → GitHub | ✅ (when dig shows `185.199.*`) |
+| **`.co.uk` → `.com` redirect** | ⬜ Set in IONOS (see below) |
 
-Until DNS points at GitHub, the domain will keep showing the IONOS “not set up” page even when Actions says the site is live.
+**Primary public URL:** `https://thememorycrew.com`  
+**Secondary:** `thememorycrew.co.uk` redirects to `.com` (no second GitHub custom domain).
 
 ---
 
@@ -102,3 +104,49 @@ DNS can be perfect and GitHub can still show a bare **nginx 404**. That usually 
 dig thememorycrew.com +short @8.8.8.8
 # 185.199.108.153 etc — not 217.160.0.242
 ```
+
+---
+
+## Redirect thememorycrew.co.uk → thememorycrew.com
+
+GitHub Pages only supports **one** primary custom domain. Keep `.com` on GitHub; redirect `.co.uk` at **IONOS**.
+
+### In IONOS (recommended: Domain Forwarding)
+
+1. Log in to [IONOS](https://my.ionos.co.uk/) → **Domains & SSL**.
+2. Open **thememorycrew.co.uk** (not `.com`).
+3. If the domain is linked to web hosting / a website builder, **disconnect** it first so forwarding can be set.
+4. Open the domain → **Adjust destination** / **Domain forwarding** (wording varies).
+5. Set:
+
+| Setting | Value |
+|---|---|
+| Destination | `https://thememorycrew.com` (or `https://thememorycrew.com/`) |
+| Type | **HTTP redirect** (not “frame”) |
+| Permanent | Yes / 301 if offered |
+| Also redirect `www` | Yes — so `www.thememorycrew.co.uk` goes too |
+
+6. Save. Propagation is usually quick (can take up to a few hours).
+
+### Optional: preserve paths
+
+If IONOS offers “forward with path” / “mask path”, enable it so:
+
+`https://thememorycrew.co.uk/occasions/weddings/`  
+→ `https://thememorycrew.com/occasions/weddings/`
+
+If that option is not available, a root-only redirect to the homepage is still fine for v1.
+
+### Do **not** for `.co.uk`
+
+- Do **not** add GitHub A records for `.co.uk` unless you switch primary domain.
+- Do **not** put `thememorycrew.co.uk` in `public/CNAME` or GitHub Pages custom domain (would fight with `.com`).
+
+### How to check
+
+```sh
+# Should end on thememorycrew.com with a 301/302 from .co.uk
+curl -sI https://thememorycrew.co.uk/ | head -20
+```
+
+Or open `https://thememorycrew.co.uk/` in a private window — address bar should become `https://thememorycrew.com/…`.
