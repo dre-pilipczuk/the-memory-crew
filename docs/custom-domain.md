@@ -82,10 +82,23 @@ No further deploy is required just for DNS — once records propagate, the **alr
 
 ---
 
-## Temporary access while DNS is wrong
+## “404 Not Found nginx” after DNS is correct
 
-Until IONOS is updated, you can still open the raw GitHub Pages URL **if** GitHub is not redirecting hard to the custom domain:
+DNS can be perfect and GitHub can still show a bare **nginx 404**. That usually means Pages is not serving the **Actions** build.
 
-- https://dre-pilipczuk.github.io/the-memory-crew/
+### Fix in GitHub (important)
 
-If GitHub always redirects to `thememorycrew.com`, fix DNS first — that is the only path to a working public site.
+1. Open the repo → **Settings** → **Pages**
+2. Under **Build and deployment** → **Source**, choose **GitHub Actions**  
+   - **Not** “Deploy from a branch” (if that is set to `main` + `/`, GitHub looks for `index.html` in the repo root, finds none → nginx 404)
+3. Custom domain: `thememorycrew.com` (verified)
+4. **Actions** → **Deploy to GitHub Pages** → **Re-run** the latest successful workflow (or push to `main`)
+5. Wait a few minutes, then open **http://thememorycrew.com/** (use http until Enforce HTTPS is available)
+6. When the site loads, enable **Enforce HTTPS**
+
+### Confirm DNS (should already be done)
+
+```sh
+dig thememorycrew.com +short @8.8.8.8
+# 185.199.108.153 etc — not 217.160.0.242
+```
