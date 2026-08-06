@@ -12,7 +12,7 @@
 Event hire for photo booths, garden games, giant LED letters, dance floors, gazebos and related equipment — serving weddings, birthdays, corporate events, schools and seasonal occasions.
 
 **Service area (v1)**  
-South Wales and Bristol. Expand later without changing brand language — only config and SEO schema.
+South West. Expand later without changing brand language — only config and SEO schema.
 
 **What we are not**  
 A party-shop flyer. Not clip-art, not rainbow CTAs, not “fun fonts” fighting for attention.
@@ -37,7 +37,7 @@ Visitors are planning a gathering. We supply the equipment that gets people of a
 | **Company name** | The Memory Crew | Locked |
 | **Tagline (primary)** | Bringing people together for memories that last | Locked |
 | **Tagline (short)** | Gather. Play. Remember. | Optional — nav/footer/social |
-| **Supporting line** | Event hire across South Wales and Bristol — equipment that gets every generation involved. | Locked |
+| **Supporting line** | Event hire across the South West — equipment that gets every generation involved. | Locked |
 | **Voice** | Warm, clear, capable. Friendly without being childish. Premium without being stiff. | Locked |
 | **Tone in UI** | Short sentences. Concrete benefits. Prices when known. No hype adjectives. | Locked |
 | **Logo** | Polaroid lockup — empty window + signature caption; tilt + squiggle on md/lg only. | Locked |
@@ -300,7 +300,7 @@ Sizes: `sm` / `md` / `lg`. Min tap target 44×44px.
 
 | Type | Treatment |
 |---|---|
-| **Hero / lifestyle** | Mixed ages together, equipment *in use*, natural light, South Wales / Bristol-feeling settings when possible |
+| **Hero / lifestyle** | Mixed ages together, equipment *in use*, natural light, South West–feeling settings when possible |
 | **Product** | Clean readable shots as physical stock is acquired |
 | **Avoid** | Watermarked random stock, harsh flash, cluttered backgrounds, mixed aspect ratios in one grid |
 
@@ -318,7 +318,7 @@ Buying kit as bookings come in means real product photography will lag the catal
 6. **Until an image exists:** `surface-muted` aspect-ratio blocks — better than the wrong picture.
 7. **Replacement path:** as each physical product is bought and photographed, replace the AI asset in `src/assets` / content frontmatter; no component changes.
 
-AI is a **bridge**, not the brand. The UI and copy should still read as a real local hire company serving South Wales and Bristol.
+AI is a **bridge**, not the brand. The UI and copy should still read as a real local hire company serving the South West.
 
 ---
 
@@ -350,8 +350,8 @@ AI is a **bridge**, not the brand. The UI and copy should still read as a real l
 name: 'The Memory Crew'
 tagline: 'Bringing people together for memories that last'
 taglineShort: 'Gather. Play. Remember.'
-description: 'Event hire across South Wales and Bristol — photo booths, garden games, and more that get every generation involved.'
-serviceArea: ['South Wales', 'Bristol']
+description: 'Event hire across the South West — photo booths, garden games, and more that get every generation involved.'
+serviceArea: ['South West']
 // url: set when custom domain is live
 ```
 
@@ -417,7 +417,7 @@ src/
 | 2 | Display font | **Inter** (same as body) — hierarchy via size/weight |
 | 3 | Body font | **Inter** — free, consistent across devices (see §5) |
 | 4 | Tagline | **Bringing people together for memories that last** · short: **Gather. Play. Remember.** |
-| 5 | Service area | **South Wales and Bristol** |
+| 5 | Service area | **South West** |
 | 6 | Logo | **Typeset wordmark** for now |
 | 7 | Photos | **AI + placeholders OK** until kit is bought; real photos replace in place (§9) |
 

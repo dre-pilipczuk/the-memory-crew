@@ -16,4 +16,4 @@ recommendedEquipment:
   - portable-crazy-golf
 ---
 
-Birthdays work best when nobody is stuck on their phone in the corner. Garden games and crazy golf pull people outside; a booth captures the chaos in a good way. We equip parties for all ages across South Wales and Bristol.
+Birthdays work best when nobody is stuck on their phone in the corner. Garden games and crazy golf pull people outside; a booth captures the chaos in a good way. We equip parties for all ages across South West.

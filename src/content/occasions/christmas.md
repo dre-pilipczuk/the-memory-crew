@@ -16,4 +16,4 @@ recommendedEquipment:
   - white-dance-floor
 ---
 
-Office dos, family gatherings, and venue takeovers all benefit from a clear “fun zone”. Think booths, letters, and a floor that says the party starts here — delivered across South Wales and Bristol for the festive season.
+Office dos, family gatherings, and venue takeovers all benefit from a clear “fun zone”. Think booths, letters, and a floor that says the party starts here — delivered across South West for the festive season.

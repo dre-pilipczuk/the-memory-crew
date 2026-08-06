@@ -43,7 +43,7 @@ Home
 ```
 
 **Why Occasions are first-class**  
-Someone searching “wedding garden games South Wales” or planning a school fair thinks in *events*, not inventory SKUs. Occasion pages cross-link equipment and support local SEO without duplicating product detail pages.
+Someone searching “wedding garden games South West” or planning a school fair thinks in *events*, not inventory SKUs. Occasion pages cross-link equipment and support local SEO without duplicating product detail pages.
 
 **Internal only (not in public nav)**  
 - `/design-system` — component gallery (Phase 1)
@@ -129,7 +129,7 @@ Order in this table = default nav and hub order. Add categories in config first,
 
 ### Secondary / utility
 
-- Service area line (South Wales and Bristol) — header or footer, not a nav item
+- Service area line (South West) — header or footer, not a nav item
 - Phone/email when Phase 8 fills `site.ts` — footer + optional header
 
 ### Footer

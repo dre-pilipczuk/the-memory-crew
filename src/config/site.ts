@@ -8,9 +8,9 @@ export const site = {
 	tagline: 'Bringing people together for memories that last',
 	taglineShort: 'Gather. Play. Remember.',
 	description:
-		'Event hire across South Wales and Bristol — photo booths, garden games, and more that get every generation involved.',
-	serviceArea: ['South Wales', 'Bristol'] as const,
-	serviceAreaLabel: 'South Wales and Bristol',
+		'Event hire across the South West — photo booths, garden games, and more that get every generation involved.',
+	serviceArea: ['South West'] as const,
+	serviceAreaLabel: 'South West',
 	/** Deployed site origin (no trailing slash). */
 	url: 'https://thememorycrew.com',
 	email: '', // Phase 8

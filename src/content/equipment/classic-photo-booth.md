@@ -21,4 +21,4 @@ whatsIncluded:
 
 Our classic photo booth gets guests of every age posing together. Set it near the dance floor or in a quiet corner — either way, it becomes a memory machine for the night.
 
-Ideal for weddings, birthdays, and corporate parties across South Wales and Bristol.
+Ideal for weddings, birthdays, and corporate parties across South West.

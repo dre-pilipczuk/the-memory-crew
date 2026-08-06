@@ -1,6 +1,6 @@
 # The Memory Crew
 
-Event hire across South Wales and Bristol — equipment that brings people together for memories that last.
+Event hire across the South West — equipment that brings people together for memories that last.
 
 ## Stack
 
