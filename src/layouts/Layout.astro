@@ -4,6 +4,7 @@ import { site } from '../config/site';
 import Navbar from '../components/layout/Navbar.astro';
 import Footer from '../components/layout/Footer.astro';
 import Seo from '../components/seo/Seo.astro';
+import Analytics from '../components/seo/Analytics.astro';
 import { localBusinessJsonLd } from '../lib/seo';
 
 interface Props {
@@ -54,6 +55,8 @@ const blocks = [
 			noindex={noindex}
 			jsonLd={blocks.length ? blocks : undefined}
 		/>
+		{/* Privacy-friendly analytics — skipped when env vars unset / on noindex pages */}
+		{!noindex && <Analytics />}
 	</head>
 	<body>
 		<a class="skip-link" href="#main">Skip to content</a>

@@ -75,6 +75,11 @@ Site-wide via `src/config/brand.ts` → `Logo` component.
 Enquiry form on `/contact` via Formspree. Copy `.env.example` → `.env` and set `PUBLIC_FORMSPREE_ID`.  
 Details: [contact form](./docs/contact-form.md).
 
+## Analytics
+
+Optional Plausible or Cloudflare Web Analytics (no cookies / no banner).  
+See [analytics](./docs/analytics.md).
+
 ## Docs
 
 - [Design brief](./docs/design-brief.md)
@@ -83,4 +88,5 @@ Details: [contact form](./docs/contact-form.md).
 - [Content collections](./docs/content-collections.md)
 - [Images](./docs/images.md)
 - [Contact form](./docs/contact-form.md)
+- [Analytics](./docs/analytics.md)
 - [Astro docs](https://docs.astro.build)
