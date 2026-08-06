@@ -39,7 +39,28 @@ const preselect = Astro.url.searchParams.get('equipment') ?? '';
 >
 	{/* Formspree helpers */}
 	<input type="hidden" name="_subject" value={`Hire enquiry — ${site.name}`} />
-	<input type="text" name="_gotcha" class="contact-form__honeypot" tabindex="-1" autocomplete="off" />
+	{/*
+	  Honeypot: must stay empty. Browsers/password managers sometimes autofill
+	  hidden text fields — clear on submit (see script) and resist autofill.
+	*/}
+	<div class="contact-form__honeypot" aria-hidden="true">
+		<label>
+			Leave blank
+			<input
+				type="text"
+				name="_gotcha"
+				value=""
+				tabindex="-1"
+				autocomplete="off"
+				autocorrect="off"
+				autocapitalize="off"
+				spellcheck="false"
+				data-lpignore="true"
+				data-1p-ignore="true"
+				data-form-type="other"
+			/>
+		</label>
+	</div>
 
 	<div class="contact-form__grid">
 		<div class="field">
@@ -183,6 +204,13 @@ const preselect = Astro.url.searchParams.get('equipment') ?? '';
 			status.dataset.type = type;
 		};
 
+		// Clear honeypot if autofill polluted it (real users never see this field)
+		const clearHoneypot = () => {
+			const honeypot = form.querySelector<HTMLInputElement>('input[name="_gotcha"]');
+			if (honeypot) honeypot.value = '';
+		};
+		clearHoneypot();
+
 		form.addEventListener('submit', async (event) => {
 			event.preventDefault();
 			if (!form.checkValidity()) {
@@ -193,11 +221,17 @@ const preselect = Astro.url.searchParams.get('equipment') ?? '';
 			const action = form.getAttribute('action');
 			if (!action) return;
 
+			// Must run after autofill, before FormData is built
+			clearHoneypot();
+
 			submitBtn?.setAttribute('disabled', 'true');
 			setStatus('Sending…', 'pending');
 
 			try {
 				const body = new FormData(form);
+				// Force empty honeypot even if something re-filled it mid-submit
+				body.set('_gotcha', '');
+
 				// Formspree expects multi-value fields; join equipment for readability
 				const equipment = body.getAll('equipment').filter(Boolean);
 				body.delete('equipment');
@@ -271,12 +305,16 @@ const preselect = Astro.url.searchParams.get('equipment') ?? '';
 		gap: var(--space-5);
 	}
 
+	/* Off-screen honeypot — avoid display:none alone (autofill + bots both act oddly) */
 	.contact-form__honeypot {
-		position: absolute;
-		left: -9999px;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
+		position: absolute !important;
+		left: -10000px !important;
+		top: auto !important;
+		width: 1px !important;
+		height: 1px !important;
+		overflow: hidden !important;
+		opacity: 0 !important;
+		pointer-events: none !important;
 	}
 
 	.contact-form__grid {
