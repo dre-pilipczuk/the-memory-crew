@@ -402,7 +402,8 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 	.ibiza-hero {
 		position: relative;
 		isolation: isolate;
-		min-height: 100svh;
+		/* Slightly under full viewport so cover crop is less aggressive */
+		min-height: min(100svh, 56rem);
 		display: flex;
 		align-items: flex-end;
 		padding: clamp(5rem, 12vh, 7rem) clamp(1rem, 4vw, 2rem) clamp(2.5rem, 6vh, 4rem);
@@ -420,13 +421,24 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		/* Keep groom + bride central on tall/mobile crops */
-		object-position: center 28%;
+		/*
+		  Source is portrait; wide viewports crop top/bottom heavily.
+		  Anchor on the couple (lower half of the frame), not the rafters /
+		  raised fist — previous 28–35% only showed arms.
+		*/
+		object-position: center 62%;
 	}
 
 	@media (min-width: 48rem) {
 		.ibiza-hero__img {
-			object-position: center 35%;
+			/* Desktop: still favour faces + upper torso, keep some sparks */
+			object-position: center 55%;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.ibiza-hero__img {
+			object-position: center 50%;
 		}
 	}
 
@@ -436,12 +448,12 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 		background:
 			linear-gradient(
 				to top,
-				rgba(12, 10, 9, 0.96) 0%,
-				rgba(12, 10, 9, 0.72) 38%,
-				rgba(12, 10, 9, 0.35) 62%,
-				rgba(12, 10, 9, 0.45) 100%
+				rgba(12, 10, 9, 0.97) 0%,
+				rgba(12, 10, 9, 0.78) 32%,
+				rgba(12, 10, 9, 0.28) 58%,
+				rgba(12, 10, 9, 0.4) 100%
 			),
-			linear-gradient(to right, rgba(12, 10, 9, 0.55), transparent 55%);
+			linear-gradient(to right, rgba(12, 10, 9, 0.5), transparent 58%);
 	}
 
 	.ibiza-hero__content {
