@@ -30,6 +30,8 @@ export const paths = {
 	about: '/about',
 	faq: '/faq',
 	contact: '/contact',
+	/** Campaign funnel — Ibiza reception experience */
+	ibiza: '/ibiza',
 	/** Internal — do not add to public nav */
 	designSystem: '/design-system',
 } as const;

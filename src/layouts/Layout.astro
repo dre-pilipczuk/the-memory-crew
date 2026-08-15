@@ -19,6 +19,9 @@ interface Props {
 	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 	/** Include LocalBusiness JSON-LD (home by default when path is /) */
 	includeLocalBusiness?: boolean;
+	/** Optional body class (campaign pages) */
+	bodyClass?: string;
+	themeColor?: string;
 }
 
 const {
@@ -30,6 +33,8 @@ const {
 	ogImage,
 	jsonLd,
 	includeLocalBusiness = path === '/' || path === '',
+	bodyClass,
+	themeColor = '#FAF9F7',
 } = Astro.props;
 
 const blocks = [
@@ -46,7 +51,7 @@ const blocks = [
 		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="theme-color" content="#FAF9F7" />
+		<meta name="theme-color" content={themeColor} />
 		<Seo
 			title={title}
 			description={description}
@@ -57,8 +62,9 @@ const blocks = [
 		/>
 		{/* Privacy-friendly analytics — skipped when env vars unset / on noindex pages */}
 		{!noindex && <Analytics />}
+		<slot name="head" />
 	</head>
-	<body>
+	<body class={bodyClass}>
 		<a class="skip-link" href="#main">Skip to content</a>
 		{chrome && <Navbar />}
 		<main id="main">

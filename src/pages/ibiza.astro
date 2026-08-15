@@ -1,0 +1,835 @@
+---
+/**
+ * Campaign funnel: nightclub-style wedding receptions (cold spark + CO₂).
+ * Ad destination: thememorycrew.com/ibiza
+ * Standalone conversion page — no main site nav/footer chrome.
+ */
+import Layout from '../layouts/Layout.astro';
+import { Image, getImage } from 'astro:assets';
+import { site } from '../config/site';
+import { paths, withBase } from '../config/routes';
+import heroImage from '../assets/campaigns/ibiza-hero.jpg';
+import Logo from '../components/brand/Logo.astro';
+import '@fontsource/baloo-2/600.css';
+import '@fontsource/baloo-2/700.css';
+import '@fontsource/baloo-2/800.css';
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID as string | undefined;
+const formAction = formspreeId ? `https://formspree.io/f/${formspreeId}` : undefined;
+const formConfigured = Boolean(formspreeId);
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined;
+
+const pageTitle = "If this isn't my wedding, I don't want it";
+const pageDescription =
+	"Somewhere after the speeches, your reception stops feeling like a wedding — and starts feeling like you've been transported to Ibiza.";
+
+const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
+---
+
+<Layout
+	title={pageTitle}
+	description={pageDescription}
+	path={paths.ibiza}
+	chrome={false}
+	includeLocalBusiness={false}
+	ogImage={og.src}
+	themeColor="#0c0a09"
+	bodyClass="ibiza-body"
+>
+	{
+		metaPixelId && (
+			<Fragment slot="head">
+				<script is:inline define:vars={{ metaPixelId }}>
+					!(function (f, b, e, v, n, t, s) {
+						if (f.fbq) return;
+						n = f.fbq = function () {
+							n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+						};
+						if (!f._fbq) f._fbq = n;
+						n.push = n;
+						n.loaded = !0;
+						n.version = '2.0';
+						n.queue = [];
+						t = b.createElement(e);
+						t.async = !0;
+						t.src = v;
+						s = b.getElementsByTagName(e)[0];
+						s.parentNode.insertBefore(t, s);
+					})(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+					fbq('init', metaPixelId);
+					fbq('track', 'PageView');
+				</script>
+			</Fragment>
+		)
+	}
+
+	<div class="ibiza">
+		<header class="ibiza__top">
+			<a class="ibiza__logo" href={withBase(paths.home)} aria-label={site.name}>
+				<Logo variant="lockup-polaroid" size="sm" href={false} />
+			</a>
+		</header>
+
+		{/* 1. Hero */}
+		<section class="ibiza-hero" aria-label="Campaign hero">
+			<div class="ibiza-hero__media" aria-hidden="true">
+				<Image
+					src={heroImage}
+					alt=""
+					widths={[640, 960, 1280, 1600]}
+					sizes="100vw"
+					loading="eager"
+					fetchpriority="high"
+					formats={['avif', 'webp']}
+					class="ibiza-hero__img"
+				/>
+				<div class="ibiza-hero__scrim" />
+			</div>
+
+			<div class="ibiza-hero__content">
+				<p class="ibiza-hero__brand">{site.name}</p>
+				<h1 class="ibiza-hero__title">If this isn’t my wedding, I don’t want it</h1>
+				<p class="ibiza-hero__sub">
+					Somewhere after the speeches, your reception stops feeling like a wedding — and
+					starts feeling like you’ve been transported to Ibiza.
+				</p>
+				<p class="ibiza-hero__support">
+					You focus on making the ceremony beautiful.<br />
+					We’ll focus on making the reception legendary.
+				</p>
+				<p class="ibiza-hero__side">
+					Side effects may include a sore throat, muscle aches, and sore feet.
+				</p>
+				<a class="ibiza-btn" href="#enquire">Bring it on</a>
+			</div>
+		</section>
+
+		{/* 2. What to expect */}
+		<section class="ibiza-section ibiza-expect">
+			<div class="ibiza-section__inner">
+				<h2 class="ibiza-heading">This is not a normal wedding reception.</h2>
+				<div class="ibiza-expect__copy">
+					<p>No polite swaying.</p>
+					<p>No early finish.</p>
+					<p>No one checking their watch.</p>
+				</div>
+				<p class="ibiza-expect__body">
+					Just a dancefloor that actually goes off — the kind of energy your guests will
+					still be talking about next year.
+				</p>
+				<p class="ibiza-expect__challenge">Think they can handle it?</p>
+			</div>
+		</section>
+
+		{/* 3. Three points */}
+		<section class="ibiza-section ibiza-points" aria-label="What you get">
+			<div class="ibiza-section__inner">
+				<ul class="ibiza-points__list">
+					<li class="ibiza-points__item">
+						<span class="ibiza-points__mark" aria-hidden="true" />
+						A reception that feels like a proper night out
+					</li>
+					<li class="ibiza-points__item">
+						<span class="ibiza-points__mark" aria-hidden="true" />
+						The kind of atmosphere people lose their minds in
+					</li>
+					<li class="ibiza-points__item">
+						<span class="ibiza-points__mark" aria-hidden="true" />
+						Limited dates across South Wales &amp; Bristol
+					</li>
+				</ul>
+			</div>
+		</section>
+
+		{/* 4. Form */}
+		<section class="ibiza-section ibiza-form-section" id="enquire">
+			<div class="ibiza-section__inner ibiza-section__inner--narrow">
+				<h2 class="ibiza-heading">Ready?</h2>
+				<p class="ibiza-form-section__lead">
+					We’re only taking a small number of weddings per season across South Wales
+					&amp; Bristol.
+				</p>
+
+				{
+					!formConfigured && (
+						<p class="ibiza-form-banner" role="status">
+							Form not connected yet — set <code>PUBLIC_FORMSPREE_ID</code> to go live.
+						</p>
+					)
+				}
+
+				<form
+					class="ibiza-form"
+					method="POST"
+					action={formAction}
+					data-ibiza-form
+					data-configured={formConfigured ? 'true' : 'false'}
+					data-meta-pixel={metaPixelId || ''}
+					novalidate
+				>
+					<input type="hidden" name="_subject" value={`Ibiza wedding enquiry — ${site.name}`} />
+					<input type="hidden" name="campaign" value="ibiza-reception" />
+					<div class="ibiza-form__honeypot" aria-hidden="true">
+						<label>
+							Leave blank
+							<input
+								type="text"
+								name="_gotcha"
+								value=""
+								tabindex="-1"
+								autocomplete="off"
+								data-lpignore="true"
+								data-1p-ignore="true"
+							/>
+						</label>
+					</div>
+
+					<div class="ibiza-form__grid">
+						<div class="ibiza-field">
+							<label for="ibiza-name">Name <span>*</span></label>
+							<input
+								id="ibiza-name"
+								name="name"
+								type="text"
+								autocomplete="name"
+								required
+								disabled={!formConfigured}
+							/>
+						</div>
+						<div class="ibiza-field">
+							<label for="ibiza-email">Email <span>*</span></label>
+							<input
+								id="ibiza-email"
+								name="email"
+								type="email"
+								autocomplete="email"
+								required
+								disabled={!formConfigured}
+							/>
+						</div>
+						<div class="ibiza-field">
+							<label for="ibiza-phone">Phone <span>*</span></label>
+							<input
+								id="ibiza-phone"
+								name="phone"
+								type="tel"
+								autocomplete="tel"
+								required
+								disabled={!formConfigured}
+							/>
+						</div>
+						<div class="ibiza-field">
+							<label for="ibiza-date">Wedding date <span>*</span></label>
+							<input
+								id="ibiza-date"
+								name="weddingDate"
+								type="date"
+								required
+								disabled={!formConfigured}
+							/>
+						</div>
+						<div class="ibiza-field ibiza-field--full">
+							<label for="ibiza-message">
+								Message <span class="optional">(optional)</span>
+							</label>
+							<textarea
+								id="ibiza-message"
+								name="message"
+								rows="3"
+								placeholder="Anything we should know?"
+								disabled={!formConfigured}
+							/>
+						</div>
+					</div>
+
+					<button class="ibiza-btn ibiza-btn--block" type="submit" disabled={!formConfigured}>
+						Bring it on
+					</button>
+					<p class="ibiza-form__micro">
+						No obligation. Just tell us your date and we’ll see if we can make it legendary.
+					</p>
+					<p class="ibiza-form__status" data-form-status hidden></p>
+				</form>
+			</div>
+		</section>
+
+		<footer class="ibiza-footer">
+			<p>
+				<a href={withBase(paths.home)}>{site.name}</a>
+				· Event hire · South Wales &amp; Bristol
+			</p>
+		</footer>
+	</div>
+</Layout>
+
+<script>
+	function initIbizaForm() {
+		const form = document.querySelector<HTMLFormElement>('[data-ibiza-form]');
+		if (!form || form.dataset.configured !== 'true') return;
+
+		const status = form.querySelector<HTMLElement>('[data-form-status]');
+		const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+		const pixelId = form.dataset.metaPixel;
+
+		const setStatus = (message: string, type: 'success' | 'error' | 'pending') => {
+			if (!status) return;
+			status.hidden = false;
+			status.textContent = message;
+			status.dataset.type = type;
+		};
+
+		const clearHoneypot = () => {
+			const honeypot = form.querySelector<HTMLInputElement>('input[name="_gotcha"]');
+			if (honeypot) honeypot.value = '';
+		};
+		clearHoneypot();
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			if (!form.checkValidity()) {
+				form.reportValidity();
+				return;
+			}
+
+			const action = form.getAttribute('action');
+			if (!action) return;
+
+			clearHoneypot();
+			submitBtn?.setAttribute('disabled', 'true');
+			setStatus('Sending…', 'pending');
+
+			try {
+				const body = new FormData(form);
+				body.set('_gotcha', '');
+
+				const response = await fetch(action, {
+					method: 'POST',
+					body,
+					headers: { Accept: 'application/json' },
+				});
+
+				if (response.ok) {
+					form.reset();
+					clearHoneypot();
+					setStatus('Thanks — we’ll be in touch shortly.', 'success');
+					// Meta Pixel Lead event (if pixel loaded)
+					const w = window as Window & { fbq?: (...args: unknown[]) => void };
+					if (pixelId && typeof w.fbq === 'function') {
+						w.fbq('track', 'Lead', { content_name: 'ibiza-reception' });
+					}
+				} else {
+					const data = (await response.json().catch(() => null)) as {
+						errors?: { message?: string }[];
+					} | null;
+					const detail = data?.errors?.map((e) => e.message).filter(Boolean).join(' ');
+					setStatus(
+						detail || 'Something went wrong. Please try again.',
+						'error',
+					);
+				}
+			} catch {
+				setStatus('Network error. Check your connection and try again.', 'error');
+			} finally {
+				submitBtn?.removeAttribute('disabled');
+			}
+		});
+	}
+
+	initIbizaForm();
+	document.addEventListener('astro:page-load', initIbizaForm);
+</script>
+
+<style is:global>
+	.ibiza-body {
+		background: #0c0a09 !important;
+		color: #faf7f5;
+	}
+
+	.ibiza-body .skip-link {
+		background: #d85a30;
+	}
+</style>
+
+<style>
+	.ibiza {
+		--ibiza-coral: #d85a30;
+		--ibiza-coral-hover: #c04e28;
+		--ibiza-amber: #ef9f27;
+		--ibiza-ink: #faf7f5;
+		--ibiza-muted: #c4bbb4;
+		--ibiza-dim: #8a817a;
+		--ibiza-surface: #161311;
+		--ibiza-border: #2a2420;
+		--ibiza-display: 'Baloo 2', system-ui, sans-serif;
+		--ibiza-body: 'Inter', system-ui, sans-serif;
+
+		min-height: 100vh;
+		background: #0c0a09;
+		color: var(--ibiza-ink);
+		font-family: var(--ibiza-body);
+	}
+
+	.ibiza__top {
+		position: absolute;
+		inset-inline: 0;
+		top: 0;
+		z-index: 5;
+		padding: 1rem clamp(1rem, 4vw, 2rem);
+		display: flex;
+		justify-content: flex-start;
+	}
+
+	.ibiza__logo {
+		text-decoration: none;
+		filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
+	}
+
+	/* Force logo readable on dark hero */
+	.ibiza__logo :global(.logo__word),
+	.ibiza__logo :global(.logo__name) {
+		color: #faf7f5;
+	}
+
+	.ibiza__logo :global(.logo__the) {
+		color: #c4bbb4;
+	}
+
+	.ibiza__logo :global(.logo__mark) {
+		color: #d85a30;
+	}
+
+	/* ——— Hero ——— */
+	.ibiza-hero {
+		position: relative;
+		isolation: isolate;
+		min-height: 100svh;
+		display: flex;
+		align-items: flex-end;
+		padding: clamp(5rem, 12vh, 7rem) clamp(1rem, 4vw, 2rem) clamp(2.5rem, 6vh, 4rem);
+	}
+
+	.ibiza-hero__media {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		overflow: hidden;
+		background: #0c0a09;
+	}
+
+	.ibiza-hero__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		/* Keep groom + bride central on tall/mobile crops */
+		object-position: center 28%;
+	}
+
+	@media (min-width: 48rem) {
+		.ibiza-hero__img {
+			object-position: center 35%;
+		}
+	}
+
+	.ibiza-hero__scrim {
+		position: absolute;
+		inset: 0;
+		background:
+			linear-gradient(
+				to top,
+				rgba(12, 10, 9, 0.96) 0%,
+				rgba(12, 10, 9, 0.72) 38%,
+				rgba(12, 10, 9, 0.35) 62%,
+				rgba(12, 10, 9, 0.45) 100%
+			),
+			linear-gradient(to right, rgba(12, 10, 9, 0.55), transparent 55%);
+	}
+
+	.ibiza-hero__content {
+		width: 100%;
+		max-width: 40rem;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	.ibiza-hero__brand {
+		margin: 0;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ibiza-amber);
+	}
+
+	.ibiza-hero__title {
+		margin: 0;
+		font-family: var(--ibiza-display);
+		font-weight: 800;
+		font-size: clamp(2.25rem, 7vw, 3.75rem);
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		text-wrap: balance;
+		color: #fff;
+	}
+
+	.ibiza-hero__sub {
+		margin: 0;
+		font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+		line-height: 1.55;
+		color: #f0e9e4;
+		text-wrap: pretty;
+		max-width: 34rem;
+	}
+
+	.ibiza-hero__support {
+		margin: 0;
+		font-size: 1rem;
+		line-height: 1.55;
+		color: var(--ibiza-muted);
+	}
+
+	.ibiza-hero__side {
+		margin: 0.25rem 0 0.5rem;
+		font-size: 0.875rem;
+		font-style: italic;
+		color: var(--ibiza-dim);
+	}
+
+	/* ——— Buttons ——— */
+	.ibiza-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 3.25rem;
+		padding: 0.85rem 1.75rem;
+		border: none;
+		border-radius: 0.75rem;
+		background: var(--ibiza-coral);
+		color: #fff;
+		font-family: var(--ibiza-display);
+		font-weight: 700;
+		font-size: 1.15rem;
+		letter-spacing: 0.02em;
+		text-decoration: none;
+		cursor: pointer;
+		transition:
+			background 0.15s ease,
+			transform 0.15s ease,
+			box-shadow 0.15s ease;
+		box-shadow: 0 8px 28px rgba(216, 90, 48, 0.35);
+	}
+
+	.ibiza-btn:hover {
+		background: var(--ibiza-coral-hover);
+		color: #fff;
+		transform: translateY(-1px);
+	}
+
+	.ibiza-btn:focus-visible {
+		outline: 2px solid var(--ibiza-amber);
+		outline-offset: 3px;
+	}
+
+	.ibiza-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		transform: none;
+	}
+
+	.ibiza-btn--block {
+		width: 100%;
+	}
+
+	/* ——— Sections ——— */
+	.ibiza-section {
+		padding: clamp(3.5rem, 10vw, 6.5rem) clamp(1rem, 4vw, 2rem);
+	}
+
+	.ibiza-section__inner {
+		max-width: 52rem;
+		margin-inline: auto;
+	}
+
+	.ibiza-section__inner--narrow {
+		max-width: 32rem;
+	}
+
+	.ibiza-heading {
+		margin: 0 0 1.5rem;
+		font-family: var(--ibiza-display);
+		font-weight: 800;
+		font-size: clamp(1.85rem, 5vw, 2.75rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		text-wrap: balance;
+		color: #fff;
+	}
+
+	.ibiza-expect {
+		background: var(--ibiza-surface);
+		border-block: 1px solid var(--ibiza-border);
+	}
+
+	.ibiza-expect__copy {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		margin-bottom: 1.75rem;
+	}
+
+	.ibiza-expect__copy p {
+		margin: 0;
+		font-family: var(--ibiza-display);
+		font-weight: 700;
+		font-size: clamp(1.25rem, 3.5vw, 1.65rem);
+		color: var(--ibiza-amber);
+	}
+
+	.ibiza-expect__body {
+		margin: 0 0 1.75rem;
+		font-size: 1.125rem;
+		line-height: 1.6;
+		color: var(--ibiza-muted);
+		max-width: 36rem;
+		text-wrap: pretty;
+	}
+
+	.ibiza-expect__challenge {
+		margin: 0;
+		font-family: var(--ibiza-display);
+		font-weight: 700;
+		font-size: 1.35rem;
+		color: #fff;
+	}
+
+	/* Points */
+	.ibiza-points__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 1rem;
+	}
+
+	@media (min-width: 48rem) {
+		.ibiza-points__list {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.25rem;
+		}
+	}
+
+	.ibiza-points__item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+		padding: 1.5rem;
+		background: var(--ibiza-surface);
+		border: 1px solid var(--ibiza-border);
+		border-radius: 1rem;
+		font-family: var(--ibiza-display);
+		font-weight: 700;
+		font-size: 1.15rem;
+		line-height: 1.3;
+		color: #fff;
+	}
+
+	.ibiza-points__mark {
+		width: 2rem;
+		height: 0.35rem;
+		border-radius: 999px;
+		background: linear-gradient(90deg, var(--ibiza-coral), var(--ibiza-amber));
+	}
+
+	/* Form */
+	.ibiza-form-section {
+		background: #100e0c;
+		border-top: 1px solid var(--ibiza-border);
+	}
+
+	.ibiza-form-section__lead {
+		margin: 0 0 2rem;
+		font-size: 1.05rem;
+		line-height: 1.55;
+		color: var(--ibiza-muted);
+	}
+
+	.ibiza-form-banner {
+		margin: 0 0 1.25rem;
+		padding: 0.85rem 1rem;
+		border-radius: 0.75rem;
+		background: rgba(216, 90, 48, 0.15);
+		border: 1px solid rgba(216, 90, 48, 0.35);
+		font-size: 0.9rem;
+		color: var(--ibiza-muted);
+	}
+
+	.ibiza-form-banner code {
+		font-family: ui-monospace, monospace;
+		font-size: 0.85em;
+		color: var(--ibiza-amber);
+	}
+
+	.ibiza-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.ibiza-form__honeypot {
+		position: absolute !important;
+		left: -10000px !important;
+		width: 1px !important;
+		height: 1px !important;
+		overflow: hidden !important;
+		opacity: 0 !important;
+		pointer-events: none !important;
+	}
+
+	.ibiza-form__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+
+	@media (min-width: 40rem) {
+		.ibiza-form__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.ibiza-field--full {
+			grid-column: 1 / -1;
+		}
+	}
+
+	.ibiza-field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	.ibiza-field label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: #e8e0da;
+	}
+
+	.ibiza-field label span {
+		color: var(--ibiza-coral);
+	}
+
+	.ibiza-field label .optional {
+		color: var(--ibiza-dim);
+		font-weight: 400;
+	}
+
+	.ibiza-field input,
+	.ibiza-field textarea {
+		width: 100%;
+		min-height: 2.85rem;
+		padding: 0.7rem 0.9rem;
+		border: 1px solid var(--ibiza-border);
+		border-radius: 0.65rem;
+		background: #1a1613;
+		color: #fff;
+		font: inherit;
+		transition:
+			border-color 0.15s ease,
+			box-shadow 0.15s ease;
+	}
+
+	.ibiza-field textarea {
+		min-height: 6rem;
+		resize: vertical;
+	}
+
+	.ibiza-field input::placeholder,
+	.ibiza-field textarea::placeholder {
+		color: #6b635c;
+	}
+
+	.ibiza-field input:hover:not(:disabled),
+	.ibiza-field textarea:hover:not(:disabled) {
+		border-color: #3d342e;
+	}
+
+	.ibiza-field input:focus,
+	.ibiza-field textarea:focus {
+		outline: none;
+		border-color: var(--ibiza-coral);
+		box-shadow: 0 0 0 3px rgba(216, 90, 48, 0.25);
+	}
+
+	.ibiza-field input:disabled,
+	.ibiza-field textarea:disabled {
+		opacity: 0.55;
+		cursor: not-allowed;
+	}
+
+	/* Date input calendar icon on dark */
+	.ibiza-field input[type='date'] {
+		color-scheme: dark;
+	}
+
+	.ibiza-form__micro {
+		margin: 0;
+		font-size: 0.875rem;
+		line-height: 1.45;
+		color: var(--ibiza-dim);
+		text-align: center;
+	}
+
+	.ibiza-form__status {
+		margin: 0;
+		font-size: 0.95rem;
+		font-weight: 600;
+		text-align: center;
+	}
+
+	.ibiza-form__status[data-type='success'] {
+		color: #6dca8b;
+	}
+
+	.ibiza-form__status[data-type='error'] {
+		color: #f07167;
+	}
+
+	.ibiza-form__status[data-type='pending'] {
+		color: var(--ibiza-muted);
+	}
+
+	.ibiza-footer {
+		padding: 2rem clamp(1rem, 4vw, 2rem) 2.5rem;
+		border-top: 1px solid var(--ibiza-border);
+		text-align: center;
+	}
+
+	.ibiza-footer p {
+		margin: 0;
+		font-size: 0.8rem;
+		color: var(--ibiza-dim);
+	}
+
+	.ibiza-footer a {
+		color: var(--ibiza-muted);
+		text-decoration: none;
+	}
+
+	.ibiza-footer a:hover {
+		color: var(--ibiza-amber);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ibiza-btn {
+			transition: none;
+		}
+
+		.ibiza-btn:hover {
+			transform: none;
+		}
+
+		html {
+			scroll-behavior: auto;
+		}
+	}
+</style>

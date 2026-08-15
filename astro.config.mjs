@@ -10,7 +10,8 @@ export default defineConfig({
 	trailingSlash: 'always',
 	integrations: [
 		sitemap({
-			filter: (page) => !page.includes('/design-system'),
+			filter: (page) =>
+				!page.includes('/design-system') && !page.includes('/ibiza'),
 		}),
 	],
 	image: {
