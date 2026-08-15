@@ -423,22 +423,21 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 		object-fit: cover;
 		/*
 		  Source is portrait; wide viewports crop top/bottom heavily.
-		  Anchor on the couple (lower half of the frame), not the rafters /
-		  raised fist — previous 28–35% only showed arms.
+		  Anchor mid-frame so sparks, smoke, and faces all read —
+		  not so high we only get arms, not so low we lose the venue.
 		*/
-		object-position: center 62%;
+		object-position: center 48%;
 	}
 
 	@media (min-width: 48rem) {
 		.ibiza-hero__img {
-			/* Desktop: still favour faces + upper torso, keep some sparks */
-			object-position: center 55%;
+			object-position: center 42%;
 		}
 	}
 
 	@media (min-width: 64rem) {
 		.ibiza-hero__img {
-			object-position: center 50%;
+			object-position: center 38%;
 		}
 	}
 
