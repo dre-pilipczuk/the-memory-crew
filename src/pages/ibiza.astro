@@ -282,10 +282,10 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 					form.reset();
 					clearHoneypot();
 					setStatus('Thanks — we’ll be in touch shortly.', 'success');
-					// Meta Pixel Lead (site-wide pixel from Analytics)
+					// Meta Pixel Lead — content_name distinguishes campaign vs main contact form
 					const w = window as Window & { fbq?: (...args: unknown[]) => void };
 					if (typeof w.fbq === 'function') {
-						w.fbq('track', 'Lead');
+						w.fbq('track', 'Lead', { content_name: 'ibiza-reception' });
 					}
 				} else {
 					const data = (await response.json().catch(() => null)) as {

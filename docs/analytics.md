@@ -53,17 +53,41 @@ PUBLIC_META_PIXEL_ID=123456789012345
 
 ### What fires
 
-| Event | When |
-| --- | --- |
-| `PageView` | Every public page (via `Analytics.astro`) |
-| `Lead` | Successful `/contact` form submit (`content_name: contact-enquiry`) |
-| `Lead` | Successful `/ibiza` form submit (`content_name: ibiza-reception`) |
+| Event | When | Parameters |
+| --- | --- | --- |
+| `PageView` | Every public page (via `Analytics.astro`) | — |
+| `Lead` | Successful `/contact` form submit | `content_name: contact-enquiry` |
+| `Lead` | Successful `/ibiza` form submit | `content_name: ibiza-reception` |
+
+Both forms fire the **same standard event** (`Lead`). The `content_name` parameter is how you tell them apart — you do **not** need a separate custom event named `ibiza-reception` in Ads Manager.
+
+### Ads Manager / Events Manager setup
+
+**Minimum (enough to start ads):**
+
+1. Confirm the Pixel is receiving **PageView** and **Lead** in [Events Manager](https://business.facebook.com/events_manager2) (Test events or Overview after a real submit).
+2. When creating a campaign, optimise for the standard **Lead** conversion (or “Conversions” → Lead). Meta will optimise toward all Leads until you narrow them.
+
+**Optional — optimise only for Ibiza enquiries:**
+
+1. Events Manager → **Custom conversions** → Create
+2. Event source: your Pixel
+3. Rule: **Event** = `Lead` **and** **content_name** equals / contains `ibiza-reception`
+4. Name it e.g. “Ibiza reception lead”
+5. In the ad set, choose that custom conversion as the optimisation event (once it has enough volume)
+
+**Optional — reporting only (no separate optimisation):**
+
+- In Ads Manager reporting, add a breakdown or use Events Manager event details to inspect `content_name` on Lead events.
+- Or create the same custom conversion purely for charts, while still optimising on all Leads early on (safer when volume is low).
+
+Until you have a steady stream of Ibiza form submits, optimising on **all Leads** is usually fine; switch to the Ibiza-only custom conversion once Meta has enough conversion data.
 
 ### Verify
 
 1. Install the [Meta Pixel Helper](https://chrome.google.com/webstore/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc) Chrome extension
 2. Visit `https://thememorycrew.com/` — expect **PageView**
-3. Submit a test enquiry (or use Events Manager → Test events)
+3. Submit a test enquiry — expect **Lead** with the matching `content_name` parameter (or use Events Manager → Test events)
 
 ### Privacy note
 
