@@ -17,7 +17,6 @@ import '@fontsource/baloo-2/800.css';
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID as string | undefined;
 const formAction = formspreeId ? `https://formspree.io/f/${formspreeId}` : undefined;
 const formConfigured = Boolean(formspreeId);
-const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined;
 
 const pageTitle = "If this isn't my wedding, I don't want it";
 const pageDescription =
@@ -36,33 +35,6 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 	themeColor="#0c0a09"
 	bodyClass="ibiza-body"
 >
-	{
-		metaPixelId && (
-			<Fragment slot="head">
-				<script is:inline define:vars={{ metaPixelId }}>
-					!(function (f, b, e, v, n, t, s) {
-						if (f.fbq) return;
-						n = f.fbq = function () {
-							n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-						};
-						if (!f._fbq) f._fbq = n;
-						n.push = n;
-						n.loaded = !0;
-						n.version = '2.0';
-						n.queue = [];
-						t = b.createElement(e);
-						t.async = !0;
-						t.src = v;
-						s = b.getElementsByTagName(e)[0];
-						s.parentNode.insertBefore(t, s);
-					})(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-					fbq('init', metaPixelId);
-					fbq('track', 'PageView');
-				</script>
-			</Fragment>
-		)
-	}
-
 	<div class="ibiza">
 		<header class="ibiza__top">
 			<a class="ibiza__logo" href={withBase(paths.home)} aria-label={site.name}>
@@ -164,7 +136,6 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 					action={formAction}
 					data-ibiza-form
 					data-configured={formConfigured ? 'true' : 'false'}
-					data-meta-pixel={metaPixelId || ''}
 					novalidate
 				>
 					<input type="hidden" name="_subject" value={`Ibiza wedding enquiry — ${site.name}`} />
@@ -269,7 +240,6 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 
 		const status = form.querySelector<HTMLElement>('[data-form-status]');
 		const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-		const pixelId = form.dataset.metaPixel;
 
 		const setStatus = (message: string, type: 'success' | 'error' | 'pending') => {
 			if (!status) return;
@@ -312,9 +282,9 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 					form.reset();
 					clearHoneypot();
 					setStatus('Thanks — we’ll be in touch shortly.', 'success');
-					// Meta Pixel Lead event (if pixel loaded)
+					// Meta Pixel Lead (site-wide pixel from Analytics)
 					const w = window as Window & { fbq?: (...args: unknown[]) => void };
-					if (pixelId && typeof w.fbq === 'function') {
+					if (typeof w.fbq === 'function') {
 						w.fbq('track', 'Lead', { content_name: 'ibiza-reception' });
 					}
 				} else {

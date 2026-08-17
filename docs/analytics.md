@@ -1,14 +1,14 @@
 # Analytics
 
-Privacy-friendly page analytics with **no cookies** and **no cookie banner**.
-
 Component: `src/components/seo/Analytics.astro` (loaded from `Layout`, skipped on `noindex` pages like `/design-system`).
+
+Scripts only load when the matching env var is set.
 
 ---
 
-## Option A — Plausible (recommended)
+## Option A — Plausible (privacy-friendly)
 
-Paid, simple, GDPR-friendly, UK-friendly.
+Paid, simple, GDPR-friendly, UK-friendly. **No cookies / no consent banner** for basic traffic stats.
 
 1. Create a site at [plausible.io](https://plausible.io) for **`thememorycrew.com`**
 2. Locally, add to `.env`:
@@ -17,15 +17,15 @@ Paid, simple, GDPR-friendly, UK-friendly.
 PUBLIC_PLAUSIBLE_DOMAIN=thememorycrew.com
 ```
 
-3. For production, add the same as a **GitHub Actions secret** (or repository variable) named `PUBLIC_PLAUSIBLE_DOMAIN`, and ensure the deploy workflow passes it (see below).
-
-Dashboard: traffic, top pages, referrers, devices — no personal data stored by default.
+3. For production, add the same as a **GitHub Actions secret** named `PUBLIC_PLAUSIBLE_DOMAIN`.
 
 ---
 
 ## Option B — Cloudflare Web Analytics (free)
 
-1. [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/) → add site (can work without proxying DNS)
+Privacy-friendly page stats. **No cookies / no consent banner** for basic traffic.
+
+1. [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/) → add site
 2. Copy the **beacon token**
 3. Set:
 
@@ -37,30 +37,63 @@ You can use **both** Plausible and Cloudflare if you set both vars (usually pick
 
 ---
 
+## Meta Pixel (Facebook / Instagram ads)
+
+Required for Facebook Ads optimisation, retargeting, and conversion tracking.
+
+1. In [Meta Events Manager](https://business.facebook.com/events_manager2) create a **Pixel** (or open an existing one)
+2. Copy the **Pixel ID** (digits only)
+3. Locally, add to `.env`:
+
+```sh
+PUBLIC_META_PIXEL_ID=123456789012345
+```
+
+4. For production, add a GitHub Actions secret **`PUBLIC_META_PIXEL_ID`** with the same value
+
+### What fires
+
+| Event | When |
+| --- | --- |
+| `PageView` | Every public page (via `Analytics.astro`) |
+| `Lead` | Successful `/contact` form submit (`content_name: contact-enquiry`) |
+| `Lead` | Successful `/ibiza` form submit (`content_name: ibiza-reception`) |
+
+### Verify
+
+1. Install the [Meta Pixel Helper](https://chrome.google.com/webstore/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc) Chrome extension
+2. Visit `https://thememorycrew.com/` — expect **PageView**
+3. Submit a test enquiry (or use Events Manager → Test events)
+
+### Privacy note
+
+Meta Pixel uses cookies and advertising identifiers. Under UK GDPR/PECR this is marketing tracking — if you grow beyond soft launch, plan a consent banner or documented legitimate-interest assessment. Plausible/Cloudflare alone do **not** require a banner for basic stats.
+
+---
+
 ## Why not Google Analytics?
 
-GA4 typically needs a **cookie consent banner** under UK GDPR/PECR. Plausible/Cloudflare avoid that for basic traffic stats.
+GA4 typically needs a **cookie consent banner** under UK GDPR/PECR. Plausible/Cloudflare avoid that for basic traffic stats. Meta Pixel is intentional for ads and is separate.
 
 ---
 
 ## Deploy env (GitHub Actions)
 
-In `.github/workflows/deploy.yml`, the build step should include:
+In `.github/workflows/deploy.yml`:
 
 ```yaml
 env:
   PUBLIC_FORMSPREE_ID: ${{ secrets.PUBLIC_FORMSPREE_ID }}
   PUBLIC_PLAUSIBLE_DOMAIN: ${{ secrets.PUBLIC_PLAUSIBLE_DOMAIN }}
-  # PUBLIC_CF_BEACON_TOKEN: ${{ secrets.PUBLIC_CF_BEACON_TOKEN }}
+  PUBLIC_CF_BEACON_TOKEN: ${{ secrets.PUBLIC_CF_BEACON_TOKEN }}
+  PUBLIC_META_PIXEL_ID: ${{ secrets.PUBLIC_META_PIXEL_ID }}
 ```
 
 Add matching secrets under repo **Settings → Secrets and variables → Actions**.
-
-Until Actions is healthy again, analytics will appear on the next successful deploy after secrets are set.
 
 ---
 
 ## Local testing
 
-With only Formspree in `.env`, analytics scripts **do not** load (no domain/token).  
-Add `PUBLIC_PLAUSIBLE_DOMAIN=localhost` only if you want to test the script tag locally (Plausible may ignore localhost traffic depending on plan/settings).
+With only Formspree in `.env`, analytics scripts **do not** load.  
+Add `PUBLIC_META_PIXEL_ID=...` to `.env` and run `astro dev` to test with Pixel Helper (test traffic will appear in Events Manager).

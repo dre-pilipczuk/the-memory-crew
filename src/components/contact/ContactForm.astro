@@ -251,6 +251,11 @@ const preselect = Astro.url.searchParams.get('equipment') ?? '';
 						'Thanks — we’ve received your enquiry and will get back to you soon.',
 						'success',
 					);
+					// Meta Pixel Lead (site-wide pixel from Analytics)
+					const w = window as Window & { fbq?: (...args: unknown[]) => void };
+					if (typeof w.fbq === 'function') {
+						w.fbq('track', 'Lead', { content_name: 'contact-enquiry' });
+					}
 				} else {
 					const data = (await response.json().catch(() => null)) as {
 						errors?: { message?: string }[];

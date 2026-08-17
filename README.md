@@ -77,7 +77,7 @@ Details: [contact form](./docs/contact-form.md).
 
 ## Analytics
 
-Optional Plausible or Cloudflare Web Analytics (no cookies / no banner).  
+Optional Plausible / Cloudflare Web Analytics, plus Meta Pixel for Facebook Ads.  
 See [analytics](./docs/analytics.md).
 
 ## Docs

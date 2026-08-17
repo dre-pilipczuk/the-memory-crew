@@ -60,7 +60,7 @@ const blocks = [
 			noindex={noindex}
 			jsonLd={blocks.length ? blocks : undefined}
 		/>
-		{/* Privacy-friendly analytics — skipped when env vars unset / on noindex pages */}
+		{/* Analytics + Meta Pixel — skipped when env vars unset / on noindex pages */}
 		{!noindex && <Analytics />}
 		<slot name="head" />
 	</head>

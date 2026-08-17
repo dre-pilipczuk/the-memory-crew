@@ -1,17 +1,17 @@
 ---
 /**
- * Privacy-friendly analytics — no cookies, no consent banner required.
+ * Site analytics — scripts only load when the matching env var is set.
  *
  * Plausible: PUBLIC_PLAUSIBLE_DOMAIN=thememorycrew.com
  * Cloudflare Web Analytics: PUBLIC_CF_BEACON_TOKEN=<token from CF dashboard>
- *
- * Scripts only load when the matching env var is set.
+ * Meta Pixel (Facebook/Instagram ads): PUBLIC_META_PIXEL_ID=<pixel id>
  */
 const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN as string | undefined;
 const plausibleSrc =
 	(import.meta.env.PUBLIC_PLAUSIBLE_SRC as string | undefined) ||
 	'https://plausible.io/js/script.js';
 const cfBeacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN as string | undefined;
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined;
 
 // Exact Cloudflare snippet shape (single-quoted JSON attribute)
 const cfSnippet = cfBeacon
@@ -31,3 +31,39 @@ const cfSnippet = cfBeacon
 }
 
 {cfBeacon && <Fragment set:html={cfSnippet} />}
+
+{
+	metaPixelId && (
+		<>
+			<script is:inline define:vars={{ metaPixelId }}>
+				!(function (f, b, e, v, n, t, s) {
+					if (f.fbq) return;
+					n = f.fbq = function () {
+						n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+					};
+					if (!f._fbq) f._fbq = n;
+					n.push = n;
+					n.loaded = !0;
+					n.version = '2.0';
+					n.queue = [];
+					t = b.createElement(e);
+					t.async = !0;
+					t.src = v;
+					s = b.getElementsByTagName(e)[0];
+					s.parentNode.insertBefore(t, s);
+				})(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+				fbq('init', metaPixelId);
+				fbq('track', 'PageView');
+			</script>
+			<noscript>
+				<img
+					height="1"
+					width="1"
+					style="display:none"
+					src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+					alt=""
+				/>
+			</noscript>
+		</>
+	)
+}
