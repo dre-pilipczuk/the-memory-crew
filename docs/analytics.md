@@ -85,9 +85,30 @@ Until you have a steady stream of Ibiza form submits, optimising on **all Leads*
 
 ### Verify
 
-1. Install the [Meta Pixel Helper](https://chrome.google.com/webstore/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc) Chrome extension
-2. Visit `https://thememorycrew.com/` — expect **PageView**
-3. Submit a test enquiry — expect **Lead** with the matching `content_name` parameter (or use Events Manager → Test events)
+**Confirm the code is live (already deployed):** view source on `https://thememorycrew.com/` and search for your Pixel ID and `fbevents.js`. You should also see `fbq('track', 'PageView')`.
+
+**Best check — Meta Pixel Helper (Chrome):**
+
+1. Install [Meta Pixel Helper](https://chrome.google.com/webstore/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc)
+2. Use **Chrome**, disable ad blockers / Brave shields / Privacy Badger for the site
+3. Open `https://thememorycrew.com/` → helper should show Pixel **120252010942960220** and **PageView**
+4. Submit `/ibiza` form → **Lead** with `content_name: ibiza-reception`
+
+**Events Manager → Test events:**
+
+1. Keep the Test events tab open
+2. Prefer **Open website** from that page (don’t only type the URL in a random tab)
+3. Use the same Chrome profile, ad blockers off, third-party cookies allowed
+4. **PageView** should appear on load; **Lead** only after a successful form submit (not on button click alone)
+
+If Helper / Network shows `facebook.com/tr` requests but Test events is empty, the pixel is still working — Test events is flaky. Check **Overview** / **Diagnostics** after 10–30 minutes.
+
+**Common reasons Test events shows nothing:**
+
+- Ad blocker or tracking protection blocking `connect.facebook.net` / `facebook.com/tr`
+- Firefox / Safari strict privacy (use Chrome)
+- Wrong Business Manager account / wrong dataset selected in Events Manager
+- Testing Lead without a successful Formspree response (form must return OK)
 
 ### Privacy note
 
