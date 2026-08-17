@@ -91,7 +91,7 @@ Until you have a steady stream of Ibiza form submits, optimising on **all Leads*
 
 1. Install [Meta Pixel Helper](https://chrome.google.com/webstore/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc)
 2. Use **Chrome**, disable ad blockers / Brave shields / Privacy Badger for the site
-3. Open `https://thememorycrew.com/` → helper should show Pixel **120252010942960220** and **PageView**
+3. Open `https://thememorycrew.com/` → helper should show your Pixel ID (from Events Manager) and **PageView**
 4. Submit `/ibiza` form → **Lead** with `content_name: ibiza-reception`
 
 **Events Manager → Test events:**
