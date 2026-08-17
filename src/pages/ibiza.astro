@@ -285,7 +285,7 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 					// Meta Pixel Lead (site-wide pixel from Analytics)
 					const w = window as Window & { fbq?: (...args: unknown[]) => void };
 					if (typeof w.fbq === 'function') {
-						w.fbq('track', 'Lead', { content_name: 'ibiza-reception' });
+						w.fbq('track', 'Lead');
 					}
 				} else {
 					const data = (await response.json().catch(() => null)) as {
