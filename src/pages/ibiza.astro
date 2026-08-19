@@ -78,7 +78,7 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 				<div class="ibiza-hero__form">
 					<h2 class="ibiza-form-card__title">Ready?</h2>
 					<p class="ibiza-form-card__lead">
-						A few dates left across South Wales &amp; Bristol. No obligation.
+						A few dates left across South Wales &amp; Bristol.
 					</p>
 
 					{
@@ -138,12 +138,13 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 								/>
 							</div>
 							<div class="ibiza-field">
-								<label for="ibiza-date">Wedding date <span>*</span></label>
+								<label for="ibiza-date">
+									Wedding date <span class="optional">(optional)</span>
+								</label>
 								<input
 									id="ibiza-date"
 									name="weddingDate"
 									type="date"
-									required
 									disabled={!formConfigured}
 								/>
 							</div>
@@ -166,7 +167,7 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 							Bring it on
 						</button>
 						<p class="ibiza-form__micro">
-							Tell us your date and we’ll see if we can make it legendary.
+							We’ll see if we can make it legendary.
 						</p>
 						<p class="ibiza-form__status" data-form-status hidden></p>
 					</form>
