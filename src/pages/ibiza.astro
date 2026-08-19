@@ -42,8 +42,8 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 			</a>
 		</header>
 
-		{/* 1. Hero */}
-		<section class="ibiza-hero" aria-label="Campaign hero">
+		{/* 1. Hero + form on the first screen */}
+		<section class="ibiza-hero" aria-label="Campaign hero" id="enquire">
 			<div class="ibiza-hero__media" aria-hidden="true">
 				<Image
 					src={heroImage}
@@ -58,21 +58,119 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 				<div class="ibiza-hero__scrim" />
 			</div>
 
-			<div class="ibiza-hero__content">
-				<p class="ibiza-hero__brand">{site.name}</p>
-				<h1 class="ibiza-hero__title">If this isn’t my wedding, I don’t want it</h1>
-				<p class="ibiza-hero__sub">
-					Somewhere after the speeches, your reception stops feeling like a wedding — and
-					starts feeling like you’ve been transported to Ibiza.
-				</p>
-				<p class="ibiza-hero__support">
-					You focus on making the ceremony beautiful.<br />
-					We’ll focus on making the reception legendary.
-				</p>
-				<p class="ibiza-hero__side">
-					Side effects may include a sore throat, muscle aches, and sore feet.
-				</p>
-				<a class="ibiza-btn" href="#enquire">Bring it on</a>
+			<div class="ibiza-hero__layout">
+				<div class="ibiza-hero__copy">
+					<p class="ibiza-hero__brand">{site.name}</p>
+					<h1 class="ibiza-hero__title">If this isn’t my wedding, I don’t want it</h1>
+					<p class="ibiza-hero__sub">
+						Somewhere after the speeches, your reception stops feeling like a wedding — and
+						starts feeling like you’ve been transported to Ibiza.
+					</p>
+					<p class="ibiza-hero__support">
+						You focus on making the ceremony beautiful.<br />
+						We’ll focus on making the reception legendary.
+					</p>
+					<p class="ibiza-hero__side">
+						Side effects may include a sore throat, muscle aches, and sore feet.
+					</p>
+				</div>
+
+				<div class="ibiza-hero__form">
+					<h2 class="ibiza-form-card__title">Ready?</h2>
+					<p class="ibiza-form-card__lead">
+						A few dates left across South Wales &amp; Bristol. No obligation.
+					</p>
+
+					{
+						!formConfigured && (
+							<p class="ibiza-form-banner" role="status">
+								Form not connected yet — set <code>PUBLIC_FORMSPREE_ID</code> to go live.
+							</p>
+						)
+					}
+
+					<form
+						class="ibiza-form"
+						method="POST"
+						action={formAction}
+						data-ibiza-form
+						data-configured={formConfigured ? 'true' : 'false'}
+						novalidate
+					>
+						<input type="hidden" name="_subject" value={`Ibiza wedding enquiry — ${site.name}`} />
+						<input type="hidden" name="campaign" value="ibiza-reception" />
+						<div class="ibiza-form__honeypot" aria-hidden="true">
+							<label>
+								Leave blank
+								<input
+									type="text"
+									name="_gotcha"
+									value=""
+									tabindex="-1"
+									autocomplete="off"
+									data-lpignore="true"
+									data-1p-ignore="true"
+								/>
+							</label>
+						</div>
+
+						<div class="ibiza-form__grid">
+							<div class="ibiza-field">
+								<label for="ibiza-name">Name <span>*</span></label>
+								<input
+									id="ibiza-name"
+									name="name"
+									type="text"
+									autocomplete="name"
+									required
+									disabled={!formConfigured}
+								/>
+							</div>
+							<div class="ibiza-field">
+								<label for="ibiza-email">Email <span>*</span></label>
+								<input
+									id="ibiza-email"
+									name="email"
+									type="email"
+									autocomplete="email"
+									required
+									disabled={!formConfigured}
+								/>
+							</div>
+							<div class="ibiza-field">
+								<label for="ibiza-date">Wedding date <span>*</span></label>
+								<input
+									id="ibiza-date"
+									name="weddingDate"
+									type="date"
+									required
+									disabled={!formConfigured}
+								/>
+							</div>
+							<div class="ibiza-field">
+								<label for="ibiza-phone">
+									Phone <span class="optional">(optional)</span>
+								</label>
+								<input
+									id="ibiza-phone"
+									name="phone"
+									type="tel"
+									autocomplete="tel"
+									inputmode="tel"
+									disabled={!formConfigured}
+								/>
+							</div>
+						</div>
+
+						<button class="ibiza-btn ibiza-btn--block" type="submit" disabled={!formConfigured}>
+							Bring it on
+						</button>
+						<p class="ibiza-form__micro">
+							Tell us your date and we’ll see if we can make it legendary.
+						</p>
+						<p class="ibiza-form__status" data-form-status hidden></p>
+					</form>
+				</div>
 			</div>
 		</section>
 
@@ -110,117 +208,6 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 						Limited dates across South Wales &amp; Bristol
 					</li>
 				</ul>
-			</div>
-		</section>
-
-		{/* 4. Form */}
-		<section class="ibiza-section ibiza-form-section" id="enquire">
-			<div class="ibiza-section__inner ibiza-section__inner--narrow">
-				<h2 class="ibiza-heading">Ready?</h2>
-				<p class="ibiza-form-section__lead">
-					We’re only taking a small number of weddings per season across South Wales
-					&amp; Bristol.
-				</p>
-
-				{
-					!formConfigured && (
-						<p class="ibiza-form-banner" role="status">
-							Form not connected yet — set <code>PUBLIC_FORMSPREE_ID</code> to go live.
-						</p>
-					)
-				}
-
-				<form
-					class="ibiza-form"
-					method="POST"
-					action={formAction}
-					data-ibiza-form
-					data-configured={formConfigured ? 'true' : 'false'}
-					novalidate
-				>
-					<input type="hidden" name="_subject" value={`Ibiza wedding enquiry — ${site.name}`} />
-					<input type="hidden" name="campaign" value="ibiza-reception" />
-					<div class="ibiza-form__honeypot" aria-hidden="true">
-						<label>
-							Leave blank
-							<input
-								type="text"
-								name="_gotcha"
-								value=""
-								tabindex="-1"
-								autocomplete="off"
-								data-lpignore="true"
-								data-1p-ignore="true"
-							/>
-						</label>
-					</div>
-
-					<div class="ibiza-form__grid">
-						<div class="ibiza-field">
-							<label for="ibiza-name">Name <span>*</span></label>
-							<input
-								id="ibiza-name"
-								name="name"
-								type="text"
-								autocomplete="name"
-								required
-								disabled={!formConfigured}
-							/>
-						</div>
-						<div class="ibiza-field">
-							<label for="ibiza-email">Email <span>*</span></label>
-							<input
-								id="ibiza-email"
-								name="email"
-								type="email"
-								autocomplete="email"
-								required
-								disabled={!formConfigured}
-							/>
-						</div>
-						<div class="ibiza-field">
-							<label for="ibiza-phone">Phone <span>*</span></label>
-							<input
-								id="ibiza-phone"
-								name="phone"
-								type="tel"
-								autocomplete="tel"
-								required
-								disabled={!formConfigured}
-							/>
-						</div>
-						<div class="ibiza-field">
-							<label for="ibiza-date">Wedding date <span>*</span></label>
-							<input
-								id="ibiza-date"
-								name="weddingDate"
-								type="date"
-								required
-								disabled={!formConfigured}
-							/>
-						</div>
-						<div class="ibiza-field ibiza-field--full">
-							<label for="ibiza-message">
-								Message <span class="optional">(optional)</span>
-							</label>
-							<textarea
-								id="ibiza-message"
-								name="message"
-								rows="3"
-								placeholder="Anything we should know?"
-								disabled={!formConfigured}
-							/>
-						</div>
-					</div>
-
-					<button class="ibiza-btn ibiza-btn--block" type="submit" disabled={!formConfigured}>
-						Bring it on
-					</button>
-					<p class="ibiza-form__micro">
-						No obligation. Just tell us your date and we’ll see if we can make it legendary.
-					</p>
-					<p class="ibiza-form__status" data-form-status hidden></p>
-				</form>
 			</div>
 		</section>
 
@@ -372,11 +359,35 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 	.ibiza-hero {
 		position: relative;
 		isolation: isolate;
-		/* Slightly under full viewport so cover crop is less aggressive */
-		min-height: min(100svh, 56rem);
 		display: flex;
 		align-items: flex-end;
-		padding: clamp(5rem, 12vh, 7rem) clamp(1rem, 4vw, 2rem) clamp(2.5rem, 6vh, 4rem);
+		padding: clamp(4.5rem, 10vh, 6rem) clamp(1rem, 4vw, 2rem) clamp(1.5rem, 4vh, 2.5rem);
+	}
+
+	@media (min-width: 64rem) {
+		.ibiza-hero {
+			min-height: 100svh;
+			align-items: center;
+			padding-block: clamp(5rem, 8vh, 6.5rem) clamp(2rem, 5vh, 3.5rem);
+		}
+	}
+
+	.ibiza-hero__layout {
+		width: 100%;
+		max-width: 72rem;
+		margin-inline: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	@media (min-width: 64rem) {
+		.ibiza-hero__layout {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(22rem, 26rem);
+			gap: clamp(2rem, 4vw, 4rem);
+			align-items: center;
+		}
 	}
 
 	.ibiza-hero__media {
@@ -425,13 +436,51 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 			linear-gradient(to right, rgba(12, 10, 9, 0.5), transparent 58%);
 	}
 
-	.ibiza-hero__content {
+	.ibiza-hero__copy {
 		width: 100%;
 		max-width: 40rem;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 1rem;
+		gap: 0.7rem;
+	}
+
+	@media (min-width: 64rem) {
+		.ibiza-hero__copy {
+			gap: 1rem;
+		}
+	}
+
+	.ibiza-hero__form {
+		width: 100%;
+		padding: 1.25rem 1.15rem 1.35rem;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 1.15rem;
+		background: rgba(16, 14, 12, 0.88);
+		backdrop-filter: blur(14px);
+		box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+	}
+
+	@media (min-width: 40rem) {
+		.ibiza-hero__form {
+			padding: 1.5rem 1.4rem 1.6rem;
+		}
+	}
+
+	.ibiza-form-card__title {
+		margin: 0 0 0.35rem;
+		font-family: var(--ibiza-display);
+		font-weight: 800;
+		font-size: 1.65rem;
+		letter-spacing: -0.02em;
+		color: #fff;
+	}
+
+	.ibiza-form-card__lead {
+		margin: 0 0 1.1rem;
+		font-size: 0.95rem;
+		line-height: 1.45;
+		color: var(--ibiza-muted);
 	}
 
 	.ibiza-hero__brand {
@@ -447,7 +496,7 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 		margin: 0;
 		font-family: var(--ibiza-display);
 		font-weight: 800;
-		font-size: clamp(2.25rem, 7vw, 3.75rem);
+		font-size: clamp(1.85rem, 6.4vw, 3.5rem);
 		line-height: 1.05;
 		letter-spacing: -0.02em;
 		text-wrap: balance;
@@ -471,10 +520,17 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 	}
 
 	.ibiza-hero__side {
-		margin: 0.25rem 0 0.5rem;
+		margin: 0.25rem 0 0;
 		font-size: 0.875rem;
 		font-style: italic;
 		color: var(--ibiza-dim);
+	}
+
+	@media (max-width: 39.99rem) {
+		.ibiza-hero__support,
+		.ibiza-hero__side {
+			display: none;
+		}
 	}
 
 	/* ——— Buttons ——— */
@@ -530,10 +586,6 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 	.ibiza-section__inner {
 		max-width: 52rem;
 		margin-inline: auto;
-	}
-
-	.ibiza-section__inner--narrow {
-		max-width: 32rem;
 	}
 
 	.ibiza-heading {
@@ -623,18 +675,6 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 	}
 
 	/* Form */
-	.ibiza-form-section {
-		background: #100e0c;
-		border-top: 1px solid var(--ibiza-border);
-	}
-
-	.ibiza-form-section__lead {
-		margin: 0 0 2rem;
-		font-size: 1.05rem;
-		line-height: 1.55;
-		color: var(--ibiza-muted);
-	}
-
 	.ibiza-form-banner {
 		margin: 0 0 1.25rem;
 		padding: 0.85rem 1rem;
@@ -654,7 +694,7 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 	.ibiza-form {
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: 0.95rem;
 	}
 
 	.ibiza-form__honeypot {
@@ -670,16 +710,12 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 	.ibiza-form__grid {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 1rem;
+		gap: 0.75rem;
 	}
 
 	@media (min-width: 40rem) {
 		.ibiza-form__grid {
 			grid-template-columns: 1fr 1fr;
-		}
-
-		.ibiza-field--full {
-			grid-column: 1 / -1;
 		}
 	}
 
@@ -717,11 +753,6 @@ const og = await getImage({ src: heroImage, width: 1200, format: 'jpg' });
 		transition:
 			border-color 0.15s ease,
 			box-shadow 0.15s ease;
-	}
-
-	.ibiza-field textarea {
-		min-height: 6rem;
-		resize: vertical;
 	}
 
 	.ibiza-field input::placeholder,
